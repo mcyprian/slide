@@ -1,0 +1,16 @@
+# p1 -- root, ml -- most left, mr --- most right
+Params p1 ml mr
+
+Root NODE
+
+NODE()::=\E l,r,z . root->l,r,nil * tll_l(l,z) * tll_r(r,z)
+
+
+tll_l(root,lr) ::= root->nil,nil,lr & root=ml
+	|\E l,r,z . root->l,r,nil * tll_l(l,z) * tll(r,z,lr)
+
+tll_r(root,ll) ::= root->nil,nil,mr & root=ll
+	|\E l,r,z . root->l,r,nil * tll(l,ll,z) * tll_r(r,z)
+
+tll(root,ll,lr) ::= root->nil,nil,lr & root=ll
+	|\E l,r,z . root->l,r,nil * tll(l,ll,z) * tll(r,z,lr)

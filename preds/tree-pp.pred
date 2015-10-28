@@ -1,0 +1,13 @@
+# Tree with parrent pointers with p1 pointing to the root
+
+Params p1
+Root P1
+
+P1()::= p1->nil,nil,nil 
+	| \Ey. p1 -> y,nil,nil * P2(y,p1)
+	| \Ey. p1 -> nil,y,nil * P2(y,p1)
+	| \Ey,z. p1 -> y,z,nil * P2(y,p1) * P2(z,p1)
+P2(x,back)::=x->nil,nil,back 
+	| \Ey. x -> y,nil,back * P2(y,x)
+	| \Ey. x -> nil,y,back * P2(y,x)
+	| \Ey,z. x -> y,z,back * P2(y,x) * P2(z,x)

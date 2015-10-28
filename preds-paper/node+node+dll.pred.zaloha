@@ -1,0 +1,7 @@
+# dll of length 1+ with p1 pointing to the first element and p2 to the last element
+RootCall \E z1,z2. node1(p1,nil,p2,nil) 
+
+node1(hd,back,tl,pt)::= \E y. hd->y,back * node2(y,hd,tl,pt)
+node2(x,back,tl,pt)::= \E y. x->y,back * DLL(y,x,tl,pt)
+
+DLL(hd,p,tl,n)::= hd->n,p & hd=tl | \E x. hd->x,p * DLL(x,hd,tl,n)

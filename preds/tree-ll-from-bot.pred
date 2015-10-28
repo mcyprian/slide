@@ -1,0 +1,19 @@
+# Tree with parrent pointers with p1 pointing to the root
+
+Params p1, ml, mr
+Root P1
+
+
+
+P1()::=\E up,lr. x->nil,nil,up,lr & x=ml * P2(up,lr,x)
+	| ml->nil,nil,nil,mr & p1=ml
+P2(x,z,back)::=\E up,r,lr. x->back,r,up,nil * P2(up,lr,x) * tll(r,z,lr,x)
+	|\E r.  x->back,r,nil,nil & x=p1 * tll_r(r,z,x)
+
+#next, the standard tll predicates are used
+
+tll_r(root,ll,par) ::= root->nil,nil,par,mr & root=ll
+	|\E l,r,z . root->l,r,par,nil * tll(l,ll,z,root) * tll_r(r,z,root)
+
+tll(root,ll,lr,par) ::= root->nil,nil,par,lr & root=ll
+	|\E l,r,z . root->l,r,par,nil * tll(l,ll,z,root) * tll(r,z,lr,root)

@@ -1,0 +1,4 @@
+# dll of length 1+ with p1 pointing to the first element and p2 to the last element
+RootCall P2(p1,nil,p2)
+
+P2(x,y,last)::= x->nil,y & x=last| \E z. x->z,y * P2(z,x,last)

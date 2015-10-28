@@ -1,0 +1,12 @@
+# dll of length 1+ with p1 pointing to the first element and p2 to the last element
+Params p1,p2
+Root P1
+
+P1()::= \Ex. x->nil,nil & x=p1& x=p2
+	| \Ex,y. x->nil,y & x=p2 * P3(y,x)
+	| \Ex,y,z. x->y,z * P2(y,x) * P3(z,x)
+P2(x,y)::= x->nil,y & x=p2
+	| \Ez. x->z,y * P2(z,x)
+P3(x,y)::= x->y,nil & x=p1
+	| \Ez. x->y,z * P3(z,x)
+

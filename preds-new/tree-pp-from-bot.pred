@@ -1,0 +1,21 @@
+# Tree with parrent pointers with p1 pointing to the root
+
+RootCall P1(p1)
+
+
+P1(top)::=\E x,up. x->nil,nil,up * P3(up,x,top)
+	| top->nil,nil,nil
+P3(x,down,top)::=\E up,right. x->down,right,up * P2(right,x) * P3(up,x,top)
+	| \E up,left. x->left,down,up * P2(left,x) * P3(up,x,top)
+	| \E right.  x->down,right,nil & x=top * P2(right,x)
+	| \E left.  x->left,down,nil & x=top * P2(left,x)
+#	|  x->down,nil,nil & x=p1
+#	|  x->nil,down,nil & x=p1
+#	| \E up. x->down,nil,up  * P3(up,x)
+#	| \E up. x->nil,down,up  * P3(up,x)
+
+#P2 is a standard tree with pp predicate
+P2(x,back)::=x->nil,nil,back 
+	| \Ey. x -> y,nil,back * P2(y,x)
+	| \Ey. x -> nil,y,back * P2(y,x)
+	| \Ey,z. x -> y,z,back * P2(y,x) * P2(z,x)

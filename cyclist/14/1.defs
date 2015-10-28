@@ -1,0 +1,68 @@
+RootCall BinListSecond(x)
+
+pt(a,b)::=a->b
+
+#------------------------------
+
+RList(x,y)::= x->y |
+	\E xx. xx->y *  RList(xx,x)
+
+List(x,y)::= x->y |
+	\E xx. x->xx *  List(xx,y)
+
+ListO(x,y)::= x->y  |
+	\E xx. x->xx * ListE(xx,y) 
+
+ListE(x,y)::= \E xx. x->xx * ListO(xx,y)
+
+PeList(x,y)::= x=y |
+	\E xx. x->xx * PeList(xx,y)
+
+DLL(x,y,z,w)::= x=y & z=w  |
+	\E zz. x->zz,w * DLL(zz,y,z,x) 
+
+SLL(x,y)::= x=y  |
+	\E xx. x->xx,nil * SLL(xx,y) 
+
+BSLL(x,y)::= x=y  |
+	xx-> nil,y * BSLL(x,xx) 
+
+BinTree (x)::= x=nil |
+	\E yy,xx. x->yy,xx * BinTree(yy) * BinTree(xx)
+
+BinTreeSeg(x,y)::= x=y  |
+	\E xx,yy. x->xx,yy * BinTreeSeg(xx,y) * BinTree(yy) |
+	\E xx,yy. x->xx,yy * BinTree(xx) * BinTreeSeg(yy,y)
+
+BinListFirst(x)::= x=nil |
+	\E yy. x->yy,nil * BinListFirst(yy)
+
+BinListSecond(x)::= x=nil |
+	\E xx. x->nil,xx * BinListSecond(xx)
+
+BinPath(x,y)::= x=y |
+	\E xx. x->xx,nil * BinPath(xx,y) |
+	\X yy. x->nil,yy * BinPath(yy,y) 
+
+ls(x,y)::= x=y  |
+    \E xx. x->xx * ls(xx,y) 
+
+bt(x)::= x=nil |
+	\E yy,xx. x->yy,xx * bt(yy) * bt(xx)
+
+cls(x)::= \E yy. x->yy * ls(yy,x) 
+
+#dls(x,y)::= x=y  |
+#       \E yy,xx x-> yy,xx * dls(xx,y) 
+#} ;
+
+#lsls {
+#  x=nil => lsls(x) |
+#  x->y',x' * lsls(y') * dls(x',nil) => lsls(x)
+#} ;
+
+#cbt(x,y)::= x=y  |
+#  	\E a,b. x->a,b * cbt(a,y) * cbt(b,y)
+
+#cbtr(x)::= \E a,b. x->a,b * cbt(a,x) * cbt(b,x)
+

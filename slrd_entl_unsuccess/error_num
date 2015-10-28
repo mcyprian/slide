@@ -1,0 +1,9 @@
+only disequalities of the for alloc!=nil  48
+only equalities between allocated variable  30
+two pointsto in a single predicate rules  16
+Parsing \%s: now * allowed in empty rules  6
+NoneType' object has no attribute  4
+ERROR: dangling pointer reference  2
+impossible to join the input  1
+JOIN: complicated join, not implemented  1
+Parsing %s: only equalities of the form x=y separated  1

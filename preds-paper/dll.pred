@@ -1,0 +1,4 @@
+# dll of length 1+ with p1 pointing to the first element and p2 to the last element
+RootCall \E z1,z2. DLL(p1,nil,p2,nil) 
+
+DLL(hd,p,tl,n)::= hd->n,p & hd=tl | \E x. hd->x,p * DLL(x,hd,tl,n)

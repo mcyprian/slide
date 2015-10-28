@@ -1,0 +1,8 @@
+# Tree with parrent pointers with p1 pointing to the root
+
+RootCall TREEpp(p1,nil)
+
+TREEpp(x,back)::=x->nil,nil,back 
+#	| \Ey. x -> y,nil,back * TREEpp(y,x)
+#	| \Ey. x -> nil,y,back * TREEpp(y,x)
+	| \Ey,z. x -> y,z,back * TREEpp(y,x) * TREEpp(z,x)

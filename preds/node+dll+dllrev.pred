@@ -1,0 +1,10 @@
+# dll of length 1+ with p1 pointing to the first element and p2 to the last element
+Params p1,p2
+Root NODE
+
+NODE()::= \Ex,y,z. x->y,z * DLL(y,x) * DLLREV(z,x)
+DLL(x,y)::= x->nil,y & x=p2
+	| \Ez. x->z,y * DLL(z,x)
+DLLREV(x,y)::= x->y,nil & x=p1
+	| \Ez. x->y,z * DLLREV(z,x)
+

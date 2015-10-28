@@ -1,0 +1,4 @@
+RootCall \E z. P1(p1,z) *P1(z,p2)
+
+P1(x,last)::=  x->last| \E z. x->z * P2(z,last)
+P2(x,last)::=  x=last| \E z. x->z * P2(z,last)

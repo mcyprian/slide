@@ -1,0 +1,21 @@
+# Tree with parrent pointers with p1 pointing to the root
+
+RootCall TREEpprev(p1,nil)
+
+
+TREEpprev(top,b)::=\E x,up. x->nil,nil,up * AUX(up,x,top,b)
+	| top->nil,nil,b
+AUX(x,down,top,b)::=\E up,right. x->down,right,up * TREEpp(right,x) * AUX(up,x,top,b)
+	| \E up,left. x->left,down,up * TREEpp(left,x) * AUX(up,x,top,b)
+	| \E right.  x->down,right,b & x=top * TREEpp(right,x)
+	| \E left.  x->left,down,b & x=top * TREEpp(left,x)
+#	|  x->down,nil,nil & x=p1
+#	|  x->nil,down,nil & x=p1
+#	| \E up. x->down,nil,up  * P3(up,x)
+#	| \E up. x->nil,down,up  * P3(up,x)
+
+#P2 is a standard tree with pp predicate
+TREEpp(x,back)::=x->nil,nil,back 
+#	| \Ey. x -> y,nil,back * TREEpp(y,x)
+#	| \Ey. x -> nil,y,back * TREEpp(y,x)
+	| \Ey,z. x -> y,z,back * TREEpp(y,x) * TREEpp(z,x)

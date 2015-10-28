@@ -1,0 +1,4 @@
+# dll of length 1+ with p1 pointing to the first element and p2 to the last element
+RootCall \E z1,z2. DLLrev(p1,nil,p2,nil) 
+
+DLLrev(hd,p,tl,n)::= hd->n,p & hd=tl | \E x. tl->n,x * DLLrev(hd,p,x,tl)

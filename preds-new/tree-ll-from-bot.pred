@@ -1,0 +1,15 @@
+# Tree with parrent pointers with p1 pointing to the root
+
+
+RootCall P1(p1,ml,mr)
+
+
+P1(top,mleft,mright)::=\E x,up,lr. x->nil,nil,up,lr & x=mleft * P2(up,lr,x,top,mright)
+	| top->nil,nil,nil,mright & top=mleft
+P2(x,z,back,top,mright)::=\E up,r,lr. x->back,r,up,nil * P2(up,lr,x,top,mright) * tll(r,z,lr,x)
+	|\E r.  x->back,r,nil,nil & top=x * tll(r,z,mright,x)
+
+#next, the standard tll predicates are used
+
+tll(root,ll,lr,par) ::= root->nil,nil,par,lr & root=ll
+	|\E l,r,z . root->l,r,par,nil * tll(l,ll,z,root) * tll(r,z,lr,root)

@@ -1,0 +1,5 @@
+# p1 -- root, ml -- most left, mr --- most right
+RootCall tll(p1,nil,ml,mr)
+
+tll(root,par,ll,lr) ::= root->nil,nil,par,lr & root=ll
+	|\E l,r,z . root->l,r,par,nil * tll(l,root,ll,z) * tll(r,root,z,lr)

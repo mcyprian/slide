@@ -1,0 +1,15 @@
+# Tree with parrent pointers with p1 pointing to the root
+
+
+RootCall TLLrev(p1,nil,ml,mr)
+
+
+TLLrev(top,p,mleft,mright)::=\E x,up,lr. x->nil,nil,up,lr & x=mleft * TLLaux(up,p,lr,x,top,mright)
+	| top->nil,nil,p,mright & top=mleft
+TLLaux(x,p,z,back,top,mright)::=\E up,r,lr. x->back,r,up,nil * TLLaux(up,p,lr,x,top,mright) * tll(r,x,z,lr)
+	|\E r.  x->back,r,p,nil & top=x * tll(r,x,z,mright)
+
+#next, the standard tll predicates are used
+
+tll(root,par,ll,lr) ::= root->nil,nil,par,lr & root=ll
+	|\E l,r,z . root->l,r,par,nil * tll(l,root,ll,z) * tll(r,root,z,lr)

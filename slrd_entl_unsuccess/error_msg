@@ -1,0 +1,1435 @@
+02.tst.smt2.sld:
+['RootCallRList(x,y)*RList(y,z)', 'RList(x,y)::=x->y&nil!=x|\\Exp.xp->y&nil!=xp*RList(x,xp)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 982, in parse_input
+    (root_rule,params,emptyheap_eq)=join.join(preds,top_calls,emptyheap_eq,ex_params)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 410, in join
+    raise JoinFailed("Join failed: impossible to join the input into a single predicate call (or bad strategy)")
+join.JoinFailed: 'Join failed: impossible to join the input into a single predicate call (or bad strategy)'
+
+07.tst.smt2.sld:
+['RootCallDLL(x,y,z,w)', 'SLL(x,y)::=x=y&emp|\\Exp,yp.x->xp,yp&nil!=x*SLL(xp,y)', 'DLL(x,y,z,w)::=x=y&z=w&emp|\\Ezp.x->zp,w&nil!=x*DLL(zp,y,z,x)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 988, in parse_input
+    root_rule=trackeliminate(preds,root_rule,0,params[i],ex_quantif)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 678, in trackeliminate
+    raise InputError("ERROR: dangling pointer reference, not covered")
+input.InputError: 'ERROR: dangling pointer reference, not covered'
+
+08.tst.smt2.sld:
+['RootCallDLL(x,y,z,w)', 'BSLL(x,y)::=x=y&emp|\\Exp,yp.xp->yp,y&nil!=xp*BSLL(x,xp)', 'DLL(x,y,z,w)::=x=y&z=w&emp|\\Ezp.x->zp,w&nil!=x*DLL(zp,y,z,x)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 988, in parse_input
+    root_rule=trackeliminate(preds,root_rule,0,params[i],ex_quantif)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 678, in trackeliminate
+    raise InputError("ERROR: dangling pointer reference, not covered")
+input.InputError: 'ERROR: dangling pointer reference, not covered'
+
+09.tst.smt2.sld:
+['RootCallDLL(x,y,z,w)*DLL(a,x,w,b)', 'DLL(x,y,z,w)::=x=y&z=w&emp|\\Ezp.x->zp,w&nil!=x*DLL(zp,y,z,x)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 982, in parse_input
+    (root_rule,params,emptyheap_eq)=join.join(preds,top_calls,emptyheap_eq,ex_params)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 427, in join
+    (call,params,empty,forbid)=do_join(candidate,call,params,empty,call2,params2,empty2,preds,p_intersect,to_remove)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 317, in do_join
+    raise JoinFailed("JOIN: complicated join, not implemented")
+join.JoinFailed: 'JOIN: complicated join, not implemented'
+
+19.tst.smt2.sld:
+['RootCallLHS(x,y,z)', 'LHS(x,y,z)::=x->y&x!=z*ls(y,z)', 'ls(x,y)::=x=y&emp|\\Exp.x->xp&nil!=x&x!=y*ls(xp,y)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+20.tst.smt2.sld:
+['RootCallls(x,y)*ls(y,nil)', 'ls(x,y)::=x=y&emp|\\Exp.x->xp&nil!=x&x!=y*ls(xp,y)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+21.tst.smt2.sld:
+['RootCallListX(x,y)', 'ListE(x,y)::=\\Exp.x->xp&nil!=x*ListO(xp,y)', 'ListO(x,y)::=x->y&nil!=x|\\Exp.x->xp&nil!=x*ListE(xp,y)', 'ListX(x,y)::=ListO(x,y)|ListE(x,y)', 'List(x,y)::=x->y&nil!=x|\\Exp.x->xp&nil!=x*List(xp,y)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 84, in parse_predicate
+    raise InputError("Parsing %s: only equalities of the form x=y separated by & are allowed"%rule)
+input.InputError: 'Parsing ListO(x,y): only equalities of the form x=y separated by & are allowed'
+
+22.tst.smt2.sld:
+['RootCallLHS(x,y,z,nil)', 'LHS(x,y,z,newn)::=y->z*ls(x,y)*ls(z,newn)', 'ls(x,y)::=x=y&emp|\\Exp.x->xp&nil!=x&x!=y*ls(xp,y)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_dll_slk-10.smt2.sld:
+['RootCallxprm->p,yprm*yprm->xprm,q&prev0=p1&nil!=yprm&next0=q1&nil=q1&x=xprm&y=yprm&nil!=x&xprm=self&p=q2&self1=yprm&p1=p2*dll(q,self1)*dll(q1,self)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_dll_slk-11.smt2.sld:
+['RootCallLHS(next0,q,yprm,y,x,self,xprm,p,q1)', 'LHS(next0,q,yprm,y,x,self,xprm,p,q1)::=xprm->p,yprm&nil=yprm&next0=q&nil=q&x=xprm&yprm=y&nil!=x&self=xprm&p=q1', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_dll_slk-12.smt2.sld:
+['RootCallLHS(p,p1,q,q1,yprm,y,x,self,xprm,p2,q2)', 'LHS(p,p1,q,q1,yprm,y,x,self,xprm,p2,q2)::=xprm->p2,q1&p=p1&q=self&nil!=q1&x=xprm&yprm=y&nil!=x&self=xprm&p2=q2*dll(q1,q)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_dll_slk-1.smt2.sld:
+['RootCallxprm=x&yprm=y&nil!=x*dll_e1(xprm,q)*dll(y,p)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_dll_slk-2.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q1,self,p,p1,q)', 'LHS(xprm,vprm,yprm,y,x,q1,self,p,p1,q)::=xprm->p1,q&nil=vprm&vprm=q&xprm=x&yprm=y&nil!=x&xprm=self&q1=p1*dll(q,self)*dll(y,p)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_dll_slk-3.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q1,self,p,p1,q)', 'LHS(xprm,vprm,yprm,y,x,q1,self,p,p1,q)::=xprm->p1,q&nil!=vprm&vprm=q&xprm=x&yprm=y&nil!=x&xprm=self&q1=p1*dll(q,self)*dll(y,p)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_dll_slk-4.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q1,p1,q,self,p)', 'LHS(xprm,yprm,y,x,q1,p1,q,self,p)::=xprm->p1,q&nil=q&xprm=x&yprm=y&nil!=x&xprm=self&q1=p1*dll(q,self)*dll(y,p)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_dll_slk-5.smt2.sld:
+['RootCallLHS(yprm,xprm,next0,q,y,x,self,q1,p)', 'LHS(yprm,xprm,next0,q,y,x,self,q1,p)::=xprm->p,yprm&nil=yprm&next0=q&nil=q&xprm=x&yprm=y&nil!=x&xprm=self&q1=p', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_dll_slk-6.smt2.sld:
+['RootCallLHS(yprm,xprm,next0,q,y,x,q1,self,p,p1)', 'LHS(yprm,xprm,next0,q,y,x,q1,self,p,p1)::=xprm->p1,yprm&nil!=yprm&next0=q&nil=q&xprm=x&yprm=y&nil!=x&xprm=self&q1=p1*dll(q,self)*dll(y,p)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_dll_slk-7.smt2.sld:
+['RootCallLHS(yprm,xprm,next0,q,y,x,q1,p1,self,p)', 'LHS(yprm,xprm,next0,q,y,x,q1,p1,self,p)::=xprm->p,yprm&nil!=yprm&next0=q&nil=q&xprm=x&yprm=y&nil!=x&xprm=self&q1=p*dll_e1(yprm,p1)*dll(q,self)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_dll_slk-8.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q1,p1,q,self,p)', 'LHS(xprm,yprm,y,x,q1,p1,q,self,p)::=xprm->p1,q&nil!=q&xprm=x&yprm=y&nil!=x&xprm=self&q1=p1*dll(q,self)*dll(y,p)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_dll_slk-9.smt2.sld:
+['RootCallLHS(v1prm,yprm,xprm,y,x,q1,self,p,p1,q)', 'LHS(v1prm,yprm,xprm,y,x,q1,self,p,p1,q)::=xprm->p1,q&v1prm=q&nil!=q&xprm=x&yprm=y&nil!=x&xprm=self&q1=p1*dll(q,self)*dll(y,p)', 'dll(in,p)::=nil=in&emp|\\Ep_20,self_21,q_19.in->p_20,q_19&p=p_20&in=self_21*dll(q_19,self_21)', 'dll_e1(in,q)::=\\Ep1,s,q1.in->p1,q1&in=s&q=p1*dll(q1,s)', 'dll_e2(in,q)::=\\Es,p1,p2,n,q1.in->p1,n&n=q1&p1=p2&in=s&q=p2*dll(q1,s)', 'node2_e1(in,p,q)::=\\Ep1,n1.in->p1,n1&p=p1&q=n1', 'dll_e3(in,p)::=\\Eq.p=q*dll(in,q)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-10.smt2.sld:
+['RootCallxprm=x&yprm=y&y=x&nil!=x*ll_e1(xprm)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-11.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q)', 'LHS(xprm,vprm,yprm,y,x,q)::=xprm->q&nil=vprm&vprm=q&xprm=x&yprm=y&y=x&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-12.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q)', 'LHS(xprm,vprm,yprm,y,x,q)::=xprm->q&nil!=vprm&vprm=q&xprm=x&yprm=y&y=x&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_cll_slk-13.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q)', 'LHS(xprm,yprm,y,x,q)::=xprm->q&nil!=q&xprm=x&yprm=y&y=x&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_cll_slk-14.smt2.sld:
+['RootCallLHS(v1prm,xprm,yprm,y,x,q)', 'LHS(v1prm,xprm,yprm,y,x,q)::=xprm->q&v1prm=q&nil!=q&xprm=x&yprm=y&y=x&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-15.smt2.sld:
+['RootCallLHS(v1prm,q,xprm,y,x,yprm)', 'LHS(v1prm,q,xprm,y,x,yprm)::=xprm->q&v1prm=q&nil!=q&xprm=x&y=yprm&y=x&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-16.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q)', 'LHS(xprm,yprm,y,x,q)::=xprm->q&nil=q&xprm=x&yprm=y&y=x&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-17.smt2.sld:
+['RootCallLHS(q,xprm,yprm,y,x)', 'LHS(q,xprm,yprm,y,x)::=xprm->q&nil!=q&xprm=x&yprm=y&y=x&nil!=x*lseg(q,yprm)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_cll_slk-18.smt2.sld:
+['RootCallLHS(next0,q,xprm,yprm,y,x)', 'LHS(next0,q,xprm,yprm,y,x)::=xprm->yprm&next0=q&nil=q&xprm=x&yprm=y&y=x&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-1.smt2.sld:
+['RootCallxprm=x&yprm=y&nil!=x*ll_e1(xprm)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-2.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q)', 'LHS(xprm,vprm,yprm,y,x,q)::=xprm->q&nil=vprm&vprm=q&xprm=x&yprm=y&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-3.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q)', 'LHS(xprm,vprm,yprm,y,x,q)::=xprm->q&nil!=vprm&vprm=q&xprm=x&yprm=y&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_cll_slk-4.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q)', 'LHS(xprm,yprm,y,x,q)::=xprm->q&nil!=q&xprm=x&yprm=y&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_cll_slk-5.smt2.sld:
+['RootCallLHS(v1prm,xprm,yprm,y,x,q)', 'LHS(v1prm,xprm,yprm,y,x,q)::=xprm->q&v1prm=q&nil!=q&xprm=x&yprm=y&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-6.smt2.sld:
+['RootCallLHS(v1prm,q,xprm,y,x,yprm)', 'LHS(v1prm,q,xprm,y,x,yprm)::=xprm->q&v1prm=q&nil!=q&xprm=x&y=yprm&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-7.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q)', 'LHS(xprm,yprm,y,x,q)::=xprm->q&nil=q&xprm=x&yprm=y&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_cll_slk-8.smt2.sld:
+['RootCallLHS(q,xprm,yprm,x,y)', 'LHS(q,xprm,yprm,x,y)::=xprm->q&nil!=q&xprm=x&yprm=y&nil!=x*lseg(q,yprm)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_cll_slk-9.smt2.sld:
+['RootCallLHS(next0,q,xprm,yprm,x,y)', 'LHS(next0,q,xprm,yprm,x,y)::=xprm->yprm&next0=q&nil=q&xprm=x&yprm=y&nil!=x*ll(q)', 'lseg(in,p)::=in=p&emp|\\Ep_21,q_20.in->q_20&p=p_21*lseg(q_20,p_21)', 'll(in)::=nil=in&emp|\\Eq_22.in->q_22*ll(q_22)', 'clist(in)::=\\Eself_19,p_18.in->p_18&in=self_19*lseg(p_18,self_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_ls_slk-1.smt2.sld:
+['RootCallxprm=x&yprm=y&nil!=x*ll_e1(xprm)', 'll(in)::=nil=in&emp|\\Eq_20.in->q_20*ll(q_20)', 'lseg(in,p)::=in=p&emp|\\Ep_19,q_18.in->q_18&p=p_19*lseg(q_18,p_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_ls_slk-2.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q)', 'LHS(xprm,vprm,yprm,y,x,q)::=xprm->q&nil=vprm&vprm=q&xprm=x&yprm=y&nil!=x*ll(q)', 'll(in)::=nil=in&emp|\\Eq_20.in->q_20*ll(q_20)', 'lseg(in,p)::=in=p&emp|\\Ep_19,q_18.in->q_18&p=p_19*lseg(q_18,p_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_ls_slk-3.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q)', 'LHS(xprm,vprm,yprm,y,x,q)::=xprm->q&nil!=vprm&vprm=q&xprm=x&yprm=y&nil!=x*ll(q)', 'll(in)::=nil=in&emp|\\Eq_20.in->q_20*ll(q_20)', 'lseg(in,p)::=in=p&emp|\\Ep_19,q_18.in->q_18&p=p_19*lseg(q_18,p_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_ls_slk-4.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q)', 'LHS(xprm,yprm,y,x,q)::=xprm->q&nil!=q&xprm=x&yprm=y&nil!=x*ll(q)', 'll(in)::=nil=in&emp|\\Eq_20.in->q_20*ll(q_20)', 'lseg(in,p)::=in=p&emp|\\Ep_19,q_18.in->q_18&p=p_19*lseg(q_18,p_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_ls_slk-5.smt2.sld:
+['RootCallLHS(v1prm,xprm,yprm,y,x,q)', 'LHS(v1prm,xprm,yprm,y,x,q)::=xprm->q&v1prm=q&nil!=q&xprm=x&yprm=y&nil!=x*ll(q)', 'll(in)::=nil=in&emp|\\Eq_20.in->q_20*ll(q_20)', 'lseg(in,p)::=in=p&emp|\\Ep_19,q_18.in->q_18&p=p_19*lseg(q_18,p_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_ls_slk-6.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q)', 'LHS(xprm,yprm,y,x,q)::=xprm->q&nil=q&xprm=x&yprm=y&nil!=x*ll(q)', 'll(in)::=nil=in&emp|\\Eq_20.in->q_20*ll(q_20)', 'lseg(in,p)::=in=p&emp|\\Ep_19,q_18.in->q_18&p=p_19*lseg(q_18,p_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_ls_slk-7.smt2.sld:
+['RootCallLHS(q,xprm,yprm,x,y)', 'LHS(q,xprm,yprm,x,y)::=xprm->q&nil!=q&xprm=x&yprm=y&nil!=x*lseg(q,yprm)', 'll(in)::=nil=in&emp|\\Eq_20.in->q_20*ll(q_20)', 'lseg(in,p)::=in=p&emp|\\Ep_19,q_18.in->q_18&p=p_19*lseg(q_18,p_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_ls_slk-8.smt2.sld:
+['RootCallLHS(next0,q,xprm,yprm,x,y)', 'LHS(next0,q,xprm,yprm,x,y)::=xprm->yprm&next0=q&nil=q&xprm=x&yprm=y&nil!=x*ll(q)', 'll(in)::=nil=in&emp|\\Eq_20.in->q_20*ll(q_20)', 'lseg(in,p)::=in=p&emp|\\Ep_19,q_18.in->q_18&p=p_19*lseg(q_18,p_19)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p', 'lseg_e1(in,p)::=\\Eq.p=q*lseg(in,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_slk-1.smt2.sld:
+['RootCallxprm=x&yprm=y&nil!=x*ll_e1(xprm)*ll(y)', 'll(in)::=nil=in&emp|\\Eq_18.in->q_18*ll(q_18)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_slk-2.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q)', 'LHS(xprm,vprm,yprm,y,x,q)::=xprm->q&nil=vprm&vprm=q&xprm=x&yprm=y&nil!=x*ll(q)*ll(y)', 'll(in)::=nil=in&emp|\\Eq_18.in->q_18*ll(q_18)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_slk-3.smt2.sld:
+['RootCallLHS(xprm,vprm,yprm,y,x,q)', 'LHS(xprm,vprm,yprm,y,x,q)::=xprm->q&nil!=vprm&vprm=q&xprm=x&yprm=y&nil!=x*ll(q)*ll(y)', 'll(in)::=nil=in&emp|\\Eq_18.in->q_18*ll(q_18)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_slk-4.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q)', 'LHS(xprm,yprm,y,x,q)::=xprm->q&nil!=q&xprm=x&yprm=y&nil!=x*ll(q)*ll(y)', 'll(in)::=nil=in&emp|\\Eq_18.in->q_18*ll(q_18)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_slk-5.smt2.sld:
+['RootCallLHS(v1prm,xprm,yprm,y,x,q)', 'LHS(v1prm,xprm,yprm,y,x,q)::=xprm->q&v1prm=q&nil!=q&xprm=x&yprm=y&nil!=x*ll(q)*ll(y)', 'll(in)::=nil=in&emp|\\Eq_18.in->q_18*ll(q_18)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_slk-6.smt2.sld:
+['RootCallLHS(xprm,yprm,y,x,q)', 'LHS(xprm,yprm,y,x,q)::=xprm->q&nil=q&xprm=x&yprm=y&nil!=x*ll(q)*ll(y)', 'll(in)::=nil=in&emp|\\Eq_18.in->q_18*ll(q_18)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+append_sll_slk-7.smt2.sld:
+['RootCallLHS(q,xprm,yprm,y,x)', 'LHS(q,xprm,yprm,y,x)::=xprm->q&nil!=q&xprm=x&yprm=y&nil!=x*ll(q)', 'll(in)::=nil=in&emp|\\Eq_18.in->q_18*ll(q_18)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+append_sll_slk-8.smt2.sld:
+['RootCallLHS(next0,q,xprm,yprm,y,x)', 'LHS(next0,q,xprm,yprm,y,x)::=xprm->yprm&next0=q&nil=q&xprm=x&yprm=y&nil!=x*ll(q)*ll(y)', 'll(in)::=nil=in&emp|\\Eq_18.in->q_18*ll(q_18)', 'll_e1(in)::=\\Eq.in->q*ll(q)', 'll_e2(in)::=\\Ep,q.in->p&p=q*ll(q)', 'node_e1(in,q)::=\\Ep.in->p&q=p']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 150, in parse_predicate
+    raise InputError(" only equalities between allocated variable and something are allowed")
+input.InputError: ' only equalities between allocated variable and something are allowed'
+
+dll2-spaghetti-existential.smt2.sld:
+['RootCallDLL2_plus(hd0,nil,tl0,hd1)*DLL2_plus(hd1,tl0,tl1,hd2)*DLL2_plus(hd2,tl1,tl2,hd3)*DLL2_plus(hd3,tl2,tl3,hd4)*DLL2_plus(hd4,tl3,tl4,hd5)*DLL2_plus(hd5,tl4,tl5,hd6)*DLL2_plus(hd6,tl5,tl6,hd7)*DLL2_plus(hd7,tl6,tl7,hd8)*DLL2_plus(hd8,tl7,tl8,hd9)*DLL2_plus(hd9,tl8,tl9,hd10)*DLL2_plus(hd10,tl9,tl10,hd11)*DLL2_plus(hd11,tl10,tl11,hd12)*DLL2_plus(hd12,tl11,tl12,hd13)*DLL2_plus(hd13,tl12,tl13,hd14)*DLL2_plus(hd14,tl13,tl14,hd15)*DLL2_plus(hd15,tl14,tl15,hd16)*DLL2_plus(hd16,tl15,tl16,hd17)*DLL2_plus(hd17,tl16,tl17,hd18)*DLL2_plus(hd18,tl17,tl18,hd19)*DLL2_plus(hd19,tl18,tl19,hd20)*DLL2_plus(hd20,tl19,tl20,nil)', 'DLL1_plus(hd,p)::=hd->nil,p|\\Ex.hd->x,p*DLL1_plus(x,hd)', 'DLL2_plus(hd,p,tl,n)::=\\Edown_hd.hd->n,p,down_hd&hd=tl*DLL1_plus(down_hd,hd)|\\Ex,down_hd.hd->x,p,down_hd*DLL1_plus(down_hd,hd)*DLL2_plus(x,hd,tl,n)', 'DLL2_plus_rev(hd,p,tl,n)::=\\Edown_hd.hd->n,p,down_hd&hd=tl*DLL1_plus(down_hd,hd)|\\Ex,down_hd.tl->n,x,down_hd*DLL1_plus(down_hd,tl)*DLL2_plus_rev(hd,p,x,tl)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 982, in parse_input
+    (root_rule,params,emptyheap_eq)=join.join(preds,top_calls,emptyheap_eq,ex_params)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 427, in join
+    (call,params,empty,forbid)=do_join(candidate,call,params,empty,call2,params2,empty2,preds,p_intersect,to_remove)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 321, in do_join
+    new_calls=change_call_item_pred(prop_item,prefix,prop_var_num,new_calls,tp_item)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 38, in change_call_item_pred
+    p_name,params=calls[prop_item]
+TypeError: 'NoneType' object has no attribute '__getitem__'
+
+dll2-spaghetti.smt2.sld:
+['RootCallDLL2_plus(hd0,nil,tl0,hd1)*DLL2_plus(hd1,tl0,tl1,hd2)*DLL2_plus(hd2,tl1,tl2,hd3)*DLL2_plus(hd3,tl2,tl3,hd4)*DLL2_plus(hd4,tl3,tl4,hd5)*DLL2_plus(hd5,tl4,tl5,hd6)*DLL2_plus(hd6,tl5,tl6,hd7)*DLL2_plus(hd7,tl6,tl7,hd8)*DLL2_plus(hd8,tl7,tl8,hd9)*DLL2_plus(hd9,tl8,tl9,hd10)*DLL2_plus(hd10,tl9,tl10,hd11)*DLL2_plus(hd11,tl10,tl11,hd12)*DLL2_plus(hd12,tl11,tl12,hd13)*DLL2_plus(hd13,tl12,tl13,hd14)*DLL2_plus(hd14,tl13,tl14,hd15)*DLL2_plus(hd15,tl14,tl15,hd16)*DLL2_plus(hd16,tl15,tl16,hd17)*DLL2_plus(hd17,tl16,tl17,hd18)*DLL2_plus(hd18,tl17,tl18,hd19)*DLL2_plus(hd19,tl18,tl19,hd20)*DLL2_plus(hd20,tl19,tl20,nil)', 'DLL1_plus(hd,p)::=hd->nil,p|\\Ex.hd->x,p*DLL1_plus(x,hd)', 'DLL2_plus(hd,p,tl,n)::=\\Edown_hd.hd->n,p,down_hd&hd=tl*DLL1_plus(down_hd,hd)|\\Ex,down_hd.hd->x,p,down_hd*DLL1_plus(down_hd,hd)*DLL2_plus(x,hd,tl,n)', 'DLL2_plus_rev(hd,p,tl,n)::=\\Edown_hd.hd->n,p,down_hd&hd=tl*DLL1_plus(down_hd,hd)|\\Ex,down_hd.tl->n,x,down_hd*DLL1_plus(down_hd,tl)*DLL2_plus_rev(hd,p,x,tl)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 982, in parse_input
+    (root_rule,params,emptyheap_eq)=join.join(preds,top_calls,emptyheap_eq,ex_params)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 427, in join
+    (call,params,empty,forbid)=do_join(candidate,call,params,empty,call2,params2,empty2,preds,p_intersect,to_remove)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 321, in do_join
+    new_calls=change_call_item_pred(prop_item,prefix,prop_var_num,new_calls,tp_item)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 38, in change_call_item_pred
+    p_name,params=calls[prop_item]
+TypeError: 'NoneType' object has no attribute '__getitem__'
+
+dll-spaghetti-existential.smt2.sld:
+['RootCallDLL_plus(hd0,nil,tl0,hd1)*DLL_plus(hd1,tl0,tl1,hd2)*DLL_plus(hd2,tl1,tl2,hd3)*DLL_plus(hd3,tl2,tl3,hd4)*DLL_plus(hd4,tl3,tl4,hd5)*DLL_plus(hd5,tl4,tl5,hd6)*DLL_plus(hd6,tl5,tl6,hd7)*DLL_plus(hd7,tl6,tl7,hd8)*DLL_plus(hd8,tl7,tl8,hd9)*DLL_plus(hd9,tl8,tl9,hd10)*DLL_plus(hd10,tl9,tl10,hd11)*DLL_plus(hd11,tl10,tl11,hd12)*DLL_plus(hd12,tl11,tl12,hd13)*DLL_plus(hd13,tl12,tl13,hd14)*DLL_plus(hd14,tl13,tl14,hd15)*DLL_plus(hd15,tl14,tl15,hd16)*DLL_plus(hd16,tl15,tl16,hd17)*DLL_plus(hd17,tl16,tl17,hd18)*DLL_plus(hd18,tl17,tl18,hd19)*DLL_plus(hd19,tl18,tl19,hd20)*DLL_plus(hd20,tl19,tl20,nil)', 'DLL(hd,p,tl,n)::=p=tl&hd=n&emp|\\Ex.hd->x,p*DLL(x,hd,tl,n)', 'DLL_plus(hd,p,tl,n)::=hd->n,p&hd=tl|\\Ex.hd->x,p*DLL_plus(x,hd,tl,n)', 'DLL_plus_rev(hd,p,tl,n)::=hd->n,p&hd=tl|\\Ex.tl->n,x*DLL_plus_rev(hd,p,x,tl)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 982, in parse_input
+    (root_rule,params,emptyheap_eq)=join.join(preds,top_calls,emptyheap_eq,ex_params)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 427, in join
+    (call,params,empty,forbid)=do_join(candidate,call,params,empty,call2,params2,empty2,preds,p_intersect,to_remove)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 321, in do_join
+    new_calls=change_call_item_pred(prop_item,prefix,prop_var_num,new_calls,tp_item)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 38, in change_call_item_pred
+    p_name,params=calls[prop_item]
+TypeError: 'NoneType' object has no attribute '__getitem__'
+
+dll-spaghetti.smt2.sld:
+['RootCallDLL_plus(hd0,nil,tl0,hd1)*DLL_plus(hd1,tl0,tl1,hd2)*DLL_plus(hd2,tl1,tl2,hd3)*DLL_plus(hd3,tl2,tl3,hd4)*DLL_plus(hd4,tl3,tl4,hd5)*DLL_plus(hd5,tl4,tl5,hd6)*DLL_plus(hd6,tl5,tl6,hd7)*DLL_plus(hd7,tl6,tl7,hd8)*DLL_plus(hd8,tl7,tl8,hd9)*DLL_plus(hd9,tl8,tl9,hd10)*DLL_plus(hd10,tl9,tl10,hd11)*DLL_plus(hd11,tl10,tl11,hd12)*DLL_plus(hd12,tl11,tl12,hd13)*DLL_plus(hd13,tl12,tl13,hd14)*DLL_plus(hd14,tl13,tl14,hd15)*DLL_plus(hd15,tl14,tl15,hd16)*DLL_plus(hd16,tl15,tl16,hd17)*DLL_plus(hd17,tl16,tl17,hd18)*DLL_plus(hd18,tl17,tl18,hd19)*DLL_plus(hd19,tl18,tl19,hd20)*DLL_plus(hd20,tl19,tl20,nil)', 'DLL(hd,p,tl,n)::=p=tl&hd=n&emp|\\Ex.hd->x,p*DLL(x,hd,tl,n)', 'DLL_plus(hd,p,tl,n)::=hd->n,p&hd=tl|\\Ex.hd->x,p*DLL_plus(x,hd,tl,n)', 'DLL_plus_rev(hd,p,tl,n)::=hd->n,p&hd=tl|\\Ex.tl->n,x*DLL_plus_rev(hd,p,x,tl)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 982, in parse_input
+    (root_rule,params,emptyheap_eq)=join.join(preds,top_calls,emptyheap_eq,ex_params)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 427, in join
+    (call,params,empty,forbid)=do_join(candidate,call,params,empty,call2,params2,empty2,preds,p_intersect,to_remove)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 321, in do_join
+    new_calls=change_call_item_pred(prop_item,prefix,prop_var_num,new_calls,tp_item)
+  File "/home/mcyprian/Codes/slide/slide/join.py", line 38, in change_call_item_pred
+    p_name,params=calls[prop_item]
+TypeError: 'NoneType' object has no attribute '__getitem__'
+
+dll-vc01.smt2.sld:
+['RootCallx_emp->w_emp,nil*w_emp->y_emp,x_emp*y_emp->z_emp,w_emp&x_emp!=z_emp&w_emp!=z_emp&y_emp!=z_emp', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc02.smt2.sld:
+['RootCallx_emp->w_emp,z_emp*w_emp->y_emp,x_emp*y_emp->z_emp,w_emp&x_emp!=z_emp&y_emp!=z_emp&w_emp!=z_emp', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc03.smt2.sld:
+['RootCallx_emp->w_emp,z_emp*w_emp->y_emp,x_emp*y_emp->u_emp,w_emp*u_emp->z_emp,y_emp&x_emp!=z_emp&w_emp!=z_emp&y_emp!=z_emp&u_emp!=z_emp', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc04.smt2.sld:
+['RootCallLHS(x_emp,w_emp,y_emp,z_emp,nil)', 'LHS(x_emp,w_emp,y_emp,z_emp,newn)::=x_emp->w_emp,nil&x_emp!=w_emp*dll(w_emp,y_emp,newn,z_emp)', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc05.smt2.sld:
+['RootCallx_emp->w_emp,nil*y_emp->z_emp*dll(w_emp,y_emp,x_emp,z_emp)', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc06.smt2.sld:
+['RootCallx_emp->w_emp,nil*y_emp->z_emp,u_emp&x_emp!=w_emp&x_emp!=z_emp&y_emp!=z_emp*dll(w_emp,u_emp,x_emp,y_emp)', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc07.smt2.sld:
+['RootCallLHS(x_emp,w_emp,y_emp,z_emp)', 'LHS(x_emp,w_emp,y_emp,z_emp)::=x_emp->w_emp,nil&x_emp!=w_emp&x_emp!=z_emp*dll(w_emp,y_emp,x_emp,z_emp)', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc08.smt2.sld:
+['RootCallLHS(x_emp,y_emp,z_emp,w_emp,u_emp,t_emp,nil)', 'LHS(x_emp,y_emp,z_emp,w_emp,u_emp,t_emp,newn)::=w_emp->t_emp,u_emp&x_emp!=w_emp&w_emp!=t_emp&z_emp!=w_emp*dll(x_emp,u_emp,newn,w_emp)*dll(t_emp,y_emp,w_emp,z_emp)', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc09.smt2.sld:
+['RootCallx->x1,nil*x1->x2,x*x2->x3,x1*x3->x4,x2*x4->y,x3*y->z,x4&x!=z&z!=x1&z!=x2&z!=x3&z!=x4&y!=z', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc10.smt2.sld:
+['RootCallLHS(x_emp,y_emp,z_emp,w_emp,u_emp,t_emp)', 'LHS(x_emp,y_emp,z_emp,w_emp,u_emp,t_emp)::=w_emp->t_emp,u_emp&x_emp!=w_emp&w_emp!=t_emp&y_emp!=w_emp*dll(x_emp,u_emp,y_emp,w_emp)*dll(t_emp,y_emp,w_emp,x_emp)', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc11.smt2.sld:
+['RootCallx_emp->w_emp,nil*y_emp->z_emp,w_emp*dll(w_emp,y_emp,x_emp,z_emp)', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc12.smt2.sld:
+['RootCallx_emp->w_emp,nil*y_emp->z_emp&x_emp!=w_emp&w_emp!=y_emp*dll(w_emp,u_emp,x_emp,y_emp)', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+dll-vc13.smt2.sld:
+['RootCallx_emp->w_emp,nil*y_emp->z_emp,u_emp*dll(w_emp,u_emp,x_emp,z_emp)', 'dll(fr,bk,pr,nx)::=fr=nx&bk=pr&emp|\\Eu.fr->u,pr&fr!=nx&bk!=pr*dll(u,bk,fr,nx)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+elseg4_slk-1.smt2.sld:
+['RootCallx->a*a->b*elseg(b,p)', 'elseg(in,p)::=in=p&emp|\\Ea,b.in->a*a->b*elseg(b,p)', 'right(in,p)::=\\Eu.elseg(in,u)*elseg(u,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+elseg4_slk-2.smt2.sld:
+['RootCallx->a*a->p', 'elseg(in,p)::=in=p&emp|\\Ea,b.in->a*a->b*elseg(b,p)', 'right(in,p)::=\\Eu.elseg(in,u)*elseg(u,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+elseg4_slk-3.smt2.sld:
+['RootCallLHS(a,x,p)', 'LHS(a,x,p)::=x->a*elseg(a,p)', 'elseg(in,p)::=in=p&emp|\\Ea,b.in->a*a->b*elseg(b,p)', 'right(in,p)::=\\Eu.elseg(in,u)*elseg(u,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+elseg4_slk-4.smt2.sld:
+['RootCallx->a*a->b*b->p', 'elseg(in,p)::=in=p&emp|\\Ea,b.in->a*a->b*elseg(b,p)', 'right(in,p)::=\\Eu.elseg(in,u)*elseg(u,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+elseg4_slk-5.smt2.sld:
+['RootCallq->q2*q2->p*elseg(x,q)', 'elseg(in,p)::=in=p&emp|\\Ea,b.in->a*a->b*elseg(b,p)', 'right(in,p)::=\\Eu.elseg(in,u)*elseg(u,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+elseg4_slk-6.smt2.sld:
+['RootCallz->x*q->p*elseg(x,q)', 'elseg(in,p)::=in=p&emp|\\Ea,b.in->a*a->b*elseg(b,p)', 'right(in,p)::=\\Eu.elseg(in,u)*elseg(u,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+elseg4_slk-7.smt2.sld:
+['RootCallz->x*q->p*elseg(x,q)', 'elseg(in,p)::=in=p&emp|\\Ea,b.in->a*a->b*elseg(b,p)', 'right(in,p)::=\\Eu.elseg(in,u)*elseg(u,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+elseg4_slk-8.smt2.sld:
+['RootCallelseg(z,p)', 'elseg(in,p)::=in=p&emp|\\Ea,b.in->a*a->b*elseg(b,p)', 'right(in,p)::=\\Eu.elseg(in,u)*elseg(u,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+elseg4_slk-9.smt2.sld:
+['RootCallz->a*a->b*elseg(b,p)', 'elseg(in,p)::=in=p&emp|\\Ea,b.in->a*a->b*elseg(b,p)', 'right(in,p)::=\\Eu.elseg(in,u)*elseg(u,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+lsegex4_slk-1.smt2.sld:
+['RootCallx!=p*lseg(x,p)', 'lseg(in,p)::=in=p&emp|\\Ea.in->a*lseg(a,p)', 'right1(in,p)::=\\Eu.u->p*lseg(in,u)', 'right2(in,p)::=\\Eu.lseg(in,u)*lseg(u,p)', 'right3(in,p)::=\\Eu,u2.lseg(in,u)*lseg(u,u2)*lseg(u2,p)', 'right4(in)::=\\Eu,w.lseg(in,u)*lseg(u,w)', 'right5(in)::=\\Ew.lseg(in,w)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 73, in parse_predicate
+    raise InputError("Parsing %s: now * allowed in empty rules"%rule)
+input.InputError: 'Parsing \\Eu.lseg(in,u)*lseg(u,p): now * allowed in empty rules'
+
+lsegex4_slk-2.smt2.sld:
+['RootCalllseg(x,p)', 'lseg(in,p)::=in=p&emp|\\Ea.in->a*lseg(a,p)', 'right1(in,p)::=\\Eu.u->p*lseg(in,u)', 'right2(in,p)::=\\Eu.lseg(in,u)*lseg(u,p)', 'right3(in,p)::=\\Eu,u2.lseg(in,u)*lseg(u,u2)*lseg(u2,p)', 'right4(in)::=\\Eu,w.lseg(in,u)*lseg(u,w)', 'right5(in)::=\\Ew.lseg(in,w)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 73, in parse_predicate
+    raise InputError("Parsing %s: now * allowed in empty rules"%rule)
+input.InputError: 'Parsing \\Eu.lseg(in,u)*lseg(u,p): now * allowed in empty rules'
+
+lsegex4_slk-3.smt2.sld:
+['RootCalllseg(x,p)', 'lseg(in,p)::=in=p&emp|\\Ea.in->a*lseg(a,p)', 'right1(in,p)::=\\Eu.u->p*lseg(in,u)', 'right2(in,p)::=\\Eu.lseg(in,u)*lseg(u,p)', 'right3(in,p)::=\\Eu,u2.lseg(in,u)*lseg(u,u2)*lseg(u2,p)', 'right4(in)::=\\Eu,w.lseg(in,u)*lseg(u,w)', 'right5(in)::=\\Ew.lseg(in,w)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 73, in parse_predicate
+    raise InputError("Parsing %s: now * allowed in empty rules"%rule)
+input.InputError: 'Parsing \\Eu.lseg(in,u)*lseg(u,p): now * allowed in empty rules'
+
+lsegex4_slk-4.smt2.sld:
+['RootCalllseg(x,p)', 'lseg(in,p)::=in=p&emp|\\Ea.in->a*lseg(a,p)', 'right1(in,p)::=\\Eu.u->p*lseg(in,u)', 'right2(in,p)::=\\Eu.lseg(in,u)*lseg(u,p)', 'right3(in,p)::=\\Eu,u2.lseg(in,u)*lseg(u,u2)*lseg(u2,p)', 'right4(in)::=\\Eu,w.lseg(in,u)*lseg(u,w)', 'right5(in)::=\\Ew.lseg(in,w)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 73, in parse_predicate
+    raise InputError("Parsing %s: now * allowed in empty rules"%rule)
+input.InputError: 'Parsing \\Eu.lseg(in,u)*lseg(u,p): now * allowed in empty rules'
+
+lsegex4_slk-5.smt2.sld:
+['RootCalllseg(x,p)', 'lseg(in,p)::=in=p&emp|\\Ea.in->a*lseg(a,p)', 'right1(in,p)::=\\Eu.u->p*lseg(in,u)', 'right2(in,p)::=\\Eu.lseg(in,u)*lseg(u,p)', 'right3(in,p)::=\\Eu,u2.lseg(in,u)*lseg(u,u2)*lseg(u2,p)', 'right4(in)::=\\Eu,w.lseg(in,u)*lseg(u,w)', 'right5(in)::=\\Ew.lseg(in,w)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 73, in parse_predicate
+    raise InputError("Parsing %s: now * allowed in empty rules"%rule)
+input.InputError: 'Parsing \\Eu.lseg(in,u)*lseg(u,p): now * allowed in empty rules'
+
+lsegex4_slk-6.smt2.sld:
+['RootCalllseg(x,p)', 'lseg(in,p)::=in=p&emp|\\Ea.in->a*lseg(a,p)', 'right1(in,p)::=\\Eu.u->p*lseg(in,u)', 'right2(in,p)::=\\Eu.lseg(in,u)*lseg(u,p)', 'right3(in,p)::=\\Eu,u2.lseg(in,u)*lseg(u,u2)*lseg(u2,p)', 'right4(in)::=\\Eu,w.lseg(in,u)*lseg(u,w)', 'right5(in)::=\\Ew.lseg(in,w)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 73, in parse_predicate
+    raise InputError("Parsing %s: now * allowed in empty rules"%rule)
+input.InputError: 'Parsing \\Eu.lseg(in,u)*lseg(u,p): now * allowed in empty rules'
+
+nll-vc01.smt2.sld:
+['RootCallx1->x2,x1_1*x1_1->x1_2*x1_2->x1_3*x1_3->nil*x2->nil,x2_1*x2_1->x2_2*x2_2->nil', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc02.smt2.sld:
+['RootCallx1->x2,x1_1*x1_1->x1_2*x1_2->x1_3*x1_3->nil*x2->nil,x2_1*x2_1->x2_2*x2_2->nil', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc03.smt2.sld:
+['RootCallx1->x2,x1_1*x1_1->x1_2*x1_3->nil*x2->nil,x2_1*x2_1->x2_2*x2_2->nil*lso(x1_2,x1_3)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc04.smt2.sld:
+['RootCallx1->x2,x1_1*x1_1->x1_2*x1_2->x1_3*x1_3->nil*x3->nil,x3_1*x3_1->x3_2*x3_2->nil*nll(x2,x3,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc05.smt2.sld:
+['RootCallx1->x2,x1_1*x1_1->x1_2*x1_2->x1_3*x1_3->nil*nll(x2,nil,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc06.smt2.sld:
+['RootCallx1->x2,x1_1*x1_1->x1_2*x1_2->x1_3*x1_3->nil*x2->nil,x2_1*x2_1->x2_2*x2_2->nil', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc07.smt2.sld:
+['RootCallLHS(x1,x2,x2_1,x3,nil,nil,nil,nil)', 'LHS(x1,x2,x2_1,x3,newn,Xnewn,XXnewn,XXXnewn)::=x2->x3,x2_1*nll(x1,x2,XXXnewn)*lso(x2_1,XXnewn)*nll(x3,Xnewn,newn)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc08.smt2.sld:
+['RootCallx2->x3,x2_1*x2_2->x2_3*nll(x1,x2,nil)*lso(x2_1,x2_2)*lso(x2_3,nil)*nll(x3,nil,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc09.smt2.sld:
+['RootCallx2->x3,x2_1*x2_1->x2_2*nll(x1,x2,nil)*lso(x2_2,nil)*nll(x3,nil,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc10.smt2.sld:
+['RootCallx2->x3,x2_1*x2_2->nil*nll(x1,x2,nil)*lso(x2_1,x2_2)*nll(x3,nil,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc11.smt2.sld:
+['RootCallx1->x2,x1_1*x2->x3,x2_1*lso(x1_1,nil)*lso(x2_1,nil)*nll(x3,nil,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc12.smt2.sld:
+['RootCallx1->x2,x1_1*x2->nil,x2_1*lso(x1_1,nil)*lso(x2_1,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc13.smt2.sld:
+['RootCallx1->x2,x1_1*x1_1->x1_1*x2->nil,x2_1*lso(x2_1,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc14.smt2.sld:
+['RootCallx1->x2,x1_1*x1_1->x2_1*x2->nil,x2_1*lso(x2_1,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc15.smt2.sld:
+['RootCallx2->x3,x2_1*x2_1->x2_1*nll(x1,x2,nil)*nll(x3,nil,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+nll-vc16.smt2.sld:
+['RootCallx2->x3,x2_1*x2_1->x2_2*x2_2->x2_1*nll(x1,x2,nil)*nll(x3,nil,nil)', 'lso(in,out)::=in=out&emp|\\Eu.in->u&in!=out*lso(u,out)', 'nll(in,out,boundary)::=in=out&emp|\\Eu,Z1.in->u,Z1&in!=out*lso(Z1,boundary)*nll(u,out,boundary)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 140, in parse_predicate
+    raise InputError("only disequalities of the for alloc!=nil are allowed")
+input.InputError: 'only disequalities of the for alloc!=nil are allowed'
+
+odd-lseg3_slk-1.smt2.sld:
+['RootCallx->a*a->p', 'olseg(in,p)::=in->p|\\Ea,b.in->a*a->b*olseg(b,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+odd-lseg3_slk-2.smt2.sld:
+['RootCallLHS(x,p)', 'LHS(x,p)::=x->p', 'olseg(in,p)::=in->p|\\Ea,b.in->a*a->b*olseg(b,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+odd-lseg3_slk-3.smt2.sld:
+['RootCallx->a*a->b*olseg(b,p)', 'olseg(in,p)::=in->p|\\Ea,b.in->a*a->b*olseg(b,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+odd-lseg3_slk-4.smt2.sld:
+['RootCallLHS(b,x,p)', 'LHS(b,x,p)::=x->b*olseg(b,p)', 'olseg(in,p)::=in->p|\\Ea,b.in->a*a->b*olseg(b,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+odd-lseg3_slk-5.smt2.sld:
+['RootCallp->a*a->b*olseg(b,p)', 'olseg(in,p)::=in->p|\\Ea,b.in->a*a->b*olseg(b,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+odd-lseg3_slk-6.smt2.sld:
+['RootCallk->b*p->a*a->b*olseg(b,p)', 'olseg(in,p)::=in->p|\\Ea,b.in->a*a->b*olseg(b,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+
+odd-lseg3_slk-7.smt2.sld:
+['RootCallk->b*p->a*a->b*b->g*olseg(b,p)', 'olseg(in,p)::=in->p|\\Ea,b.in->a*a->b*olseg(b,p)']
+Traceback (most recent call last):
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 94, in <module>
+    main(sys.argv[1],sys.argv[2],True)
+  File "/home/mcyprian/Codes/slide/slide/entailment.py", line 42, in main
+    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 974, in parse_input
+    empty_rule=empty_rule+parse_predicate(x,preds)
+  File "/home/mcyprian/Codes/slide/slide/input.py", line 128, in parse_predicate
+    raise InputError("two pointsto in a single predicate rules -- not implemented")
+input.InputError: 'two pointsto in a single predicate rules -- not implemented'
+

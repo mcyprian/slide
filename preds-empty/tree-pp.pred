@@ -1,0 +1,6 @@
+# Tree with parrent pointers with p1 pointing to the root
+
+RootCall P2(p1,nil)
+
+P2(x,back)::= \Ey,z. x -> y,z,back * P2(y,x) * P2(z,x)
+	| x=nil

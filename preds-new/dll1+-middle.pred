@@ -1,0 +1,11 @@
+# dll of length 1+ with p1 pointing to the first element and p2 to the last element
+RootCall P1(p1,p2)
+
+P1(first,last)::= \Ex. x->nil,nil & x=first& x=last
+	| \Ex,y. x->nil,y & x=last * P3(y,x,first)
+	| \Ex,y,z. x->y,z * P2(y,x,last) * P3(z,x,first)
+P2(x,y,last)::= x->nil,y & x=last
+	| \Ez. x->z,y * P2(z,x,last)
+P3(x,y,first)::= x->y,nil & x=first
+	| \Ez. x->y,z * P3(z,x,first)
+

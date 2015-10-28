@@ -1,0 +1,6 @@
+# dll of length 1+ with p1 pointing to the first element and p2 to the last element
+Params p1,p2
+Root P1
+
+P1() ::= p1->nil,nil,p1 & p1=p2  | \E y. p1->y,nil,p1 * P2(y,p1,p1)
+P2(x,y,root)::= x->nil,y,root & x=p2 | \E z. x->z,y,root * P2(z,x,root)

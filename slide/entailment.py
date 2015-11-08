@@ -17,6 +17,11 @@ from settings import *
 import emptyheap
 import subprocess
 
+
+import sys
+import pprint
+pp = pprint.PrettyPrinter()
+
 def main(file_lhs,file_rhs,verbose):
     tiles=[]
     # first collect the free variables, which appear on both sides of the entailment
@@ -39,8 +44,20 @@ def main(file_lhs,file_rhs,verbose):
     else:        
         free="ALL"
     # parse the input and create automata
-    (aut1,emptyheap_eq1,eq_edges1)=input.parse_input(file_lhs,tiles,free)
-    (aut2,emptyheap_eq2,eq_edges2)=input.parse_input(file_rhs,tiles,free)
+    (preds1, params1, root_rule1, empty_rule1) = input.parse_input(file_lhs, free) 
+    (preds2, params2, root_rule2, empty_rule2) = input.parse_input(file_rhs, free) 
+
+    
+    #pp.pprint(preds1)
+    #print("\n")
+    #pp.pprint(preds2)
+    #sys.exit(1)
+    #TODO: Try to map predicates to each other
+
+    (aut1,emptyheap_eq1,eq_edges1)=input.make_aut(preds1, params1, root_rule1,
+                                                  empty_rule1, tiles)
+    (aut2,emptyheap_eq2,eq_edges2)=input.make_aut(preds2, params2, root_rule2, 
+                                                  empty_rule2, tiles)
     # check entailment of empty heaps
     if not emptyheap.entailment(emptyheap_eq1,emptyheap_eq2):
         # no need to call all the machinery. Just UNSAT

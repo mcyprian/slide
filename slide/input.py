@@ -7,6 +7,7 @@ import re
 import functions
 import join
 
+
 class InputError(Exception):
     def __init__(self, value):
         self.value = value
@@ -876,13 +877,14 @@ def add_implicit_exists(ex_vars,globalfreevars,varlist):
             ex_vars.append(v)
     
 
-def parse_input(filename,tiles,globalfreevars):
+def parse_input(filename, globalfreevars):
     #tiles is a global list of actually known tiles
     # it is used to synchronise symbols between multiple automata
     # globalfreevars con
     contains=load_input(filename)
-    print(contains)
     preds={}
+    params = ""
+    root_rule = ""
     if (re.search("^RootCall",contains[0])):
         # NEW version
         # parse the "RootCall"
@@ -972,6 +974,10 @@ def parse_input(filename,tiles,globalfreevars):
     empty_rule=0
     for x in contains:
         empty_rule=empty_rule+parse_predicate(x,preds)
+    return preds, params, root_rule, empty_rule
+
+
+def make_aut(preds, params, root_rule, empty_rule, tiles):
     if empty_rule:
         # empty rules in the system of predicates -> inline them + create a formula for empty heap
         emptyheap_eq=inline_empty_rules(preds,top_calls)
@@ -980,6 +986,7 @@ def parse_input(filename,tiles,globalfreevars):
     if type==2:
         # type==2: join operator on top level calls to translate into a single Rootcall
         (root_rule,params,emptyheap_eq)=join.join(preds,top_calls,emptyheap_eq,ex_params)
+
         # rename all variables in conflict between parameters and predicates
         rename_conflicts_with_params(preds,params)
         #track and eliminate all parameters
@@ -1007,13 +1014,13 @@ def parse_input(filename,tiles,globalfreevars):
                     new_disj.append(new_conj)
             new_emptyheap_eq.append(new_disj)
         emptyheap_eq=new_emptyheap_eq
+
     else:
         # OLD version, just for compatibility reasons (type==0)
         if not emptyheap_eq==[]:
             emptyheap_eq=emptyheap_eq[0]
 
     sig=compute_signature(preds)
-
     aut,eq_edges=sl2ta(preds,sig,params,tiles,root_rule)
     #if eq_edges:
     #    print "WARNING: equality edges in use"

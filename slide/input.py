@@ -974,10 +974,10 @@ def parse_input(filename, globalfreevars):
     empty_rule=0
     for x in contains:
         empty_rule=empty_rule+parse_predicate(x,preds)
-    return preds, params, root_rule, empty_rule
+    return preds, top_calls, params, root_rule, empty_rule
 
 
-def make_aut(preds, params, root_rule, empty_rule, tiles):
+def make_aut(preds, top_calls, params, root_rule, empty_rule, tiles):
     if empty_rule:
         # empty rules in the system of predicates -> inline them + create a formula for empty heap
         emptyheap_eq=inline_empty_rules(preds,top_calls)

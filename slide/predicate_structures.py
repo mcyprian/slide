@@ -1,8 +1,10 @@
 # Michal Cyprian
 #
-# SL predicate expansion and mapping
+# SL predicate expansion
 #
 # distributed under GNU GPL license
+
+import collections
 
 def replace_var(args_doubles, var):
     '''
@@ -34,21 +36,50 @@ class Rule(object):
         return (self.alloc, self.pointsto, self.calles, self.equal)
 
 
+class TopCall(object):
+    '''
+    Class representing top call
+    '''
+    def __init__(self, pred_name, call, expanded_rules = None):
+        self.pred_name = pred_name
+        self.call = call
+        self.expanded_rules = expanded_rules
+
+    @property
+    def global_equal(self):
+        return  [{rule.alloc: rule.equal} for rule in self.expanded_rules]
+
+    @property
+    def list_form(self):
+        if isinstance(self.expanded_rules, collections.Iterable):
+            return [self.pred_name, ([rule.quadruple for rule in self.expanded_rules])]
+        else:
+            return [self.pred_name, None]
+
+    def expand(self, pred):
+        self.expanded_rules = pred(self.call)
+
+
 class Predicate(object):
     '''
     Class representing one predicate including list of the rules
     '''
     def __init__(self, name, args, rules):
+        if not isinstance(rules, list):
+            rules = [rules]
         self.name = name
-        self.args = args
+        self.args = args        
         self.rules = rules
 
     @property
     def tuple_form(self):
-        return (self.args, [rule.quadruple for rule in self.rules])
+        return {self.name : (self.args, [rule.quadruple for rule in self.rules])}
 
-    def expand(self, top_call):
-        args_doubles = dict(zip(self.args, top_call[0][1]))
+    def __call__(self, arguments):
+        '''
+        Replace variables with arguments of call and return new rules
+        '''
+        args_doubles = dict(zip(self.args, arguments))
         args_doubles['nil'] = 'nil'
 
         expanded_rules = []
@@ -69,5 +100,5 @@ class Predicate(object):
                                        expanded_calles, expanded_equal, 
                                        expanded_not_equal))
 
-        return Predicate('expanded', top_call[0][1], expanded_rules)
+        return expanded_rules
 

@@ -50,11 +50,12 @@ class TopCall(object):
         return  [{rule.alloc: rule.equal} for rule in self.expanded_rules]
 
     @property
-    def list_form(self):
-        if isinstance(self.expanded_rules, collections.Iterable):
-            return [self.pred_name, ([rule.quadruple for rule in self.expanded_rules])]
-        else:
-            return [self.pred_name, None]
+    def tuple_form(self):
+        return (self.pred_name, self.call)
+    
+    @property
+    def expanded_rules_tuple_form(self):
+        return [rule.quadruple for rule in self.expanded_rules]
 
     def expand(self, pred):
         self.expanded_rules = pred(self.call)
@@ -73,7 +74,7 @@ class Predicate(object):
 
     @property
     def tuple_form(self):
-        return {self.name : (self.args, [rule.quadruple for rule in self.rules])}
+        return (self.args, [rule.quadruple for rule in self.rules])
 
     def __call__(self, arguments):
         '''
@@ -84,7 +85,7 @@ class Predicate(object):
 
         expanded_rules = []
         for rule in self.rules:
-            expanded_alloc = args_doubles[rule.alloc]
+            expanded_alloc = replace_var(args_doubles, rule.alloc)
             
             expanded_pointsto = [replace_var(args_doubles, var) for var in rule.pointsto]
                        

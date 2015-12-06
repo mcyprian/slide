@@ -3,6 +3,7 @@
 # SL to TA
 # distrubuted under GNU GPL licence
 
+from predicate_structures import Rule, Predicate, TopCall
 import re
 import functions
 import join
@@ -54,6 +55,7 @@ def load_input(filename):
 def parse_predicate(pred,parsed_preds):
     # parse the input file into the intermediate format using regular expression
     # the return values are 0: single points-to in each rule, 1: empty-rule
+    
     if not (re.search("^[^:=]*::=[^:]*$",pred)):
         raise InputError("The predicate %s has not a correct form."%pred)
     pred_name=re.sub("\(.*\)::=.*$","",pred)
@@ -110,7 +112,8 @@ def parse_predicate(pred,parsed_preds):
                     new_eq_rel.append(new_cl)
             # eq_rel now contains an equality relation between parameters
 
-            rules.append(("",[],[],new_eq_rel))
+            # TODO add not_equal
+            rules.append(Rule("",[],[],new_eq_rel, []))
             emp_rules=1
             continue
             # end of empty rule parsing
@@ -167,8 +170,10 @@ def parse_predicate(pred,parsed_preds):
             calles.append((call,call_params))
             rule=re.sub("^\*[^\*]*","",rule)
 
-        rules.append((alloc,pointsto,calles,equal))
-    parsed_preds[pred_name]=((pred_par,rules))
+        # TODO add not_equal
+        rules.append(Rule(alloc,pointsto ,calles, equal, []))
+    
+    parsed_preds[pred_name]=(Predicate(pred_name, pred_par, rules))
     return emp_rules
     
 def alloc(pr,param_no,preds):
@@ -915,7 +920,7 @@ def parse_input(filename, globalfreevars):
                 # create an unique predicate for the points-to
                 pred_name=get_unique_name("pt%i"%pt_seq,contains)
                 pt_seq=pt_seq+1
-                top_calls.append((pred_name,[lhs]+rhs_not_nil))
+                top_calls.append(TopCall(pred_name, [lhs]+rhs_not_nil))
                 rule=(lhs,rhs,[],[])
                 preds[pred_name]=([lhs]+rhs_not_nil,[rule])
                 # do implicit quantification
@@ -925,7 +930,7 @@ def parse_input(filename, globalfreevars):
                 call=re.sub("^([^\(]*)\(.*$","\\1",rootcall)
                 call_params=re.sub("^[^\(]*\(([^\)]*)\).*$","\\1",rootcall)
                 call_params=re.split(",",call_params)
-                top_calls.append((call,call_params))
+                top_calls.append(TopCall(call, call_params))
                 # do implicit quantification
                 add_implicit_exists(ex_params,globalfreevars,call_params)
             # remove the call
@@ -943,7 +948,7 @@ def parse_input(filename, globalfreevars):
             # create an unique predicate for the points-to
             pred_name=get_unique_name("pt%i"%pt_seq,contains)
             pt_seq=pt_seq+1
-            top_calls.append((pred_name,[lhs]+rhs_not_nil))
+            top_calls.append(TopCall(pred_name,[lhs]+rhs_not_nil))
             rule=(lhs,rhs,[],[])
             preds[pred_name]=([lhs]+rhs_not_nil,[rule])
             # do implicit quantification
@@ -952,7 +957,7 @@ def parse_input(filename, globalfreevars):
             call=re.sub("^([^\(]*)\(.*$","\\1",rootcall)
             call_params=re.sub("^[^\(]*\(([^\)]*)\).*$","\\1",rootcall)
             call_params=re.split(",",call_params)
-            top_calls.append((call,call_params))
+            top_calls.append(TopCall(call,call_params))
             # do implicit quantification
             add_implicit_exists(ex_params,globalfreevars,call_params)
         type=2
@@ -972,6 +977,7 @@ def parse_input(filename, globalfreevars):
         type=0
     #Parse predicates
     empty_rule=0
+
     for x in contains:
         empty_rule=empty_rule+parse_predicate(x,preds)
     return preds, top_calls, params, root_rule, empty_rule

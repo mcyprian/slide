@@ -132,6 +132,7 @@ def parse_predicate(pred,parsed_preds):
             raise InputError("two pointsto in a single predicate rules -- not implemented")
         rule=re.sub("[^-]*->[^\\*\\&]*","",rule)
         equal=[]
+        not_equal = []
         # parse pure part of the rule (i.e. equalities)
         while(re.search("\\&",rule)):
             eq=re.sub("^\\&([^\\*\\&]*).*$","\\1",rule)
@@ -141,7 +142,9 @@ def parse_predicate(pred,parsed_preds):
                 if (eq[0]==alloc and eq[1]=="nil") or (eq[1]==alloc and eq[0]=="nil"):
                     pass
                 else:
-                    raise InputError("only disequalities of the for alloc!=nil are allowed")
+                    not_equal.append((eq[0], eq[1]))
+
+                    #raise InputError("only disequalities of the for alloc!=nil are allowed")
             else:
                 eq=re.split("=",eq)
                 if not (len(eq)==2):
@@ -170,8 +173,7 @@ def parse_predicate(pred,parsed_preds):
             calles.append((call,call_params))
             rule=re.sub("^\*[^\*]*","",rule)
 
-        # TODO add not_equal
-        rules.append(Rule(alloc,pointsto ,calles, equal, []))
+        rules.append(Rule(alloc,pointsto ,calles, equal, not_equal))
     
     parsed_preds[pred_name]=(Predicate(pred_name, pred_par, rules))
     return emp_rules

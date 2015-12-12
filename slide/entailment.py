@@ -46,8 +46,7 @@ def main(file_lhs,file_rhs,verbose):
 
 
     print("top call {}".format(top_call1))
-    #TODO: Try to map predicates to each other
-    m = mapping.map_vars(preds1, preds2, top_call1, top_call2)
+    (preds1, top_call1, preds2, top_call2) = mapping.map_vars(preds1, preds2, top_call1, top_call2)
     
     (aut1,emptyheap_eq1,eq_edges1)=input.make_aut(preds1, top_call1, params1, 
                                                   root_rule1, empty_rule1, tiles)

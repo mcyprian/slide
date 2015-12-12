@@ -94,8 +94,17 @@ class Predicate(object):
                 call_args = [replace_var(args_doubles, var) for var in call[1]]
                 expanded_calles.append((call[0], call_args))
 
-            expanded_equal = [replace_var(args_doubles, var) for var in rule.equal]
-            expanded_not_equal = [replace_var(args_doubles, var) for var in rule.not_equal]
+            if isinstance(rule.equal, list):
+                expanded_equal = []
+                for eq in rule.equal:
+                    expanded_equal.append([replace_var(args_doubles, eq[0]), 
+                                           replace_var(args_doubles, eq[1])])
+            else:
+                expanded_equal = [replace_var(args_doubles, var) for var in rule.equal]
+            expanded_not_equal = []
+            for s in rule.not_equal:
+                expanded_not_equal.append((replace_var(args_doubles, s[0]),
+                                           replace_var(args_doubles, s[1])))
 
             expanded_rules.append(Rule(expanded_alloc, expanded_pointsto,
                                        expanded_calles, expanded_equal, 

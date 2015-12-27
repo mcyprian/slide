@@ -57,8 +57,10 @@ class TopCall(object):
     def expanded_rules_tuple_form(self):
         return [rule.quadruple for rule in self.expanded_rules]
 
-    def expand(self, pred):
-        self.expanded_rules = pred(self.call)
+    def expand(self, pred, call_args):
+        if self.expanded_rules == None:
+            self.expanded_rules = []
+        self.expanded_rules += pred(call_args)
 
 
 class Predicate(object):
@@ -94,7 +96,7 @@ class Predicate(object):
                 call_args = [replace_var(args_doubles, var) for var in call[1]]
                 expanded_calles.append((call[0], call_args))
 
-            if isinstance(rule.equal, list):
+            if len(rule.equal) > 0 and isinstance(rule.equal[0], list):
                 expanded_equal = []
                 for eq in rule.equal:
                     expanded_equal.append([replace_var(args_doubles, eq[0]), 

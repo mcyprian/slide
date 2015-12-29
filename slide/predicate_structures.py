@@ -51,7 +51,10 @@ class TopCall(object):
 
     @property
     def tuple_form(self):
-        return (self.pred_name, self.call)
+        if self.expanded_rules:
+            return self.expanded_rules_tuple_form
+        else:
+            return (self.pred_name, self.call)
     
     @property
     def expanded_rules_tuple_form(self):

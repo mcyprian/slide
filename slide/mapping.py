@@ -2,18 +2,112 @@ import sys
 import pprint
 
 from input import InputError
+from predicate_structures import TopCall
+
+
+def print_calles(top_call1, top_call2):
+    list_top_call1 = [call.tuple_form for call in top_call1] 
+    list_top_call2 = [call.tuple_form for call in top_call2] 
+    print "\nTop call 1 after expansion:"
+    pprint.pprint(list_top_call1)
+    print "\nTop call 2 after expansion:"
+    pprint.pprint(list_top_call2)
+
 
 def expand_next(top_call, preds):
-    for item in top_call:
-        if not item.expanded_rules:
-            item.expand(preds[item.pred_name], item.call)
-            break
+    for call in top_call:
+        for index, rule in enumerate(call.expanded_rules):
+            if rule.calles:
+                call.expand(preds[rule.calles[0][0]], rule.calles[0][1])
+                if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal:
+                        del call.expanded_rules[index]
+                        return
+                else:
+                    del rule.calles[0]
+                    return
+
+
+def match_rule(to_map, rhs_call, identical):
+    print("\nMatch rule: {} top_level {}".format(to_map.quadruple, TopCall.top_level_vars))
+    match = False
+
+    for call_index, call in enumerate(rhs_call):
+        for rule_index, rule in enumerate(call.expanded_rules):
+            print("rule {}".format(rule.quadruple))
+            if to_map.alloc in TopCall.top_level_vars and to_map.alloc == rule.alloc or\
+                {to_map.alloc, rule.alloc} in identical:
+                for var_lhs, var_rhs  in zip(to_map.pointsto, rule.pointsto):
+                    if var_lhs in TopCall.top_level_vars and var_lhs == var_rhs and var_rhs != 'nil':
+                        match = True
+                    elif var_rhs not in TopCall.top_level_vars and var_lhs != to_map.alloc and var_rhs != 'nil':
+                        identical.append({var_rhs, var_lhs})
+                        match = True
+                    elif var_rhs == 'nil' and var_lhs == 'nil':
+                        match = True
+                    else:
+                        match = False
+                        break
+                if match == True:
+                    print("succeded {} {}".format(call_index, rule_index))
+                    return (call_index, rule_index)
+    print("failed")
+    return (False, False)            
+
+
+def match_call(to_map, rhs_call, identical):
+    print("\nMatch call: {}".format(to_map.quadruple))
+    match = False
+
+    for call_index, call in enumerate(rhs_call):
+        for rule_index, rule in enumerate(call.expanded_rules):
+            print("rule {}".format(rule.quadruple))
+            if not rule.calles:
+                continue
+            if to_map.calles[0][0] == rule.calles[0][0]:
+                for var_lhs, var_rhs  in zip(to_map.calles[0][1], rule.calles[0][1]):
+                    if var_lhs in TopCall.top_level_vars and var_lhs == var_rhs and var_rhs != 'nil':
+                        match = True
+                    elif var_rhs not in TopCall.top_level_vars and  var_rhs != 'nil':
+                        identical.append({var_rhs, var_lhs})
+                        match = True
+                    elif var_rhs == 'nil' and var_lhs == 'nil':
+                        match = True
+                    else:
+                        match = False
+                        break
+                if match == True:
+                    print("succeded {} {}".format(call_index, rule_index))
+                    return (call_index, rule_index)
+    print("failed")
+    return (False, False)            
+
+
+def try_to_match_rule(top_call1, top_call2, identical):
+    call_index, rule_index = match_rule(top_call1[0].expanded_rules[0], top_call2, identical)
+    if not isinstance(call_index, bool):
+        del top_call1[0]
+        rule = top_call2[call_index].expanded_rules[rule_index]
+        rule.alloc = ''
+        rule.pointsto = []
+        if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal and not rule.calles:
+            del top_call2[call_index].expanded_rules[rule_index]
+
+
+def try_to_match_call(top_call1, top_call2, identical):
+    call_index, rule_index =  match_call(top_call1[0].expanded_rules[0], top_call2, identical)
+    if not isinstance(call_index, bool):
+        del top_call1[0]
+        rule = top_call2[call_index].expanded_rules[rule_index]
+        top_call2[call_index].expanded_rules[rule_index].calles = None
+        if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal and not rule.calles:
+            del top_call2[call_index].expanded_rules[rule_index]
+
 
 def map_vars(preds1, preds2, top_call1, top_call2):
     '''
     Tries to map ekvivalent variables in predicates
     '''
-
+    identical = []
     # Creating tuple forms of predicates
     tuple_preds1 = {}
     tuple_preds2 = {}
@@ -54,34 +148,20 @@ def map_vars(preds1, preds2, top_call1, top_call2):
             raise InputError("only disequalities of the for alloc!=nil are allowed")
 
     expand_next(top_call1, preds1)
+    expand_next(top_call1, preds1)
     expand_next(top_call2, preds2)
-    list_top_call1 = [call.tuple_form for call in top_call1] 
-    list_top_call2 = [call.tuple_form for call in top_call2] 
-    print "\nTop call 1 after expansion:"
-    pprint.pprint(list_top_call1)
-    print "\nTop call 2 after expansion:"
-    pprint.pprint(list_top_call2)
+    expand_next(top_call2, preds2)
+    
+    print_calles(top_call1, top_call2)
 
-    if len(top_call1) > len(top_call2):
-        expand_next(top_call1, preds1)
-        list_top_call1 = [call.tuple_form for call in top_call1] 
-    else:
-        expand_next(top_call2, preds1)
-        list_top_call2 = [call.tuple_form for call in top_call2] 
+    try_to_match_rule(top_call1, top_call2, identical)
 
-    print "\nTop call 1 after expansion:"
-    pprint.pprint(list_top_call1)
-    print "\nTop call 2 after expansion:"
-    pprint.pprint(list_top_call2)
+    print_calles(top_call1, top_call2)
+ 
+    try_to_match_rule(top_call1, top_call2, identical)
 
-#    top_call1[0].expand(preds1[top_call1[0].expanded_rules[1].calles[0][0]],
-#                               top_call1[0].expanded_rules[1].calles[0][1])
+    try_to_match_call(top_call1, top_call2, identical)
 
-#   del top_call1[0].expanded_rules[1].calles[0]
-
-#    print "\nTop call 1 after second expansion:"
-#    pprint.pprint(top_call1[0].expanded_rules_tuple_form)
-
-
+    print_calles(top_call1, top_call2)
+   
     return (tuple_preds1, list_top_call1, tuple_preds2, list_top_call2)
-

@@ -40,10 +40,14 @@ class TopCall(object):
     '''
     Class representing top call
     '''
-    def __init__(self, pred_name, call, expanded_rules = None):
+    top_level_vars = set()
+
+    def __init__(self, pred_name, call):
         self.pred_name = pred_name
         self.call = call
-        self.expanded_rules = expanded_rules
+        self.expanded_rules = [Rule('', [], [(pred_name, call)], [], [])]
+        TopCall.top_level_vars |= {var for var in self.call if var != 'nil'}
+
 
     @property
     def global_equal(self):
@@ -53,7 +57,7 @@ class TopCall(object):
     def tuple_form(self):
         if self.expanded_rules:
             return self.expanded_rules_tuple_form
-        else:
+        elif self.call:
             return (self.pred_name, self.call)
     
     @property
@@ -62,6 +66,7 @@ class TopCall(object):
 
     def expand(self, pred, call_args):
         if self.expanded_rules == None:
+            self.call = None
             self.expanded_rules = []
         self.expanded_rules += pred(call_args)
 

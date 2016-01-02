@@ -40,13 +40,22 @@ def main(file_lhs,file_rhs,verbose):
                     free.append(x)
     else:        
         free="ALL"
-    # parse the input and create automata
+    # parse the input
     (preds1, top_call1, params1, root_rule1, empty_rule1) = input.parse_input(file_lhs, free) 
     (preds2, top_call2, params2, root_rule2, empty_rule2) = input.parse_input(file_rhs, free) 
 
 
-    print("top call {}".format(top_call1))
     (preds1, top_call1, preds2, top_call2) = mapping.map_vars(preds1, preds2, top_call1, top_call2)
+     
+    if isinstance(preds1, bool):
+        if verbose:
+            print "Entailment result:"
+        if preds1 == True:
+            print "VALID"
+        else:
+            print "UNKNOW"
+        return 0
+
     
     (aut1,emptyheap_eq1,eq_edges1)=input.make_aut(preds1, top_call1, params1, 
                                                   root_rule1, empty_rule1, tiles)

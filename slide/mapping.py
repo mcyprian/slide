@@ -141,9 +141,9 @@ def map_vars(preds1, preds2, top_call1, top_call2):
     print "\n Not equals2:"
     print(ne2)
 
-    for n1, n2 in  zip(ne1, ne2):
-        if n1 or n2:
-            raise InputError("only disequalities of the for alloc!=nil are allowed")
+#    for n1, n2 in  zip(ne1, ne2):
+#        if n1 or n2:
+#            raise InputError("only disequalities of the for alloc!=nil are allowed")
 
     num = 0
     while [call.tuple_form for call in top_call1]:

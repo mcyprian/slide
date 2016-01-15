@@ -924,7 +924,8 @@ def parse_input(filename, globalfreevars):
                 pt_seq=pt_seq+1
                 top_calls.append(TopCall(pred_name, [lhs]+rhs_not_nil))
                 rule=(lhs,rhs,[],[])
-                preds[pred_name]=([lhs]+rhs_not_nil,[rule])
+                preds[pred_name]=(Predicate(pred_name, [lhs]+rhs_not_nil,
+                                            [Rule(rule[0], rule[1], rule[2], rule[3], [])]))
                 # do implicit quantification
                 add_implicit_exists(ex_params,globalfreevars,[lhs]+rhs_not_nil)
             else:
@@ -952,7 +953,8 @@ def parse_input(filename, globalfreevars):
             pt_seq=pt_seq+1
             top_calls.append(TopCall(pred_name,[lhs]+rhs_not_nil))
             rule=(lhs,rhs,[],[])
-            preds[pred_name]=([lhs]+rhs_not_nil,[rule])
+            preds[pred_name]=(Predicate(pred_name, [lhs]+rhs_not_nil,
+                                            [Rule(rule[0], rule[1], rule[2], rule[3], [])]))
             # do implicit quantification
             add_implicit_exists(ex_params,globalfreevars,[lhs]+rhs_not_nil)
         else:

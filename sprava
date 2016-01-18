@@ -1,0 +1,42 @@
+1. ZOZNÁMENIE SA SO STAVOM PROJEKTU
+    - porozumenie jednotlivým častiam a logickým súvislostiam popisu dátových
+      štruktúr pomocou predikátov
+    - štúdium rôznych typov rekurzívnych predikátov
+    - zoznámenie sa s aktuálnym stavom projektu, štruktúre kódu
+    - podrobnejšia analýza modulov entailment, input
+
+2. ANALÝZA NESPRACOVATEĽNÝCH PREDIKÁTOV
+    - zameranie sa na predikáty z adresára slrd_entl
+    - tvorba skriptu find_problematic.sh
+    - vyhodnotenie pomeru úspešne a neúspešne spracovaných predikátov
+    - spracovanie percentuálneho výskytu vínimiek pri neúspechu
+    - výber najfrekventovanejších vínimiek
+
+3. NÁVRH A IMPLEMENTÁCIA OBJEKTOV NA REPREZENTÁCIU PRAVIDIEL, PREDIKÁTOV,
+TOP CALLOV
+    - analýza dátových štruktúr (kombinácie tuple a list)
+    - implementácia objektov Rule, TopCall, Predicate
+    - getters na získanie povodnej reprezentácie dátovými štruktúrami
+    - integrácia objektov do modulu input
+    - pridanie atribútu not equal
+
+4. IMPLEMENTÁCIA ROZBALOVANIA A MAPOVANIA
+    - modul mapping.py
+    - pokus o vyriešenie resp. zjednodušenie predikátov pred zavolaním nástroja
+      libvata
+    - postupné rozbalovanie predikátov v rámci lavej a pravej strany
+    - snaha namapovať na seba pravidlá a volania
+    - spätne kompatibilný Python3 kód
+
+
+OTÁZKY:
+    - spravna logika pri mapovani?? 
+      1. je v top_level a je zhodne 
+      2. nil, nil
+      3. nie je v top_level, ani allocovane ani nil -> mapujeme
+    - mapovat aj pri vybere argumentov?
+    - ako si poradit s not equals? staci ak sedi lava prava strana? moze sa byt
+      s equal?
+    - rozbalovat na striedacku? radsej pouzit iny princip (rozbalovat stranu z
+      mensim poctom pravidiel, preferovat jednu stranu??)
+    - pri neuspesnom mapovani predat automatu zvysne pravidla??

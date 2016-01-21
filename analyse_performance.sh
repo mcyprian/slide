@@ -9,13 +9,14 @@ ERROR_MSG_FILE='/home/mcyprian/Codes/devel/slide/slrd_entl_unsuccess/error_msg_1
 ERROR_FREQUENCY_FILE='/home/mcyprian/Codes/devel/slide/slrd_entl_unsuccess/error_num_1'
 SLD_SUFFIX='.sld'
 
-if [ $1 == 'clean' ]; then
+
+clean(){
     rm $SLD_UNSUCCESS/*
     rm $SLD_DEST/*
     exit 0
-fi
+}
 
-if [ $1 == 'generate' ]; then
+convert_to_slide(){
     for file in $(ls $SMT_SOURCE_DIR); do
         if [ "$file" == "README" ]; then
             break
@@ -31,9 +32,9 @@ if [ $1 == 'generate' ]; then
             echo "" >> "$ERROR_MSG_FILE"
         fi
     done
-fi
+}
 
-if [ $1 == 'next_run' ]; then
+check_performance(){
     ERROR_MSG_FILE="$ERROR_MSG_FILE"_1 
     ERROR_FREQUENCY_FILE="$ERROR_FREQUENCY_FILE"_1
     for file in $(ls $SLD_DEST); do
@@ -45,29 +46,36 @@ if [ $1 == 'next_run' ]; then
             echo "" >> "$ERROR_MSG_FILE"
         fi
     done
-fi
+}
 
-echo "Countig frequency of errors:"
-errors=("impossible to join the input"
-"ERROR: dangling pointer reference"
-"JOIN: complicated join, not implemented"
-"only disequalities of the for alloc!=nil"
-"Parsing %s: only equalities of the form x=y separated"
-"only equalities between allocated variable"
-"NoneType' object has no attribute"
-"two pointsto in a single predicate rules"
-"Parsing \%s: now * allowed in empty rules")
+get_errors_frequency(){
+    echo "Countig frequency of errors:"
+    errors=("impossible to join the input"
+    "ERROR: dangling pointer reference"
+    "JOIN: complicated join, not implemented"
+    "only disequalities of the for alloc!=nil"
+    "Parsing %s: only equalities of the form x=y separated"
+    "only equalities between allocated variable"
+    "NoneType' object has no attribute"
+    "two pointsto in a single predicate rules"
+    "Parsing \%s: now * allowed in empty rules")
+    
+    cd $SLD_UNSUCCESS
+    
+    touch $ERROR_MSG_FILE
+    touch $ERROR_FREQUENCY_FILE
+    
+    for ((i = 0; i <  "${#errors[@]}"; i++)); do
+        NUM=$((grep "${errors[$i]}" "$ERROR_MSG_FILE" | wc -l) 1>&1)
+        echo "${errors[$i]}  $(($NUM/2))" >> "$ERROR_FREQUENCY_FILE"
+        echo "${errors[$i]}  $NUM" 
+    done
+}
 
-cd $SLD_UNSUCCESS
-
-touch $ERROR_MSG_FILE
-touch $ERROR_FREQUENCY_FILE
-
-for ((i = 0; i <  "${#errors[@]}"; i++)); do
-    NUM=$((grep "${errors[$i]}" "$ERROR_MSG_FILE" | wc -l) 1>&1)
-    echo "${errors[$i]}  $(($NUM/2))" >> "$ERROR_FREQUENCY_FILE"
-    echo "${errors[$i]}  $NUM" 
-done
-
+case $1 in 
+    "clean")     clean;;
+    "convert")   convert_to_slide; check_performance; get_errors_frequncy;; 
+    "check")     check_performance; get_errors_frequency;;
+esac
 
 exit 0

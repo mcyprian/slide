@@ -35,8 +35,17 @@ OTÁZKY:
       2. nil, nil
       3. nie je v top_level, ani allocovane ani nil -> mapujeme
     - mapovat aj pri vybere argumentov?
-    - ako si poradit s not equals? staci ak sedi lava prava strana? moze sa byt
+    - ako si poradit s not equals? staci ak sedi lava prava strana? moze sa bit
       s equal?
     - rozbalovat na striedacku? radsej pouzit iny princip (rozbalovat stranu z
       mensim poctom pravidiel, preferovat jednu stranu??)
     - pri neuspesnom mapovani predat automatu zvysne pravidla??
+
+
+
+TODO:
+    - Vylepsit logiku pri vybere predikatu na rozbalovanie
+    - LHS nil na pravo je nie je z top levelu mozme namapovat, nesmie sa neskor objavit ako alloc
+
+    - V pripade ze po rozbalovani ostane 1 predikat na kazdej strane zavolat libvata
+    - Vylepsit tvorbu unikatnych identifikatorov

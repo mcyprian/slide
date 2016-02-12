@@ -45,7 +45,7 @@ def main(file_lhs,file_rhs,verbose):
     (preds2, top_call2, params2, root_rule2, empty_rule2) = input.parse_input(file_rhs, free) 
 
 
-    (preds1, top_call1, preds2, top_call2) = mapping.map_vars(preds1, preds2, top_call1, top_call2)
+    (preds1, top_call1, preds2, top_call2) = mapping.map_nodes(preds1, preds2, top_call1, top_call2)
      
     if isinstance(preds1, bool):
         if verbose:

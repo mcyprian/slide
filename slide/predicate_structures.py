@@ -6,19 +6,6 @@
 
 import collections
 
-def replace_var(args_doubles, var):
-    '''
-    Returns name of argument to replace var in predicate expansion,
-    adds _ prefix to avoid variable name collisions
-    '''
-    try:
-        return args_doubles[var]
-    except KeyError:
-        if var not in args_doubles.values():
-            return var
-        else:
-            return '_' + var
-
 
 class Rule(object):
     '''
@@ -75,6 +62,8 @@ class Predicate(object):
     '''
     Class representing one predicate including list of the rules
     '''
+    uniq_id_counter = 0
+
     def __init__(self, name, args, rules):
         if not isinstance(rules, list):
             rules = [rules]
@@ -86,6 +75,22 @@ class Predicate(object):
     def tuple_form(self):
         return (self.args, [rule.quadruple for rule in self.rules])
 
+    def replace_var(self, args_doubles, var):
+        '''
+        Returns name of argument to replace var in predicate expansion,
+        adds _ prefix to avoid variable name collisions
+        '''
+        try:
+            return args_doubles[var]
+        except KeyError:
+            if var not in args_doubles.values():
+                return var
+            else:
+                uniq_id = '{0}_{1}'.format(var, Predicate.uniq_id_counter)
+                Predicate.uniq_id_counter += 1
+                args_doubles.update({var : uniq_id})
+                return uniq_id
+
     def __call__(self, arguments):
         '''
         Replace variables with arguments of call and return new rules
@@ -95,26 +100,26 @@ class Predicate(object):
 
         expanded_rules = []
         for rule in self.rules:
-            expanded_alloc = replace_var(args_doubles, rule.alloc)
+            expanded_alloc = self.replace_var(args_doubles, rule.alloc)
             
-            expanded_pointsto = [replace_var(args_doubles, var) for var in rule.pointsto]
+            expanded_pointsto = [self.replace_var(args_doubles, var) for var in rule.pointsto]
                        
             expanded_calles = []
             for call in rule.calles:
-                call_args = [replace_var(args_doubles, var) for var in call[1]]
+                call_args = [self.replace_var(args_doubles, var) for var in call[1]]
                 expanded_calles.append((call[0], call_args))
 
             if len(rule.equal) > 0 and isinstance(rule.equal[0], list):
                 expanded_equal = []
                 for eq in rule.equal:
-                    expanded_equal.append([replace_var(args_doubles, eq[0]), 
-                                           replace_var(args_doubles, eq[1])])
+                    expanded_equal.append([self.replace_var(args_doubles, eq[0]), 
+                                           self.replace_var(args_doubles, eq[1])])
             else:
-                expanded_equal = [replace_var(args_doubles, var) for var in rule.equal]
+                expanded_equal = [self.replace_var(args_doubles, var) for var in rule.equal]
             expanded_not_equal = []
             for s in rule.not_equal:
-                expanded_not_equal.append((replace_var(args_doubles, s[0]),
-                                           replace_var(args_doubles, s[1])))
+                expanded_not_equal.append((self.replace_var(args_doubles, s[0]),
+                                           self.replace_var(args_doubles, s[1])))
 
             expanded_rules.append(Rule(expanded_alloc, expanded_pointsto,
                                        expanded_calles, expanded_equal, 

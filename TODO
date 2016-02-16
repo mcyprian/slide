@@ -49,3 +49,11 @@ TODO:
 
     - V pripade ze po rozbalovani ostane 1 predikat na kazdej strane zavolat libvata
     - Vylepsit tvorbu unikatnych identifikatorov
+
+    - points_to na LHS, ak sa nachadza v RHS predikat s namapovanou premennou v argumente
+      rozbalujeme tuto, ak nie napriklad zlava
+
+    - not equal nesmie sa objavit x != y a y = z a z = x
+    - RHS: rozlisit star a or, v pripade or sa pri uspesnom namapovani mozu odstranit obe casti
+    - LHS: v pripade or potrebujeme namapovat obe casti or na napr. y, alebo a or b na y1, y2
+    - pripadne ak sa nebude nachadzat na pravo tak isto or skoncit s vinimkov

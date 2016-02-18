@@ -4,7 +4,7 @@ import pprint
 from input import InputError
 from predicate_structures import TopCall
 
-def print_calles(lhs, rhs):
+def print_calles(lhs, rhs, identical):
     ne1 = []
     ne2 = []
 
@@ -24,20 +24,45 @@ def print_calles(lhs, rhs):
     print ("\nRHS:")
     pprint.pprint(list_rhs)
     print("rhs not_equal {}".format(ne2))
+    print("identical {}".format(identical))
 
 
-def expand_next(top_call, preds):
+def expand_sophisticated(src, dest, preds, msg):
+    print(msg)
+    for src_call in src:
+        for src_rule in src_call.expanded_rules:
+            if src_rule.alloc:
+                for call in dest:
+                    for index, dest_rule in enumerate(call.expanded_rules):
+                        if dest_rule.calles:
+                            for pred_call in dest_rule.calles:
+                                if src_rule.alloc in pred_call[1]:
+                                    print("Expanding {}".format(pred_call))
+                                    call.expand(preds[dest_rule.calles[0][0]],
+                                                           dest_rule.calles[0][1])
+                                    if not dest_rule.alloc and not dest_rule.pointsto\
+                                       and not dest_rule.equal and not dest_rule.not_equal:
+                                        del call.expanded_rules[index]
+                                        return True
+                                    else:
+                                        del dest_rule.calles[0]
+                                        return True
+    return False
+
+
+def expand_leftmost(top_call, preds, msg):
+    print(msg)
     for call in top_call:
         for index, rule in enumerate(call.expanded_rules):
             if rule.calles:
                 call.expand(preds[rule.calles[0][0]], rule.calles[0][1])
                 if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal:
                         del call.expanded_rules[index]
-                        return
+                        return True
                 else:
                     del rule.calles[0]
-                    return
-
+                    return True
+    return False
 
 def match_rule(to_map, rhs_call, identical):
     match = False
@@ -46,16 +71,7 @@ def match_rule(to_map, rhs_call, identical):
         for rule_index, rule in enumerate(call.expanded_rules):
             if to_map.alloc in TopCall.top_level_vars and to_map.alloc == rule.alloc or\
                 {to_map.alloc, rule.alloc} in identical:
-                for var_lhs, var_rhs  in zip(to_map.pointsto, rule.pointsto):
-                    if var_lhs in TopCall.top_level_vars and var_lhs == var_rhs or\
-                        var_rhs == 'nil' and var_lhs == 'nil':
-                        match = True
-                    elif var_rhs not in TopCall.top_level_vars and var_lhs != to_map.alloc and var_rhs != 'nil':
-                        identical.append({var_rhs, var_lhs})
-                        match = True
-                    else:
-                        match = False
-                        break
+                match = node_match(zip(to_map.pointsto, rule.pointsto), identical, match)
                 if match == True:
                     print("\nMatch rule: {} top_level {}".format(to_map.quadruple, TopCall.top_level_vars))
                     print("succeded {} {}".format(call_index, rule_index))
@@ -75,24 +91,27 @@ def match_call(to_map, rhs_call, identical):
             print("rule {}".format(rule.quadruple))
             if not rule.calles:
                 continue
-            if to_map.calles[0][0] == rule.calles[0][0]:
-                for var_lhs, var_rhs  in zip(to_map.calles[0][1], rule.calles[0][1]):
-                    if var_lhs in TopCall.top_level_vars and var_lhs == var_rhs or\
-                            var_rhs == 'nil' and var_lhs == 'nil':
-                        match = True
-                    elif var_rhs not in TopCall.top_level_vars and  var_rhs != 'nil':
-                        identical.append({var_rhs, var_lhs})
-                        match = True
-                    else:
-                        match = False
-                        break
+            if to_map.calles[0][0] == rule.calles[0][0]: # Volanie zhodneho predikatu
+                match = node_match(zip(to_map.calles[0][1], rule.calles[0][1]), identical, match)
                 if match == True:
                     print("succeded {} {}".format(call_index, rule_index))
                     return (call_index, rule_index)
     print("failed")
     return (False, False)            
 
-
+def node_match(zip_object, identical, match):
+    for var_lhs, var_rhs  in zip_object:
+        if var_lhs in TopCall.top_level_vars and var_lhs == var_rhs or\
+                {var_rhs, var_lhs} in identical or var_rhs == 'nil' and var_lhs == 'nil':
+            match = True
+        elif var_rhs not in TopCall.top_level_vars and  var_rhs != 'nil':
+            identical.append({var_rhs, var_lhs})
+            match = True
+        else:
+            match = False
+            break
+    return match
+             
 def try_to_match_rule(lhs, index, rule, rhs, identical):
     call_index, rule_index = match_rule(rule, rhs, identical)
     if not isinstance(call_index, bool):
@@ -145,29 +164,29 @@ def map_nodes(preds1, preds2, lhs, rhs):
     if len(lhs) == 1 and len(rhs) == 1:
         return (tuple_preds1, list_lhs, tuple_preds2, list_rhs)
 
-    print ("Top call 1:")
-    pprint.pprint(list_lhs)
-    print ("\nPreds 1:")
+    print ("Preds:")
     pprint.pprint(tuple_preds1)
+    print ("\nTop call 1:")
+    pprint.pprint(list_lhs)
     print ("\n Not equals1:")
     print(ne1)
     print ("\nTop call 2:")
     pprint.pprint(list_rhs)
-    print ("\nPreds 2:")
-    pprint.pprint(tuple_preds2)
     print ("\n Not equals2:")
     print(ne2)
 
 
     num = 0
     while [call.tuple_form for call in lhs]:
-        if num % 2 == 0:
-            print("Expanding LHS")
-            expand_next(lhs, preds1)
-        else:
-            print("Expanding RHS")
-            expand_next(rhs, preds2)
-    
+        result = expand_sophisticated(lhs, rhs, preds1, "Pointsto in lhs") or\
+        expand_sophisticated(rhs, lhs, preds1, "Pointsto in rhs")
+        if not result and num % 2 == 0:
+            result = expand_leftmost(lhs, preds1, "leftmost lhs")
+        elif not result:
+            result = expand_leftmost(rhs, preds1, "leftmost rhs")
+        if not result:
+            return (False, False, False, False)
+            
         for call_index, call in enumerate(lhs):
             for rule in call.expanded_rules:
                 try_to_match_rule(lhs, call_index, rule, rhs, identical)
@@ -175,7 +194,7 @@ def map_nodes(preds1, preds2, lhs, rhs):
                     try_to_match_call(lhs, call_index, rule, rhs, identical)
         
         num += 1
-        print_calles(lhs, rhs)
+        print_calles(lhs, rhs, identical)
         if num > 100:
             return (False, False, False, False)
 

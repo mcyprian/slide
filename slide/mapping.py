@@ -4,6 +4,9 @@ import pprint
 from input import InputError
 from predicate_structures import TopCall
 
+class MatchException(BaseException):
+    pass
+
 def print_calles(lhs, rhs, identical):
     ne1 = []
     ne2 = []
@@ -16,16 +19,17 @@ def print_calles(lhs, rhs, identical):
         for rule in call.expanded_rules:
             ne2.append(rule.not_equal)
 
-    list_lhs = [call.tuple_form for call in lhs] 
-    list_rhs = [call.tuple_form for call in rhs] 
-    print ("\nLHS:")
+    list_lhs = [call.expanded_rules_tuple_form for call in lhs] 
+    list_rhs = [call.expanded_rules_tuple_form for call in rhs] 
+    print("\n--------------------------------------------------------------------")
+    print ("LHS:")
     pprint.pprint(list_lhs)
     print("lhs not_equal {}".format(ne1))
     print ("\nRHS:")
     pprint.pprint(list_rhs)
     print("rhs not_equal {}".format(ne2))
     print("identical {}".format(identical))
-
+    print("--------------------------------------------------------------------")
 
 def expand_sophisticated(src, dest, preds, msg):
     print(msg)
@@ -116,27 +120,35 @@ def try_to_match_rule(lhs, index, rule, rhs, identical):
     call_index, rule_index = match_rule(rule, rhs, identical)
     if not isinstance(call_index, bool):
         del lhs[index]
-        rule = rhs[call_index].expanded_rules[rule_index]
+
+        # Remove all disjunctive parts of call
+        rhs[call_index].expanded_rules = [rhs[call_index].expanded_rules[rule_index]]
+
+        rule = rhs[call_index].expanded_rules[0]
         rule.alloc = ''
         rule.pointsto = []
         if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal and not rule.calles:
-            del rhs[call_index].expanded_rules[rule_index]
+            del rhs[call_index].expanded_rules[0]
+        raise MatchException
 
 
 def try_to_match_call(lhs, index, rule, rhs, identical):
     call_index, rule_index =  match_call(rule, rhs, identical)
     if not isinstance(call_index, bool):
         del lhs[index]
-        rule = rhs[call_index].expanded_rules[rule_index]
-        rhs[call_index].expanded_rules[rule_index].calles = None
-        if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal and not rule.calles:
-            del rhs[call_index].expanded_rules[rule_index]
 
+        # Remove all other disjunctive parts of call
+        rhs[call_index].expanded_rules = [rhs[call_index].expanded_rules[rule_index]]
+
+        rule = rhs[call_index].expanded_rules[0]
+        rhs[call_index].expanded_rules[0].calles = None
+        if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal and not rule.calles:
+            del rhs[call_index]
+            
+        raise MatchException
 
 def map_nodes(preds1, preds2, lhs, rhs):
-    '''
-    Tries to map ekvivalent variables in predicates
-    '''
+    '''Tries to map LHS to RHS'''
     identical = []
     # Creating tuple forms of predicates
     tuple_preds1 = {}
@@ -166,36 +178,30 @@ def map_nodes(preds1, preds2, lhs, rhs):
 
     print ("Preds:")
     pprint.pprint(tuple_preds1)
-    print ("\nTop call 1:")
-    pprint.pprint(list_lhs)
-    print ("\n Not equals1:")
-    print(ne1)
-    print ("\nTop call 2:")
-    pprint.pprint(list_rhs)
-    print ("\n Not equals2:")
-    print(ne2)
-
-
+    print_calles(lhs, rhs, identical)
+    
     num = 0
     while [call.tuple_form for call in lhs]:
-        result = expand_sophisticated(lhs, rhs, preds1, "Pointsto in lhs") or\
-        expand_sophisticated(rhs, lhs, preds1, "Pointsto in rhs")
-        if not result and num % 2 == 0:
-            result = expand_leftmost(lhs, preds1, "leftmost lhs")
-        elif not result:
-            result = expand_leftmost(rhs, preds1, "leftmost rhs")
-        if not result:
-            return (False, False, False, False)
-            
-        for call_index, call in enumerate(lhs):
-            for rule in call.expanded_rules:
-                try_to_match_rule(lhs, call_index, rule, rhs, identical)
-                if rule.calles:
-                    try_to_match_call(lhs, call_index, rule, rhs, identical)
-        
-        num += 1
-        print_calles(lhs, rhs, identical)
-        if num > 100:
-            return (False, False, False, False)
+        try:
+            for call_index, call in enumerate(lhs):
+                for rule in call.expanded_rules:
+                    try_to_match_rule(lhs, call_index, rule, rhs, identical)
+                    if rule.calles:
+                        try_to_match_call(lhs, call_index, rule, rhs, identical)
+        except MatchException:
+            print("Successfull match, iteration restarted")
+            print_calles(lhs, rhs, identical)
+        else:           
+            result = expand_sophisticated(lhs, rhs, preds1, "Sophisticated expansion rhs") or\
+            expand_sophisticated(rhs, lhs, preds1, "Sophisticated expansion lhs")
+            if not result and num % 2 == 0:
+                result = expand_leftmost(lhs, preds1, "Leftmost expansion lhs")
+            elif not result:
+                result = expand_leftmost(rhs, preds1, "Leftmost expansion rhs")
+                
+            num += 1
+            print_calles(lhs, rhs, identical)
+            if num > 100:
+                return (False, False, False, False)
 
     return (True, True, True, True)

@@ -4,13 +4,9 @@
 #
 # distributed under GNU GPL license
 
-import collections
-
 
 class Rule(object):
-    '''
-    Class representing  one rule of the predicate
-    '''
+    """Class representing  one rule of the predicate"""
     def __init__(self, alloc, pointsto, calles, equal, not_equal):
         self.alloc = alloc
         self.pointsto = pointsto
@@ -24,9 +20,7 @@ class Rule(object):
 
 
 class TopCall(object):
-    '''
-    Class representing top call
-    '''
+    """Class representing top call"""
     top_level_vars = set()
 
     def __init__(self, pred_name, call):
@@ -59,9 +53,7 @@ class TopCall(object):
 
 
 class Predicate(object):
-    '''
-    Class representing one predicate including list of the rules
-    '''
+    """Class representing one predicate including list of the rules"""
     uniq_id_counter = 0
 
     def __init__(self, name, args, rules):
@@ -76,10 +68,9 @@ class Predicate(object):
         return (self.args, [rule.quadruple for rule in self.rules])
 
     def replace_var(self, args_doubles, var):
-        '''
-        Returns name of argument to replace var in predicate expansion,
+        """Returns name of argument to replace var in predicate expansion,
         adds _ prefix to avoid variable name collisions
-        '''
+        """
         try:
             return args_doubles[var]
         except KeyError:
@@ -92,9 +83,7 @@ class Predicate(object):
                 return uniq_id
 
     def __call__(self, arguments):
-        '''
-        Replace variables with arguments of call and return new rules
-        '''
+        """Replace variables with arguments of call and returns new rules"""
         args_doubles = dict(zip(self.args, arguments))
         args_doubles['nil'] = 'nil'
 

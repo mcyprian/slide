@@ -112,7 +112,6 @@ def parse_predicate(pred,parsed_preds):
                     new_eq_rel.append(new_cl)
             # eq_rel now contains an equality relation between parameters
 
-            # TODO add not_equal
             rules.append(Rule("",[],[],new_eq_rel, []))
             emp_rules=1
             continue
@@ -172,7 +171,6 @@ def parse_predicate(pred,parsed_preds):
                     call_params[x]=alloc
             calles.append((call,call_params))
             rule=re.sub("^\*[^\*]*","",rule)
-
         rules.append(Rule(alloc,pointsto ,calles, equal, not_equal))
     
     parsed_preds[pred_name]=(Predicate(pred_name, pred_par, rules))
@@ -941,6 +939,35 @@ def parse_input(filename, globalfreevars):
         if re.search("^[^\*]*->",rootcall):
             lhs=re.sub("^([^-]*)->.*$","\\1",rootcall)
             rhs=re.sub("^[^-]*->([^\*]*)$","\\1",rootcall)
+
+            not_equal = []
+            if '&' in rhs:
+                rhs, rest = rhs.split('&', 1)
+                rest = '&' + rest
+
+                while(re.search("\\&",rest)):
+                    eq=re.sub("^\\&([^\\*\\&]*).*$","\\1",rest)
+                    # only disequalities of the form alloc!=nil are allowed. Added just for the SMT-COMP
+                    if "!=" in eq:
+                        eq=re.split("!=",eq)
+                        if (eq[0]==alloc and eq[1]=="nil") or (eq[1]==alloc and eq[0]=="nil"):
+                            pass
+                        else:
+                            not_equal.append((eq[0], eq[1]))
+
+                            #raise InputError("only disequalities of the for alloc!=nil are allowed")
+                    else:
+                        eq=re.split("=",eq)
+                        if not (len(eq)==2):
+                            raise InputError("Only equalities between two variables are allowed in pure part")
+                        if eq[0]==alloc:
+                            equal.append(eq[1])
+                        elif eq[1]==alloc:
+                            equal.append(eq[0])
+                        else:
+                            raise InputError(" only equalities between allocated variable and something are allowed")
+                    rest=re.sub("^\\&[^\\*\\&]*","", rest)
+
             rhs=re.split(",",rhs)
             # remove nil and double occurences from rhs
             rhs_not_nil=[]
@@ -954,7 +981,7 @@ def parse_input(filename, globalfreevars):
             top_calls.append(TopCall(pred_name,[lhs]+rhs_not_nil))
             rule=(lhs,rhs,[],[])
             preds[pred_name]=(Predicate(pred_name, [lhs]+rhs_not_nil,
-                                            [Rule(rule[0], rule[1], rule[2], rule[3], [])]))
+                                            [Rule(rule[0], rule[1], rule[2], rule[3], not_equal)]))
             # do implicit quantification
             add_implicit_exists(ex_params,globalfreevars,[lhs]+rhs_not_nil)
         else:

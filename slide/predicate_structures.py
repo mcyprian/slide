@@ -18,6 +18,10 @@ class Rule(object):
     def quadruple(self):
         return (self.alloc, self.pointsto, self.calles, self.equal)
 
+    @property
+    def quintuple(self):
+        return (self.alloc, self.pointsto, self.calles, self.equal, self.not_equal)
+
 
 class TopCall(object):
     """Class representing top call"""
@@ -43,7 +47,7 @@ class TopCall(object):
     
     @property
     def expanded_rules_tuple_form(self):
-        return [rule.quadruple for rule in self.expanded_rules]
+        return [rule.quintuple for rule in self.expanded_rules]
 
     def expand(self, pred, call_args):
         if self.expanded_rules == None:
@@ -65,7 +69,12 @@ class Predicate(object):
 
     @property
     def tuple_form(self):
+        return (self.args, [rule.quintuple for rule in self.rules])
+
+    @property
+    def short_tuple_form(self):
         return (self.args, [rule.quadruple for rule in self.rules])
+
 
     def replace_var(self, args_doubles, var):
         """Returns name of argument to replace var in predicate expansion,

@@ -15,26 +15,14 @@ class MatchException(BaseException):
 
 def print_calles(lhs, rhs, identical):
     """Visualize content of LHS, RHS and identical identificators"""
-    ne1 = []
-    ne2 = []
-
-    for call in lhs:
-        for rule in call.expanded_rules:
-            ne1.append(rule.not_equal)
-
-    for call in rhs:
-        for rule in call.expanded_rules:
-            ne2.append(rule.not_equal)
 
     list_lhs = [call.expanded_rules_tuple_form for call in lhs] 
     list_rhs = [call.expanded_rules_tuple_form for call in rhs] 
     print("\n--------------------------------------------------------------------")
     print ("LHS:")
     pprint.pprint(list_lhs)
-    print("lhs not_equal {}".format(ne1))
     print ("\nRHS:")
     pprint.pprint(list_rhs)
-    print("rhs not_equal {}".format(ne2))
     print("identical {}".format(identical))
     print("--------------------------------------------------------------------")
 
@@ -186,12 +174,12 @@ def map_nodes(preds1, preds2, lhs, rhs):
     ne2 = []
 
     for key in preds1:
-        tuple_preds1[key] = preds1[key].tuple_form
+        tuple_preds1[key] = preds1[key].short_tuple_form
         for rule in preds1[key].rules:
             ne1.append(rule.not_equal)
 
     for key in preds2:
-        tuple_preds2[key] = preds2[key].tuple_form
+        tuple_preds2[key] = preds2[key].short_tuple_form
         for rule in preds2[key].rules:
             ne2.append(rule.not_equal)
 
@@ -202,8 +190,13 @@ def map_nodes(preds1, preds2, lhs, rhs):
     if len(lhs) == 1 and len(rhs) == 1:
         return (tuple_preds1, list_lhs, tuple_preds2, list_rhs)
 
+    long_preds = {}
+
+    for key in preds1:
+        long_preds[key] = preds1[key].tuple_form
+
     print ("Preds:")
-    pprint.pprint(tuple_preds1)
+    pprint.pprint(long_preds)
     print_calles(lhs, rhs, identical)
     
     num = 0

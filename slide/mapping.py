@@ -26,7 +26,17 @@ def print_calles(lhs, rhs, identical):
     print("identical {}".format(identical))
     print("--------------------------------------------------------------------")
 
-def expand_sophisticated(src, dest, preds, msg):
+
+def get_all_identical(var, identical):
+    """Returns list of nodes identical to node var"""
+    identical_list = [var]
+    for s in identical:
+        if var in s:
+            identical_list.append((s - {var}).pop())
+    return identical_list
+
+
+def expand_sophisticated(src, dest, preds, identical, msg):
     """Iterates over allocated nodes on src side and search for predicate call
     containing node in arguments. Expands chosen predicate and
     returns True on success, False otherwise
@@ -39,7 +49,8 @@ def expand_sophisticated(src, dest, preds, msg):
                     for index, dest_rule in enumerate(call.expanded_rules):
                         if dest_rule.calles:
                             for pred_call in dest_rule.calles:
-                                if src_rule.alloc in pred_call[1]:
+                                # allocated node or node identical to allocated appears in args of call
+                                if set(get_all_identical(src_rule.alloc, identical)) & set(pred_call[1]):
                                     print("Expanding {}".format(pred_call))
                                     call.expand(preds[dest_rule.calles[0][0]],
                                                            dest_rule.calles[0][1])
@@ -211,8 +222,8 @@ def map_nodes(preds1, preds2, lhs, rhs):
             print("Successfull match, iteration restarted")
             print_calles(lhs, rhs, identical)
         else:           
-            result = expand_sophisticated(lhs, rhs, preds1, "Sophisticated expansion rhs") or\
-            expand_sophisticated(rhs, lhs, preds1, "Sophisticated expansion lhs")
+            result = expand_sophisticated(lhs, rhs, preds1, identical, "Sophisticated expansion rhs") or\
+            expand_sophisticated(rhs, lhs, preds1, identical, "Sophisticated expansion lhs")
             if not result and num % 2 == 0:
                 result = expand_leftmost(lhs, preds1, "Leftmost expansion lhs")
             elif not result:

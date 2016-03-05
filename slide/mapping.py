@@ -214,10 +214,12 @@ def map_nodes(preds1, preds2, lhs, rhs):
     while [call.tuple_form for call in lhs]:
         try:
             for call_index, call in enumerate(lhs):
-                for rule in call.expanded_rules:
-                    try_to_match_rule(lhs, call_index, rule, rhs, identical)
-                    if rule.calles:
-                        try_to_match_call(lhs, call_index, rule, rhs, identical)
+                if len(call.expanded_rules) > 1:
+                    raise InputError("Disjunction on LHS, not implemented\n")
+                rule = call.expanded_rules[0]
+                try_to_match_rule(lhs, call_index, rule, rhs, identical)
+                if rule.calles:
+                    try_to_match_call(lhs, call_index, rule, rhs, identical)
         except MatchException:
             print("Successfull match, iteration restarted")
             print_calles(lhs, rhs, identical)

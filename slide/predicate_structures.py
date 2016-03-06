@@ -49,11 +49,11 @@ class TopCall(object):
     def expanded_rules_tuple_form(self):
         return [rule.quintuple for rule in self.expanded_rules]
 
-    def expand(self, pred, call_args):
+    def expand(self, pred, call_args, extension_rule=None):
         if self.expanded_rules == None:
             self.call = None
             self.expanded_rules = []
-        self.expanded_rules += pred(call_args)
+        self.expanded_rules += pred(call_args, extension_rule)
 
 
 class Predicate(object):
@@ -91,10 +91,12 @@ class Predicate(object):
                 args_doubles.update({var : uniq_id})
                 return uniq_id
 
-    def __call__(self, arguments):
+    def __call__(self, arguments, extension_rule):
         """Replace variables with arguments of call and returns new rules"""
         args_doubles = dict(zip(self.args, arguments))
         args_doubles['nil'] = 'nil'
+        if extension_rule and not isinstance(extension_rule, Rule):
+            raise TypeError("extension rule must be Rule object.")
 
         expanded_rules = []
         for rule in self.rules:
@@ -114,10 +116,15 @@ class Predicate(object):
                                            self.replace_var(args_doubles, eq[1])])
             else:
                 expanded_equal = [self.replace_var(args_doubles, var) for var in rule.equal]
+
+
             expanded_not_equal = []
             for s in rule.not_equal:
                 expanded_not_equal.append((self.replace_var(args_doubles, s[0]),
                                            self.replace_var(args_doubles, s[1])))
+            if extension_rule:
+                expanded_equal += extension_rule.equal
+                expanded_not_equal += extension_rule.not_equal
 
             expanded_rules.append(Rule(expanded_alloc, expanded_pointsto,
                                        expanded_calles, expanded_equal, 

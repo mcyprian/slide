@@ -53,7 +53,9 @@ def expand_sophisticated(src, dest, preds, identical, msg):
                                 if set(get_all_identical(src_rule.alloc, identical)) & set(pred_call[1]):
                                     print("Expanding {}".format(pred_call))
                                     call.expand(preds[dest_rule.calles[0][0]],
-                                                           dest_rule.calles[0][1])
+                                                           dest_rule.calles[0][1],
+                                                           dest[0].expanded_rules[0])
+                                    dest_rule.equal = dest_rule.not_equal = []
                                     if not dest_rule.alloc and not dest_rule.pointsto\
                                        and not dest_rule.equal and not dest_rule.not_equal:
                                         del call.expanded_rules[index]

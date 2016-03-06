@@ -44,16 +44,28 @@ OTÁZKY:
 
 
 TODO:
-    - Vylepsit logiku pri vybere predikatu na rozbalovanie
+    - Vylepsit logiku pri vybere predikatu na rozbalovanie                                         DONE
+    - Vylepsit tvorbu unikatnych identifikatorov                                                   DONE
+    - points_to na LHS, ak sa nachadza v RHS predikat s namapovanou premennou v argumente          DONE
+      rozbalujeme tuto, ak nie napriklad zlava
+    - RHS: rozlisit star a or, v pripade or sa pri uspesnom namapovani mozu odstranit obe casti    DONE
+    - Zohladnit identical set pri sophisticated expansion                                          DONE
+
+
     - LHS nil na pravo je nie je z top levelu mozme namapovat, nesmie sa neskor objavit ako alloc
 
     - V pripade ze po rozbalovani ostane 1 predikat na kazdej strane zavolat libvata
-    - Vylepsit tvorbu unikatnych identifikatorov
-
-    - points_to na LHS, ak sa nachadza v RHS predikat s namapovanou premennou v argumente
-      rozbalujeme tuto, ak nie napriklad zlava
 
     - not equal nesmie sa objavit x != y a y = z a z = x
-    - RHS: rozlisit star a or, v pripade or sa pri uspesnom namapovani mozu odstranit obe casti
-    - LHS: v pripade or potrebujeme namapovat obe casti or na napr. y, alebo a or b na y1, y2
-    - pripadne ak sa nebude nachadzat na pravo tak isto or skoncit s vinimkov
+
+- Pri rozbalovani predikatu, kde je vysledokom rozbalenia disjunkcia je potrebne
+  cokolvek co bolo pred rozbalenim v konjunkcii s predikatom "rozdvojit" - pridat
+  do oboch casti vyslednej disjunkcie
+
+- Disjunkcia na LHS:
+    a or b -> c or d
+    zatial pridat vinimku
+
+- Pri mapovani points_to pridat impicitne not_equals (rovno trojica identifikatorov ?)
+- Na zaver pripadne namatchovat predikat po rozbaleni na equals, not_equals (dll-vc01...)
+  pre vsetky not_equals na RHS musi byt podpora na LHS, to iste equals

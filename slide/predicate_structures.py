@@ -27,11 +27,12 @@ class TopCall(object):
     """Class representing top call"""
     top_level_vars = set()
 
-    def __init__(self, pred_name, call):
+    def __init__(self, pred_name='', call=None):
         self.pred_name = pred_name
         self.call = call
-        self.expanded_rules = [Rule('', [], [(pred_name, call)], [], [])]
-        TopCall.top_level_vars |= {var for var in self.call if var != 'nil'}
+        self.expanded_rules = [Rule('', [], [(pred_name, call)], [], [])] if pred_name or call else []
+        if self.call:
+            TopCall.top_level_vars |= {var for var in self.call if var != 'nil'}
 
 
     @property

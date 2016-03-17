@@ -6,9 +6,10 @@
 
 import sys
 import pprint
+import itertools
 
 from input import InputError
-from predicate_structures import TopCall
+from predicate_structures import TopCall, Rule
 
 class MatchException(BaseException):
     pass
@@ -84,6 +85,7 @@ def expand_leftmost(top_call, preds, msg):
                     return True
     return False
 
+
 def match_rule(to_map, rhs_call, identical):
     """Search for rule in RHS matching to_map rule from LHS.
     Returns index of call and index of rule in call that matches.
@@ -124,6 +126,7 @@ def match_call(to_map, rhs_call, identical):
     print("failed")
     return (False, False)            
 
+
 def node_match(zip_object, identical, match):
     """Iterates over zip_object containing doubles of nodes,
     checks if it is possible to map them.
@@ -139,12 +142,54 @@ def node_match(zip_object, identical, match):
             match = False
             break
     return match
-             
+
+
+def try_to_match_not_equals(to_map, rhs_call, identical):
+    """Search for not_equal in RHS matching to_map call from LHS.
+    Returns index of call and index of rule in call that matches.
+    """
+    print("\nMatch not_equal: {}".format(to_map.quintuple))
+    match = False
+
+    for call in rhs_call:
+        for rule in call.expanded_rules:
+            if not rule.not_equal:
+                continue
+                
+            for double in itertools.product(to_map.not_equal, rule.not_equal):
+                # creates set of identical identifiers for each of variables in double:
+                # (('to_map1', 'to_map2'), ('rule1', 'rule2'))
+                print("DOUBLE {}".format(double))
+                first_set_to_map = set(get_all_identical(double[0][0], identical))
+                second_set_to_map = set(get_all_identical(double[0][1], identical))
+                first_set_rhs = set(get_all_identical(double[1][0], identical))
+                second_set_rhs = set(get_all_identical(double[1][1], identical))
+                # if intersection of first two sets and second two sets exists,
+                # we can match not equals 
+                if first_set_to_map & first_set_rhs and second_set_to_map & second_set_rhs:
+                    print("succeded {}".format(double))
+                    for index, ne in enumerate(to_map.not_equal):
+                        if ne == double[0]:
+                            print("Removing {}".format(ne))
+                            del to_map.not_equal[index]
+                            break
+                    for index, ne in enumerate(rule.not_equal):
+                        if ne == double[1]:
+                            print("Removing {}".format(ne))
+                            del rule.not_equal[index]
+                            break
+                    raise MatchException
+    print("failed")
+
+
 def try_to_match_rule(lhs, index, rule, rhs, identical):
     """Removes mapped parts of LHS, RHS if match_rule succeeded."""
     call_index, rule_index = match_rule(rule, rhs, identical)
     if not isinstance(call_index, bool):
         del lhs[index]
+        print("Adding implict not equal {}".format([(rule.alloc, node) for node in rule.pointsto if node != "nil"]))
+        lhs.append(TopCall())
+        lhs[-1].expanded_rules.append(Rule('', [], [], [], [(rule.alloc, node) for node in rule.pointsto if node != "nil"]))
 
         # Remove all other disjunctive parts of call
         rhs[call_index].expanded_rules = [rhs[call_index].expanded_rules[rule_index]]
@@ -171,6 +216,7 @@ def try_to_match_call(lhs, index, rule, rhs, identical):
         if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal and not rule.calles:
             del rhs[call_index]
         raise MatchException
+
 
 def map_nodes(preds1, preds2, lhs, rhs):
     """Expanding predicate calles on LHS and RHS and tries to map parts of
@@ -222,6 +268,8 @@ def map_nodes(preds1, preds2, lhs, rhs):
                 try_to_match_rule(lhs, call_index, rule, rhs, identical)
                 if rule.calles:
                     try_to_match_call(lhs, call_index, rule, rhs, identical)
+                if rule.not_equal:
+                   try_to_match_not_equals(rule, rhs, identical)
         except MatchException:
             print("Successfull match, iteration restarted")
             print_calles(lhs, rhs, identical)

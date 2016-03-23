@@ -52,20 +52,27 @@ TODO:
     - Zohladnit identical set pri sophisticated expansion                                          DONE
 
 
+- Pri rozbalovani predikatu, kde je vysledokom rozbalenia disjunkcia je potrebne
+  cokolvek co bolo pred rozbalenim v konjunkcii s predikatom "rozdvojit" - pridat
+  do oboch casti vyslednej disjunkcie                                                              DONE
+
+- Disjunkcia na LHS:                                                                               DONE
+    a or b -> c or d
+    zatial pridat vinimku
+
+- Pri mapovani points_to pridat impicitne not_equals (rovno trojica identifikatorov ?)              DONE
+- Na zaver pripadne namatchovat predikat po rozbaleni na equals, not_equals (dll-vc01...)
+  pre vsetky not_equals na RHS musi byt podpora na LHS, to iste equals
+
+
     - LHS nil na pravo je nie je z top levelu mozme namapovat, nesmie sa neskor objavit ako alloc
 
     - V pripade ze po rozbalovani ostane 1 predikat na kazdej strane zavolat libvata
 
     - not equal nesmie sa objavit x != y a y = z a z = x
 
-- Pri rozbalovani predikatu, kde je vysledokom rozbalenia disjunkcia je potrebne
-  cokolvek co bolo pred rozbalenim v konjunkcii s predikatom "rozdvojit" - pridat
-  do oboch casti vyslednej disjunkcie
-
-- Disjunkcia na LHS:
-    a or b -> c or d
-    zatial pridat vinimku
-
-- Pri mapovani points_to pridat impicitne not_equals (rovno trojica identifikatorov ?)
-- Na zaver pripadne namatchovat predikat po rozbaleni na equals, not_equals (dll-vc01...)
-  pre vsetky not_equals na RHS musi byt podpora na LHS, to iste equals
+- Vytvorit mnozinu vsetkych alokovanych uzlov
+- z ekvivalencii global local, local local, odvodit identical set
+- global global pokryt lavou stranou
+- nezahadzovat not equal po namatchovani pravidiel
+- redizajnovat identical??

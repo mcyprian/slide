@@ -40,7 +40,7 @@ class MappingData(object):
 
 
 def print_calles(lhs, rhs, mapping_data):
-    """Visualize content of LHS, RHS and mapping_data.identical identificators"""
+    """Visualize content of LHS, RHS and identical identifiers"""
 
     list_lhs = [call.expanded_rules_tuple_form for call in lhs] 
     list_rhs = [call.expanded_rules_tuple_form for call in rhs] 
@@ -50,6 +50,7 @@ def print_calles(lhs, rhs, mapping_data):
     print ("\nRHS:")
     pprint.pprint(list_rhs)
     print("identical {}".format(mapping_data.identical))
+    print("allocated_nodes {}".format(mapping_data.allocated_nodes))
     print("--------------------------------------------------------------------")
 
 
@@ -66,7 +67,7 @@ def expand_sophisticated(src, dest, preds, mapping_data, msg):
                     for index, dest_rule in enumerate(call.expanded_rules):
                         if dest_rule.calles:
                             for pred_call in dest_rule.calles:
-                                # allocated node or node mapping_data.identical to allocated appears in args of call
+                                # allocated node or node identical to allocated appears in args of call
                                 if set(mapping_data.get_aliases(src_rule.alloc)) & set(pred_call[1]):
                                     print("Expanding {}".format(pred_call))
                                     call.expand(preds[dest_rule.calles[0][0]],
@@ -117,6 +118,7 @@ def match_rule(to_map, rhs_call, mapping_data):
                     print("\nMatch rule: {} top_level {}".format(to_map.quadruple, TopCall.top_level_vars))
                     print("succeded {} {}".format(call_index, rule_index))
                     print("rule {}".format(rule.quadruple))
+                    mapping_data.allocated_nodes |= {rule.alloc, to_map.alloc}
                     return (call_index, rule_index)
     print("\nMatch rule: {} top_level {}".format(to_map.quadruple, TopCall.top_level_vars))
     print("failed")
@@ -160,6 +162,22 @@ def node_match(zip_object, mapping_data, match):
     return match
 
 
+def match_implicit_not_equals(rhs, mapping_data):
+    """Finds implict not equals on rhs -> both nodes were allocated
+    or one node was allocated and the other is nil
+    """
+    for call in rhs:
+        for rule in call.expanded_rules:
+            for index, ne in enumerate(rule.not_equal):
+                if (len(set(ne) & mapping_data.allocated_nodes) == 2 or
+                    (len(set(ne) & mapping_data.allocated_nodes) == 1 and
+                     'nil' in set(ne))):
+                        print("Removing implicit not equal {}".format(ne))
+                        del rule.not_equal[index]
+                        return True
+    return False
+
+
 def try_to_match_not_equals(to_map, lhs_call, mapping_data):
     """Search for not_equal in RHS matching to_map call from LHS.
     Returns index of call and index of rule in call that matches.
@@ -167,8 +185,8 @@ def try_to_match_not_equals(to_map, lhs_call, mapping_data):
     print("\nMatch not_equal: {}".format(to_map.quintuple))
     match = False
 
-    for call in lhs_call:
-        for rule in call.expanded_rules:
+    for call_index, call in enumerate(lhs_call):
+        for rule_index, rule in enumerate(call.expanded_rules):
             if not rule.not_equal:
                 continue
                 
@@ -189,70 +207,53 @@ def try_to_match_not_equals(to_map, lhs_call, mapping_data):
                             print("Removing {}".format(ne))
                             del to_map.not_equal[index]
                             break
-                   # for index, ne in enumerate(rule.not_equal):
-                   #     if ne == double[1]:
-                   #         print("Removing {}".format(ne))
-                   #         del rule.not_equal[index]
-                   #         break
                     raise MatchException
     print("failed")
 
-def try_to_match_equals(to_map, lhs_call, mapping_data):
-    """Search for equal in RHS matching to_map call from LHS.
-    Returns index of call and index of rule in call that matches.
+
+def equals_to_identical(rhs, mapping_data):
+    """Moves all local = local, global = local equals to identical set
     """
-    print("\nMatch equal: {}".format(to_map.quintuple))
-    match = False
+    for call_index, call in enumerate(rhs):
+        for rule_index, rule in enumerate(call.expanded_rules):
+            for eq in rule.equal:
+                if len(set(TopCall.top_level_vars) & set(eq)) < 2:
+                    mapping_data.identical.append(set(eq))
+                    print("Moving {} to identical".format(eq))
+                    del rhs[call_index].expanded_rules[rule_index]
+                    return True
+    return False
+            
 
-    for call in lhs_call:
-        for rule in call.expanded_rules:
-            if not rule.equal:
-                continue
-                
-            for double in itertools.product(to_map.equal, rule.equal):
-                # creates set of mapping_data.identical identifiers for each of variables in double:
-                # (('to_map1', 'to_map2'), ('rule1', 'rule2'))
-                print("DOUBLE {}".format(double))
-                first_set_to_map = set(mapping_data.get_aliases(double[0][0]))
-                second_set_to_map = set(mapping_data.get_aliases(double[0][1]))
-                first_set_rhs = set(mapping_data.get_aliases(double[1][0]))
-                second_set_rhs = set(mapping_data.get_aliases(double[1][1]))
-                # if intersection of first two sets and second two sets exists,
-                # we can match not equals 
-                if first_set_to_map & first_set_rhs and second_set_to_map & second_set_rhs:
-                    print("succeded {}".format(double))
-                    for index, ne in enumerate(to_map.equal):
-                        if ne == double[0]:
-                            print("Removing {}".format(ne))
-                            del to_map.equal[index]
-                            break
-                   # for index, ne in enumerate(rule.equal):
-                   #     if ne == double[1]:
-                   #         print("Removing {}".format(ne))
-                   #         del rule.equal[index]
-                   #         break
-                    raise MatchException
-    print("failed")
-
+def can_be_removed(rule):
+    if not isinstance(rule, Rule):
+        raise TypeError("Argument must be instance of class Rule")
+    return (not rule.alloc and not rule.pointsto and not rule.calles 
+            and not rule.equal and not rule.not_equal)
 
 
 def try_to_match_rule(lhs, index, rule, rhs, mapping_data):
     """Removes mapped parts of LHS, RHS if match_rule succeeded."""
     call_index, rule_index = match_rule(rule, rhs, mapping_data)
     if not isinstance(call_index, bool):
-        del lhs[index]
+
+        # Disjunction on lhs is not allowed
+        lhs[index].expanded_rules[0].alloc = ''
+        lhs[index].expanded_rules[0].pointsto = []
+        if can_be_removed(lhs[index].expanded_rules[0]):
+            del lhs[index]
+
         # Appends implicit not equals to lhs after pontsto match
-        print("Adding implict not equal {}".format([(rule.alloc, node) for node in rule.pointsto]))
-        lhs.append(TopCall())
-        lhs[-1].expanded_rules.append(Rule('', [], [], [], [(rule.alloc, node) for node in rule.pointsto]))
+        #print("Adding implict not equal {}".format([(rule.alloc, node) for node in rule.pointsto]))
+        #lhs.append(TopCall())
+        #lhs[-1].expanded_rules.append(Rule('', [], [], [], [(rule.alloc, node) for node in rule.pointsto]))
 
         # Remove all other disjunctive parts of call
         rhs[call_index].expanded_rules = [rhs[call_index].expanded_rules[rule_index]]
 
-        rule = rhs[call_index].expanded_rules[0]
-        rule.alloc = ''
-        rule.pointsto = []
-        if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal and not rule.calles:
+        rhs[call_index].expanded_rules[0].alloc = ''
+        rhs[call_index].expanded_rules[0].pointsto = []
+        if can_be_removed(rhs[call_index].expanded_rules[0]):
             del rhs[call_index].expanded_rules[0]
         raise MatchException
 
@@ -266,11 +267,11 @@ def try_to_match_call(lhs, index, rule, rhs, mapping_data):
         # Remove all other disjunctive parts of call
         rhs[call_index].expanded_rules = [rhs[call_index].expanded_rules[rule_index]]
 
-        rule = rhs[call_index].expanded_rules[0]
         rhs[call_index].expanded_rules[0].calles = None
-        if not rule.alloc and not rule.pointsto and not rule.equal and not rule.not_equal and not rule.calles:
+        if can_be_removed(rhs[call_index].expanded_rules[0]):
             del rhs[call_index]
         raise MatchException
+
 
 def has_nodes(side_call):
     """Indicates if side_call argument contains any pointsto or predicate calls
@@ -285,12 +286,22 @@ def has_nodes(side_call):
 
     return empty
 
+
 def is_empty(side_call):
     """Indicates if side_call is completely empty (everything was mapped) or
     not.
     """
-    print([call.tuple_form for call in side_call])
     return [call.tuple_form for call in side_call]
+
+def remove_alloc_from_disjunction(rhs):
+    """Removes part of disjunction containing allocated nodes"""
+    for call_index, call in enumerate(rhs):
+        for rule_index, rule in enumerate(call.expanded_rules):
+            if rule.alloc:
+                del rhs[call_index].expanded_rules[rule_index]
+                return True
+    return False
+
 
 def map_nodes(preds1, preds2, lhs, rhs):
     """Expanding predicate calles on LHS and RHS and tries to map parts of
@@ -315,10 +326,6 @@ def map_nodes(preds1, preds2, lhs, rhs):
         tuple_preds2[key] = preds2[key].short_tuple_form
         for rule in preds2[key].rules:
             ne2.append(rule.not_equal)
-
-#    for n1, n2 in  zip(ne1, ne2):
-#        if n1 or n2:
-#            raise InputError("only disequalities of the for alloc!=nil are allowed")
 
     if len(lhs) == 1 and len(rhs) == 1:
         return (tuple_preds1, list_lhs, tuple_preds2, list_rhs)
@@ -359,16 +366,28 @@ def map_nodes(preds1, preds2, lhs, rhs):
                 return (False, False, False, False)
 
     print("Start matching of not_equal")
+
+    # TODO expandovat ak je na pravo (lavo?) predikat
     result = expand_leftmost(rhs, preds1, "Leftmost expansion rhs")
-# ak je na pravo predikat
+    while equals_to_identical(rhs, mapping_data):
+        pass
+
+    while remove_alloc_from_disjunction(rhs):
+        pass
+
+    while match_implicit_not_equals(rhs, mapping_data):
+        pass
+
     while is_empty(rhs):
-        for call in rhs:
+        for call_index, call in enumerate(rhs):
             print_calles(lhs, rhs, mapping_data)
-            rule = call.expanded_rules[0]
             try:
-                try_to_match_equals(rule, lhs, mapping_data)
-                try_to_match_not_equals(rule, lhs, mapping_data)
+                try_to_match_not_equals(call.expanded_rules[0], lhs, mapping_data)
             except MatchException:
+                if can_be_removed(rhs[call_index].expanded_rules[0]):
+                    del rhs[call_index].expanded_rules[0]
+                    if not rhs[call_index].expanded_rules:
+                        del rhs[call_index]
                 continue
             else:
                 num += 1

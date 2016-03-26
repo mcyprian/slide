@@ -4,6 +4,74 @@
 #
 # distributed under GNU GPL license
 
+class CallsContainer(list):
+    """Container to store TopCall objects, subclass of built-in list,
+    overiding iter method to iterate over single rules of TopCalls
+    """
+
+    def __init__(self, initial_value=None):
+        if initial_value is None:
+            initial_value = []
+        try:
+            for elem in initial_value:
+                if not isinstance(elem, TopCall):
+                    raise TypeError("Only TopCall objects can be stored to CallsContainer")
+        except TypeError:
+            if not isinstance(initial_value, TopCall):
+                raise TypeError("Only TopCall objects can be stored to CallsContainer")
+
+        super(CallsContainer, self).__init__(initial_value)
+        self.call_index = 0
+        self.rule_index = -1
+        self.deleted = False
+
+    def append(self, element):
+        if not isinstance(element, TopCall):
+            raise TypeError("Only TopCall objects can be stored to XHSContainer")
+        super(CallsContainer, self).append(element)
+
+    def __iter__(self):
+        self.call_index = 0
+        self.rule_index = -1
+        self.deleted = False
+        return self
+
+    def next(self):
+        """Iterates over single rules of calls"""
+        new_index = self.rule_index if self.deleted else self.rule_index + 1
+
+        if new_index == len(self[self.call_index].expanded_rules):
+            # end of current expanded_rules list
+            self.rule_index = 0
+            self.call_index += 1
+            if self.call_index == self.__len__():
+                # end of self list
+                raise StopIteration
+        else:
+            self.rule_index = new_index
+        print("\n\nCall index {} rule index {}".format(self.call_index,
+                self.rule_index))
+
+        self.deleted = False
+        return self[self.call_index].expanded_rules[self.rule_index]
+
+    def del_current_rule(self):
+        del self[self.call_index].expanded_rules[rule_index]
+        self.deleted = True
+
+    @property
+    def calls_tuple_form(self):
+        """Returns calls in form compatible with original structure
+        represention of calles.
+        """
+        index = 0
+        calls_list = []
+        while index < self.__len__():
+            calls_list.append(self[index])
+            index += 1
+
+        return [call.tuple_form for call in calls_list]
+
 
 class Rule(object):
     """Class representing  one rule of the predicate"""

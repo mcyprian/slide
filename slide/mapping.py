@@ -41,14 +41,11 @@ class MappingData(object):
 
 def print_calles(lhs, rhs, mapping_data):
     """Visualize content of LHS, RHS and identical identifiers"""
-
-    list_lhs = [call.expanded_rules_tuple_form for call in lhs] 
-    list_rhs = [call.expanded_rules_tuple_form for call in rhs] 
     print("\n--------------------------------------------------------------------")
     print ("LHS:")
-    pprint.pprint(list_lhs)
+    pprint.pprint(lhs.calls_tuple_form)
     print ("\nRHS:")
-    pprint.pprint(list_rhs)
+    pprint.pprint(rhs.calls_tuple_form)
     print("identical {}".format(mapping_data.identical))
     print("allocated_nodes {}".format(mapping_data.allocated_nodes))
     print("--------------------------------------------------------------------")
@@ -311,24 +308,20 @@ def map_nodes(preds1, preds2, lhs, rhs):
     # Creating tuple forms of predicates
     tuple_preds1 = {}
     tuple_preds2 = {}
-    list_lhs = [call.tuple_form for call in lhs] 
-    list_rhs = [call.tuple_form for call in rhs] 
 
-    ne1 = []
-    ne2 = []
+    print("lhs {} type {}".format(lhs, type(lhs)))
+    for rule in lhs:
+        print(rule.quintuple)
+
 
     for key in preds1:
         tuple_preds1[key] = preds1[key].short_tuple_form
-        for rule in preds1[key].rules:
-            ne1.append(rule.not_equal)
 
     for key in preds2:
         tuple_preds2[key] = preds2[key].short_tuple_form
-        for rule in preds2[key].rules:
-            ne2.append(rule.not_equal)
 
     if len(lhs) == 1 and len(rhs) == 1:
-        return (tuple_preds1, list_lhs, tuple_preds2, list_rhs)
+        return (tuple_preds1, lhs.calls_tuple_form, tuple_preds2, rhs.calls_tuple_form)
 
     long_preds = {}
 

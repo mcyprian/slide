@@ -3,7 +3,7 @@
 # SL to TA
 # distrubuted under GNU GPL licence
 
-from predicate_structures import Rule, Predicate, TopCall
+from predicate_structures import Rule, Predicate, TopCall, CallsContainer
 import re
 import functions
 import join
@@ -903,7 +903,7 @@ def parse_input(filename, globalfreevars):
         # first check, whether the join operation is needed --- RootCall contains "*"
         rootcall=re.sub('^RootCall',"",contains[0])
         del contains[0]
-        top_calls=[]
+        top_calls = CallsContainer()
         pt_seq=0
 
         while (re.search("\\*",rootcall)):

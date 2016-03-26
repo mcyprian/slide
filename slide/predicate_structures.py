@@ -9,7 +9,7 @@ class CallsContainer(list):
     overiding iter method to iterate over single rules of TopCalls
     """
 
-    def __init__(self, initial_value=None):
+    def __init__(self, initial_value=None, disjunction_check=False):
         if initial_value is None:
             initial_value = []
         try:
@@ -24,6 +24,7 @@ class CallsContainer(list):
         self.call_index = 0
         self.rule_index = -1
         self.deleted = False
+        self.disjunction_check = disjunction_check
 
     def append(self, element):
         if not isinstance(element, TopCall):
@@ -38,6 +39,8 @@ class CallsContainer(list):
 
     def next(self):
         """Iterates over single rules of calls"""
+        if not self:
+            raise StopIteration
         new_index = self.rule_index if self.deleted else self.rule_index + 1
 
         if new_index == len(self[self.call_index].expanded_rules):
@@ -45,19 +48,59 @@ class CallsContainer(list):
             self.rule_index = 0
             self.call_index += 1
             if self.call_index == self.__len__():
-                # end of self list
                 raise StopIteration
         else:
             self.rule_index = new_index
-        print("\n\nCall index {} rule index {}".format(self.call_index,
-                self.rule_index))
 
         self.deleted = False
-        return self[self.call_index].expanded_rules[self.rule_index]
+        if self.disjunction_check and len(self[self.call_index].expanded_rules) > 1:
+            raise InputError("Disjunction on LHS not implemented")
 
-    def del_current_rule(self):
-        del self[self.call_index].expanded_rules[rule_index]
+        return self[self.call_index].expanded_rules[self.rule_index]
+    
+    def expand_current_call(self, preds, extension_rule=None):
+        rule = self[self.call_index].expanded_rules[self.rule_index]
+        self[self.call_index].expand(preds[rule.calles[0][0]], 
+                                     rule.calles[0][1],
+                                     extension_rule)
+        del self[self.call_index].expanded_rules[self.rule_index].calles[0]
+        self.del_current_rule(if_empty=True)
+
+    def del_current_rule(self, if_empty=False, remove_disjunctive=False):
+        """Delete rule on current indexes, if if_empty is set current 
+        rule is removed only if it is empty.
+        """
+        if if_empty and not self.empty_rule(self[self.call_index].expanded_rules[self.rule_index]):
+            return
+
+        if remove_disjunctive:
+            # Remove all other disjunctive parts of call
+            self[self.call_index].expanded_rules = [self[self.call_index].expanded_rules[self.rule_index]]
+            self.empty_first_rule()
+        else:
+            del self[self.call_index].expanded_rules[self.rule_index]
+            self.del_current_call(if_empty=True)
         self.deleted = True
+
+    def empty_first_rule(self):
+        self[self.call_index].expanded_rules[0].alloc = ''
+        self[self.call_index].expanded_rules[0].pointsto = []
+        if self.empty_rule(self[self.call_index].expanded_rules[0]):
+            del self[self.call_index].expanded_rules[0]
+            self.del_current_call(if_empty=True)
+            self.deleted = True
+
+    def empty_first_call(self):
+        self[self.call_index].expanded_rules[0].calles = None
+        if self.empty_rule(self[self.call_index].expanded_rules[0]):
+            del self[self.call_index].expanded_rules[0]
+            self.del_current_call(if_empty=True)
+            self.deleted = True
+
+    def del_current_call(self, if_empty=False):
+        if if_empty and self[self.call_index].expanded_rules:
+            return
+        del self[self.call_index]
 
     @property
     def calls_tuple_form(self):
@@ -70,7 +113,37 @@ class CallsContainer(list):
             calls_list.append(self[index])
             index += 1
 
-        return [call.tuple_form for call in calls_list]
+        return [call.expanded_rules_tuple_form for call in calls_list]
+    
+    @property
+    def is_empty(self):
+        """Indicates if object is completely empty (everithing was mapped) or
+        not.
+        """
+        return [rule for rule in self]
+
+    @property
+    def has_nodes(self):
+        """Indicates if object contains any pointsto or predicate calls."""
+        nodes = False
+        for rule in self:
+            if rule.alloc or rule.calles:
+                nodes = True
+        return nodes
+
+    @property
+    def remove_nodes_from_disjunction(self):
+        """Removes parts of disjunction containing allocated nodes."""
+        for rule in self:
+            if rule.alloc:
+                self.del_current_rule()
+
+    @staticmethod
+    def empty_rule(rule):
+        if not isinstance(rule, Rule):
+            raise TypeError("Argument rule must be instance of class Rule")
+        return (not rule.alloc and not rule.pointsto and not rule.calles
+                and not rule.equal and not rule.not_equal)
 
 
 class Rule(object):

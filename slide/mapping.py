@@ -56,9 +56,9 @@ def expand_sophisticated(src, dest, preds, mapping_data, msg):
     returns True on success, False otherwise
     """
     print(msg)
-    for src_rule in src:
+    for src_rule in src.rules_iter:
         if src_rule.alloc:
-            for dest_rule in dest:
+            for dest_rule in dest.rules_iter:
                 for pred_call in dest_rule.calles:
                     # allocated node or node identical to allocated appears in args of call
                     if set(mapping_data.get_aliases(src_rule.alloc)) & set(pred_call[1]):
@@ -74,7 +74,7 @@ def expand_leftmost(top_call, preds, msg):
     predicate_calls.
     """
     print(msg)
-    for rule in top_call:
+    for rule in top_call.rules_iter:
         if rule.calles:
             top_call.expand_current_call(preds)
             return True
@@ -87,7 +87,7 @@ def match_rule(lhs, to_map, rhs_call, mapping_data):
     """
     match = False
 
-    for rule in rhs_call:
+    for rule in rhs_call.rules_iter:
         if to_map.alloc in TopCall.top_level_vars and to_map.alloc == rule.alloc or\
             {to_map.alloc, rule.alloc} in mapping_data.identical:
             match = node_match(zip(to_map.pointsto, rule.pointsto), mapping_data, match)
@@ -110,7 +110,7 @@ def match_call(lhs, to_map, rhs_call, mapping_data):
     print("\nMatch call: {}".format(to_map.quadruple))
     match = False
 
-    for rule in rhs_call:
+    for rule in rhs_call.rules_iter:
         if not rule.calles:
             continue
         if to_map.calles[0][0] == rule.calles[0][0]: # There is a call of the same predicate
@@ -146,7 +146,7 @@ def match_implicit_not_equals(rhs, mapping_data):
     """Finds implict not equals on rhs -> both nodes were allocated
     or one node was allocated and the other is nil
     """
-    for rule in rhs:
+    for rule in rhs.rules_iter:
         for index, ne in enumerate(rule.not_equal):
             if (len(set(ne) & mapping_data.allocated_nodes) == 2 or
                 (len(set(ne) & mapping_data.allocated_nodes) == 1 and
@@ -164,7 +164,7 @@ def match_not_equals(to_map, lhs_call, mapping_data):
     print("\nMatch not_equal: {}".format(to_map.quintuple))
     match = False
 
-    for rule in lhs_call:
+    for rule in lhs_call.rules_iter:
         if not rule.not_equal:
             continue
             
@@ -192,7 +192,7 @@ def match_not_equals(to_map, lhs_call, mapping_data):
 def equals_to_identical(rhs, mapping_data):
     """Moves all local = local, global = local equals to identical set
     """
-    for rule in rhs:
+    for rule in rhs.rules_iter:
         for eq in rule.equal:
             if len(set(TopCall.top_level_vars) & set(eq)) < 2:
                 mapping_data.identical.append(set(eq))
@@ -234,7 +234,7 @@ def map_nodes(preds1, preds2, lhs, rhs):
     num = 0
     while lhs.has_nodes and rhs.has_nodes:
         try:
-            for rule in lhs:
+            for rule in lhs.rules_iter:
                 match_rule(lhs, rule, rhs, mapping_data)
                 if rule.calles:
                     match_call(lhs, rule, rhs, mapping_data)
@@ -273,7 +273,7 @@ def map_nodes(preds1, preds2, lhs, rhs):
         pass
 
     while rhs.is_empty:
-        for rule in rhs:
+        for rule in rhs.rules_iter:
             print_calles(lhs, rhs, mapping_data)
             try:
                 match_not_equals(rule, lhs, mapping_data)

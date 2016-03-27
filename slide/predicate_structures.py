@@ -4,6 +4,7 @@
 #
 # distributed under GNU GPL license
 
+
 class CallsContainer(list):
     """Container to store TopCall objects, subclass of built-in list,
     overiding iter method to iterate over single rules of TopCalls
@@ -31,32 +32,37 @@ class CallsContainer(list):
             raise TypeError("Only TopCall objects can be stored to XHSContainer")
         super(CallsContainer, self).append(element)
 
-    def __iter__(self):
+#    def __iter__(self):
+#        self.call_index = 0
+#        self.rule_index = -1
+#        self.deleted = False
+#        return self
+
+    @property
+    def rules_iter(self):
+        """Iterates over single rules of calls"""
+
         self.call_index = 0
         self.rule_index = -1
         self.deleted = False
-        return self
 
-    def next(self):
-        """Iterates over single rules of calls"""
-        if not self:
-            raise StopIteration
-        new_index = self.rule_index if self.deleted else self.rule_index + 1
+        while self:
+            new_index = self.rule_index if self.deleted else self.rule_index + 1
 
-        if new_index == len(self[self.call_index].expanded_rules):
-            # end of current expanded_rules list
-            self.rule_index = 0
-            self.call_index += 1
-            if self.call_index == self.__len__():
-                raise StopIteration
-        else:
-            self.rule_index = new_index
+            if new_index == len(self[self.call_index].expanded_rules):
+                # end of current expanded_rules list
+                self.rule_index = 0
+                self.call_index += 1
+                if self.call_index == self.__len__():
+                    break
+            else:
+                self.rule_index = new_index
 
-        self.deleted = False
-        if self.disjunction_check and len(self[self.call_index].expanded_rules) > 1:
-            raise InputError("Disjunction on LHS not implemented")
+            self.deleted = False
+            if self.disjunction_check and len(self[self.call_index].expanded_rules) > 1:
+                raise NotImplementedError("Disjunction on LHS not implemented")
 
-        return self[self.call_index].expanded_rules[self.rule_index]
+            yield self[self.call_index].expanded_rules[self.rule_index]
     
     def expand_current_call(self, preds, extension_rule=None):
         rule = self[self.call_index].expanded_rules[self.rule_index]
@@ -107,26 +113,20 @@ class CallsContainer(list):
         """Returns calls in form compatible with original structure
         represention of calles.
         """
-        index = 0
-        calls_list = []
-        while index < self.__len__():
-            calls_list.append(self[index])
-            index += 1
-
-        return [call.expanded_rules_tuple_form for call in calls_list]
+        return [call.expanded_rules_tuple_form for call in self]
     
     @property
     def is_empty(self):
         """Indicates if object is completely empty (everithing was mapped) or
         not.
         """
-        return [rule for rule in self]
+        return [rule for rule in self.rules_iter]
 
     @property
     def has_nodes(self):
         """Indicates if object contains any pointsto or predicate calls."""
         nodes = False
-        for rule in self:
+        for rule in self.rules_iter:
             if rule.alloc or rule.calles:
                 nodes = True
         return nodes
@@ -134,7 +134,7 @@ class CallsContainer(list):
     @property
     def remove_nodes_from_disjunction(self):
         """Removes parts of disjunction containing allocated nodes."""
-        for rule in self:
+        for rule in self.rules_iter:
             if rule.alloc:
                 self.del_current_rule()
 

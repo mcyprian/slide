@@ -76,3 +76,6 @@ TODO:
 - global global pokryt lavou stranou
 - nezahadzovat not equal po namatchovani pravidiel                                                 DONE
 - redizajnovat identical??
+
+- Disjunction on LHS vyriesit rekurzivnym volanim map_nodes
+- pridat message do InputError

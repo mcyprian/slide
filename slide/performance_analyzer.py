@@ -32,6 +32,7 @@ class StringWriter(object):
     def empty(self):
         self.content = ''
 
+
 class PerformanceObject(object):
     """Abstract base class of performance comparing classes"""
     __metaclass__ = ABCMeta

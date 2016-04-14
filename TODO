@@ -71,8 +71,8 @@ TODO:
 
     - not equal nesmie sa objavit x != y a y = z a z = x
 
-- Vytvorit mnozinu vsetkych alokovanych uzlov
-- z ekvivalencii global local, local local, odvodit identical set
+- Vytvorit mnozinu vsetkych alokovanych uzlov                                                      DONE
+- z ekvivalencii global local, local local, odvodit identical set                                  DONE
 - global global pokryt lavou stranou
-- nezahadzovat not equal po namatchovani pravidiel
+- nezahadzovat not equal po namatchovani pravidiel                                                 DONE
 - redizajnovat identical??

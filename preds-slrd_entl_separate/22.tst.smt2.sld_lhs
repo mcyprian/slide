@@ -1,0 +1,8 @@
+RootCall LHS(x,y,z,nil) 
+
+
+LHS(x,y,z,newn) ::= y->z * ls(x,y) * ls(z,newn)
+
+
+ls(x,y) ::=  x=y & emp |
+  \E xp . x->xp & nil!=x & x!=y * ls(xp,y)

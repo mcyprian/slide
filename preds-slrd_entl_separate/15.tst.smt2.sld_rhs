@@ -1,0 +1,8 @@
+RootCall  BinPath(x,y)
+
+
+
+
+BinPath(x,y) ::=  x=y & emp |
+  \E xp,yp . x->xp,yp & nil!=x * BinPath(xp,y) |
+  \E xp,yp . x->xp,yp & nil!=x * BinPath(yp,y)

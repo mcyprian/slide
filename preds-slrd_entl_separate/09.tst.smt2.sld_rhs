@@ -1,0 +1,7 @@
+RootCall  DLL(a,y,z,b)
+
+
+
+
+DLL(x,y,z,w) ::=  x=y & z=w & emp |
+  \E zp . x->zp,w & nil!=x * DLL(zp,y,z,x)

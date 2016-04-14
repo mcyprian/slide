@@ -1,0 +1,7 @@
+RootCall  ls(x,y) * ls(y,nil)
+
+
+
+
+ls(x,y) ::=  x=y & emp |
+  \E xp . x->xp & nil!=x & x!=y * ls(xp,y)

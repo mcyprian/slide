@@ -1,0 +1,7 @@
+RootCall  x_emp->w_emp,z_emp * w_emp->y_emp,x_emp * y_emp->z_emp,w_emp & x_emp!=z_emp & y_emp!=z_emp & w_emp!=z_emp
+
+
+
+
+dll(fr,bk,pr,nx) ::=  fr=nx & bk=pr & emp |
+  \E u . fr->u,pr & fr!=nx & bk!=pr * dll(u,bk,fr,nx)

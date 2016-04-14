@@ -1,0 +1,251 @@
+../preds-slrd_entl_separate/01.tst.smt2.sld: VALID
+../preds-slrd_entl_separate/02.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/03.tst.smt2.sld: VALID
+../preds-slrd_entl_separate/04.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/05.tst.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/06.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/07.tst.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/08.tst.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/09.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/10.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/11.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/12.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/13.tst.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/14.tst.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/15.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/16.tst.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/17.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/18.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/19.tst.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/20.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/21.tst.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/22.tst.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/_anal: !!python/tuple [IndexError, list index out of range]
+../preds-slrd_entl_separate/append_dll_slk-1.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-10.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-11.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-12.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-2.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-3.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-4.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-5.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-6.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-7.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-8.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_dll_slk-9.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-1.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-10.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-11.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-12.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-13.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-14.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-15.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-16.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-17.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-18.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-2.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-3.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-4.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-5.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-6.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-7.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-8.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_cll_slk-9.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_ls_slk-1.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_ls_slk-2.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_ls_slk-3.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_ls_slk-4.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_ls_slk-5.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_ls_slk-6.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_ls_slk-7.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_ls_slk-8.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_slk-1.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_slk-2.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_slk-3.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_slk-4.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_slk-5.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_slk-6.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_slk-7.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/append_sll_slk-8.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/dll-entails-dll-rev.smt2.sld: !!python/tuple [ValueError,
+  need more than 1 value to unpack]
+../preds-slrd_entl_separate/dll-entails-dll0+.smt2.sld: !!python/tuple [ValueError,
+  need more than 1 value to unpack]
+../preds-slrd_entl_separate/dll-entails-node-dll-rev.smt2.sld: VALID
+../preds-slrd_entl_separate/dll-entails-node-node-dll.smt2.sld: !!python/tuple [KeyError,
+  DLL_plus_mid]
+../preds-slrd_entl_separate/dll-mid-entails-dll-rev.smt2.sld: VALID
+../preds-slrd_entl_separate/dll-rev-entails-dll-mid.smt2.sld: VALID
+../preds-slrd_entl_separate/dll-rev-entails-dll.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-spaghetti-existential.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-spaghetti.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-vc01.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-vc02.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-vc03.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/dll-vc04.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-vc05.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-vc06.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/dll-vc07.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/dll-vc08.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-vc09.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/dll-vc10.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-vc11.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-vc12.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll-vc13.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/dll2-entails-dll2-rev.smt2.sld: VALID
+../preds-slrd_entl_separate/dll2-rev-entails-dll2.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll2-spaghetti-existential.smt2.sld: !!python/tuple [
+  NotImplementedError, Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/dll2-spaghetti.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/elseg4_slk-1.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/elseg4_slk-2.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/elseg4_slk-3.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/elseg4_slk-4.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/elseg4_slk-5.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/elseg4_slk-6.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/elseg4_slk-7.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/elseg4_slk-8.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/elseg4_slk-9.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/lsegex4_slk-1.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/lsegex4_slk-2.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/lsegex4_slk-3.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/lsegex4_slk-4.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/lsegex4_slk-5.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/lsegex4_slk-6.smt2.sld: !!python/tuple [InputError, '']
+../preds-slrd_entl_separate/lss-vc01.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/lss-vc02.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/lss-vc03.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc01.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc02.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc03.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc04.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc05.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc06.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/nll-vc07.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc08.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc09.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc10.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc11.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc12.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc13.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc14.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc15.smt2.sld: !!python/tuple [NotImplementedError,
+  Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/nll-vc16.smt2.sld: !!python/tuple [ValueError, need more
+    than 1 value to unpack]
+../preds-slrd_entl_separate/node-dll-rev-dll-entails-dll.smt2.sld: !!python/tuple [
+  NotImplementedError, Disjunction on LHS not implemented]
+../preds-slrd_entl_separate/node-node-dll-entails-dll.smt2.sld: VALID
+../preds-slrd_entl_separate/node-tll-tll-entails-tll.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/odd-lseg3_slk-1.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/odd-lseg3_slk-2.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/odd-lseg3_slk-3.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/odd-lseg3_slk-4.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/odd-lseg3_slk-5.smt2.sld: !!python/tuple [InputError,
+  '']
+../preds-slrd_entl_separate/odd-lseg3_slk-6.smt2.sld: !!python/tuple [InputError,
+  '']

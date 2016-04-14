@@ -1,0 +1,11 @@
+RootCall LHS(x1,x2,x2_1,x3,nil,nil,nil,nil) 
+
+
+LHS(x1,x2,x2_1,x3,newn,Xnewn,XXnewn,XXXnewn) ::= x2->x3,x2_1 * nll(x1,x2,XXXnewn) * lso(x2_1,XXnewn) * nll(x3,Xnewn,newn)
+
+
+lso(in,out) ::=  in=out & emp |
+  \E u . in->u & in!=out * lso(u,out)
+
+nll(in,out,boundary) ::=  in=out & emp |
+  \E u,Z1 . in->u,Z1 & in!=out * lso(Z1,boundary) * nll(u,out,boundary)

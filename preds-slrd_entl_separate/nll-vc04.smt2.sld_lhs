@@ -1,0 +1,10 @@
+RootCall  x1->x2,x1_1 * x1_1->x1_2 * x1_2->x1_3 * x1_3->nil * x3->nil,x3_1 * x3_1->x3_2 * x3_2->nil * nll(x2,x3,nil)
+
+
+
+
+lso(in,out) ::=  in=out & emp |
+  \E u . in->u & in!=out * lso(u,out)
+
+nll(in,out,boundary) ::=  in=out & emp |
+  \E u,Z1 . in->u,Z1 & in!=out * lso(Z1,boundary) * nll(u,out,boundary)

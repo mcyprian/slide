@@ -9,6 +9,7 @@ import sys
 import os
 import yaml
 import pprint
+from abc import ABCMeta
 
 import entailment
 
@@ -30,8 +31,23 @@ class StringWriter(object):
     def empty(self):
         self.content = ''
 
+class PerformanceObject(object):
+    """Abstract base class of performance comparing classes"""
+    __metaclass__ = ABCMeta
+    
+    def yaml_attr(self, attr):
+        return yaml.dump(getattr(self, attr))
 
-class PerformanceAnalyzer(object):
+    def save_output(self, attr):
+        with open(self.output_file + '_' + attr, 'w') as fo:
+            fo.write(self.yaml_attr(attr))
+    
+    def load_file(self, file_name):
+        with open(file_name, 'r') as fi:
+            return fi.read()
+
+
+class PerformanceAnalyzer(PerformanceObject):
     """Analyzes performance of slide on given set of input files,
     creates dictionary of input files and results. Can store dictionary
     to yaml file or compare results of two analyses.
@@ -49,19 +65,21 @@ class PerformanceAnalyzer(object):
         output_stream = StringWriter()
         for _ in range(len(self.input_files) / 2):
             file_lhs, file_rhs = [self.input_dir + file_name for file_name in self.input_files[:2]]
+            file_name = file_lhs.split('/')[-1][:-4]
             self.input_files = self.input_files[2:]
             try:
                 entailment.main(file_lhs, file_rhs, verbose=False, enabled=True, output_stream=output_stream)
             except Exception as e:
                 print("Exception occured")
-                self.results[file_lhs[:-4]] = (e.__class__.__name__, e.message)
+                self.results[file_name] = (e.__class__.__name__, e.message)
             else:
-                self.results[file_lhs[:-4]] = output_stream.content
+                self.results[file_name] = output_stream.content
             output_stream.empty()
-            print("file: {0} result: {1}".format(file_lhs[:-4], output_stream.content))
+            print("file: {0} result: {1}".format(file_name, output_stream.content))
         pprint.pprint(self.results)
         pprint.pprint(self.statistics)
-        self.save_output()
+        self.save_output('results')
+        self.save_output('statistics')
 
     @property
     def statistics(self):
@@ -70,19 +88,23 @@ class PerformanceAnalyzer(object):
             stat_dict[key] = len(stat_dict[key])
         return stat_dict
 
-    @property
-    def yaml_statistics(self):
-        return yaml.dump(self.statistics)
 
-    @property
-    def yaml_results(self):
-        return yaml.dump(self.results)
+class PerformanceComparer(PerformanceObject):
+    """Compares results from two yaml files containig
+    PerformanceAnalyzer output."""
+    def __init__(self, first, second):
+        self.first = yaml.load(self.load_file(first))
+        self.second = yaml.load(self.load_file(second))
+        pprint.pprint(self.first)
+        pprint.pprint(self.second)
+        self.differnece = {}
 
-    def save_output(self):
-        with open(self.output_file + "_results", 'w') as fo:
-            fo.write(self.yaml_results)
-        with open(self.output_file + "_statistics", 'w') as fo:
-            fo.write(self.yaml_statistics)
+    def compare(self):
+        for key in self.first.keys():
+            if self.first[key] != self.second[key]:
+                self.differnece[key] = (self.first[key], self.second[key])
+        pprint.pprint(self.differnece)
+        self.save_output('differnece')
 
 
 def invert_dict(input_dict):
@@ -101,5 +123,14 @@ if __name__ == '__main__':
         sys.stderr.write("Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
         sys.exit(1)
 
-    perform_analyzer = PerformanceAnalyzer(sys.argv[1])
+    if sys.argv[1] == "-c":
+        if len(sys.argv) != 4:
+            sys.stderr.write("Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
+            sys.exit(1)
+        else:
+            perform_comparer = PerformanceComparer(*sys.argv[2:])
+            perform_comparer.compare()
+            sys.exit(0)
+
+    perform_analyzer = PerformanceAnalyzer(*sys.argv[1:])
     perform_analyzer.analyse()

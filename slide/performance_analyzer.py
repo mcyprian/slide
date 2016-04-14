@@ -79,8 +79,9 @@ class PerformanceAnalyzer(object):
         return yaml.dump(self.results)
 
     def save_output(self):
-        with open(self.output_file, 'w') as fo:
+        with open(self.output_file + "_results", 'w') as fo:
             fo.write(self.yaml_results)
+        with open(self.output_file + "_statistics", 'w') as fo:
             fo.write(self.yaml_statistics)
 
 

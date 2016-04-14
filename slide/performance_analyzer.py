@@ -9,6 +9,7 @@ import sys
 import os
 import yaml
 import pprint
+import datetime
 from abc import ABCMeta
 
 import entailment
@@ -35,6 +36,12 @@ class PerformanceObject(object):
     """Abstract base class of performance comparing classes"""
     __metaclass__ = ABCMeta
     
+    def __init__(self, output_file=None):
+        if not output_file:
+            date = datetime.date.today()
+            output_file = date.__str__()
+        self.output_file = output_file
+
     def yaml_attr(self, attr):
         return yaml.dump(getattr(self, attr))
 
@@ -53,11 +60,9 @@ class PerformanceAnalyzer(PerformanceObject):
     to yaml file or compare results of two analyses.
     """
     def __init__(self, input_dir, output_file=None):
-        if not output_file:
-            output_file = input_dir + "_analysis"
+        super(PerformanceAnalyzer, self).__init__(output_file)
 
         self.input_dir = input_dir if input_dir[-1] == '/' else input_dir + '/'
-        self.output_file = output_file
         self.input_files = sorted(os.listdir(input_dir))
         self.results = {}
 
@@ -92,19 +97,30 @@ class PerformanceAnalyzer(PerformanceObject):
 class PerformanceComparer(PerformanceObject):
     """Compares results from two yaml files containig
     PerformanceAnalyzer output."""
-    def __init__(self, first, second):
+    def __init__(self, first, second, output_file=None):
+        super(PerformanceComparer, self).__init__(output_file)
         self.first = yaml.load(self.load_file(first))
         self.second = yaml.load(self.load_file(second))
-        pprint.pprint(self.first)
-        pprint.pprint(self.second)
-        self.differnece = {}
+        self.acceptable_change = {}
+        self.unacceptable_change = {}
 
     def compare(self):
         for key in self.first.keys():
             if self.first[key] != self.second[key]:
-                self.differnece[key] = (self.first[key], self.second[key])
-        pprint.pprint(self.differnece)
-        self.save_output('differnece')
+                first_key = self.first[key]
+                second_key = self.second[key]
+                if ((isinstance(first_key, tuple) and isinstance(second_key, tuple)) or
+                    (first_key == 'UNKNOWN') or
+                    (first_key == 'INVALID' and isinstance(second_key, tuple)) or
+                    (second_key == 'INVALID' and isinstance(first_key, tuple))):
+                    self.acceptable_change[key] = (first_key, second_key)
+                else:
+                    self.unacceptable_change[key] = (first_key, second_key)
+
+        pprint.pprint(self.acceptable_change)
+        pprint.pprint(self.unacceptable_change)
+        self.save_output('acceptable_change')
+        self.save_output('unacceptable_change')
 
 
 def invert_dict(input_dict):
@@ -124,7 +140,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     if sys.argv[1] == "-c":
-        if len(sys.argv) != 4:
+        if len(sys.argv) < 4:
             sys.stderr.write("Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
             sys.exit(1)
         else:

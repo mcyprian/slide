@@ -881,7 +881,6 @@ def parse_input(filename,tiles,globalfreevars):
     # it is used to synchronise symbols between multiple automata
     # globalfreevars con
     contains=load_input(filename)
-    print(contains)
     preds={}
     if (re.search("^RootCall",contains[0])):
         # NEW version

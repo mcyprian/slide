@@ -10,5 +10,5 @@ implicit_exists=True
 
 #path to the vata cli http://www.fit.vutbr.cz/research/groups/verifit/tools/libvata/
 # usually: <path/to/vatalib>/build/cli/vata
-VATA_path="/home/mcyprian/Codes/slide/libvata/build/cli/vata"
+VATA_path="/home/mcyprian/Codes/devel/slide/libvata/build/cli/vata"
 

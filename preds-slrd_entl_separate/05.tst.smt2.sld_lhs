@@ -1,0 +1,8 @@
+RootCall LHS(x,y,z) 
+
+
+LHS(x,y,z) ::= y->z * PeList(x,y)
+
+
+PeList(x,y) ::=  x=y & emp |
+  \E xp . x->xp & nil!=x * PeList(xp,y)

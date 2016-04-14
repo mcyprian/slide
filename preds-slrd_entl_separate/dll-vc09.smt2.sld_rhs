@@ -1,0 +1,7 @@
+RootCall  dll(x,y,nil,z)
+
+
+
+
+dll(fr,bk,pr,nx) ::=  fr=nx & bk=pr & emp |
+  \E u . fr->u,pr & fr!=nx & bk!=pr * dll(u,bk,fr,nx)

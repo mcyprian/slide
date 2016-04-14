@@ -1,0 +1,7 @@
+RootCall  PeList(x,z)
+
+
+
+
+PeList(x,y) ::=  x=y & emp |
+  \E xp . x->xp & nil!=x * PeList(xp,y)

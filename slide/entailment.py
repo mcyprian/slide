@@ -17,6 +17,25 @@ from settings import *
 import emptyheap
 import subprocess
 
+
+def performance_check(main_fce):
+    """Decorator redirecting stdout to string output stream if
+    performance_check is enabled.
+    """
+    def inner(file_lhs, file_rhs, verbose, enabled=False, output_stream=None):
+        if enabled:
+            old_stdout = sys.stdout
+            sys.stdout = output_stream
+            try:
+                main_fce(file_lhs, file_rhs, verbose=False)
+            finally:
+                sys.stdout = old_stdout
+        else:
+            main_fce(file_lhs, file_rhs, verbose)
+    return inner
+
+
+@performance_check
 def main(file_lhs,file_rhs,verbose):
     tiles=[]
     # first collect the free variables, which appear on both sides of the entailment
@@ -77,17 +96,17 @@ def main(file_lhs,file_rhs,verbose):
     os.unlink(file1)
     os.unlink(file2)
 
-# main call
-if len(sys.argv)<3:
-    print "Expected usage:"
-    print "Standard mode (all error messages are provided): entailment.py file_with_pred1 file_with_pred2"
-    print "Silent mode (no error messages): entailment.py -s file_with_pred1 file_with_pred2"
-    sys.exit()
-if sys.argv[1]=="-s":
-    try:
-        main(sys.argv[2],sys.argv[3],False)
-    except:
-        print "UNKNOWN"
-        sys.exit(1)
-else:
-    main(sys.argv[1],sys.argv[2],True)
+if __name__ == '__main__':
+     if len(sys.argv) < 3:
+         print "Expected usage:"
+         print "Standard mode (all error messages are provided): entailment.py file_with_pred1 file_with_pred2"
+         print "Silent mode (no error messages): entailment.py -s file_with_pred1 file_with_pred2"
+         sys.exit()
+     if sys.argv[1]=="-s":
+         try:
+             main(sys.argv[2],sys.argv[3],False)
+         except:
+             print "UNKNOWN"
+             sys.exit(1)
+     else:
+         main(sys.argv[1],sys.argv[2],True)

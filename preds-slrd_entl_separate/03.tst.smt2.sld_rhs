@@ -1,0 +1,7 @@
+RootCall  List(x,z)
+
+
+
+
+List(x,y) ::=  x->y & nil!=x |
+  \E xp . x->xp & nil!=x * List(xp,y)

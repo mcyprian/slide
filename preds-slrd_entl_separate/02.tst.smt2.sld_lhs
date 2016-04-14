@@ -1,0 +1,7 @@
+RootCall  RList(x,y) * RList(y,z)
+
+
+
+
+RList(x,y) ::=  x->y & nil!=x |
+  \E xp . xp->y & nil!=xp * RList(x,xp)

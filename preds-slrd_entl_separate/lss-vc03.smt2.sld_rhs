@@ -1,0 +1,7 @@
+RootCall  lsso(x_emp,z_emp)
+
+
+
+
+lsso(in,out) ::=  in=out & emp |
+  \E u . in->u,u * lsso(u,out)

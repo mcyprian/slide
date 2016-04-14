@@ -12,6 +12,7 @@ import pprint
 
 import entailment
 
+
 class StringWriter(object):
     """Class to redirect file descriptor (stdout) to string variable."""
     def __init__(self):
@@ -59,7 +60,19 @@ class PerformanceAnalyzer(object):
             output_stream.empty()
             print("file: {0} result: {1}".format(file_lhs[:-4], output_stream.content))
         pprint.pprint(self.results)
+        pprint.pprint(self.statistics)
         self.save_output()
+
+    @property
+    def statistics(self):
+        stat_dict = invert_dict(self.results)
+        for key in stat_dict.keys():
+            stat_dict[key] = len(stat_dict[key])
+        return stat_dict
+
+    @property
+    def yaml_statistics(self):
+        return yaml.dump(self.statistics)
 
     @property
     def yaml_results(self):
@@ -68,6 +81,19 @@ class PerformanceAnalyzer(object):
     def save_output(self):
         with open(self.output_file, 'w') as fo:
             fo.write(self.yaml_results)
+            fo.write(self.yaml_statistics)
+
+
+def invert_dict(input_dict):
+    """Returns dictionary with inverted keys, values.
+    inputdict {1 : 'a', 2 : 'b', 3 : 'a'} -> {'a' : [1, 3], 'b' : [2]}
+    """
+    inverted_dict = {}
+    for key, value in input_dict.items():
+        inverted_dict[value] = inverted_dict.get(value, [])
+        inverted_dict[value].append(key)
+    return inverted_dict
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:

@@ -12,6 +12,28 @@ class FunctionError(Exception):
     def __str__(self):
         return repr(self.value)
 
+def keyfce(x):
+    for outer_index, item in enumerate(x):
+        if isinstance(item, int):
+            x[index] = str(item)
+        elif isinstance(item, list):
+            for inner_index, inner_item in enumerate(item):
+                if isinstance(inner_item, int):
+                    item[inner_index] = str(inner_item)
+    return x
+
+def numbers_back(sorted_list):
+    for x in sorted_list:
+        for outer_index, item in enumerate(x):
+            if isinstance(item, str) and item.isdigit():
+                x[index] = int(item)
+            elif isinstance(item, list):
+                for inner_index, inner_item in enumerate(item):
+                    if isinstance(inner_item, str) and inner_item.isdigit():
+                        item[inner_index] = int(inner_item)
+    return sorted_list
+
+
 def paralel_sort(a,b):
     # sort field a and in parallel do the equal manipulations with the list b
     if not(len(a)==len(b)):
@@ -19,7 +41,8 @@ def paralel_sort(a,b):
     tmp=[]
     for x in range(0,len(a)):
         tmp=tmp+[(a[x],b[x])]
-    tmp=sorted(tmp)
+    tmp=sorted(tmp, key=keyfce)
+    tmp = numbers_back(tmp)
     a=[]
     b=[]
     for x in tmp:
@@ -52,7 +75,7 @@ def tile_normalize(tile):
         xset_new=[]
         tmp=0
         for el in xset:
-            if isinstance(el,(int,long)):
+            if isinstance(el,int):
                 if tmp:
                     # this line should be unaccesible if everything works in a right way
                     raise FunctionError("mixture of x^{fw} and x^{eq}")
@@ -66,7 +89,7 @@ def tile_normalize(tile):
             if el in order.keys():
                 (nvar,num)=order[el]
                 if num>=2:
-                    print tile
+                    print(tile)
                     raise FunctionError("equality variable %s occurs more then twice in the tile"%el)
                 order[el]=(nvar,num+1)
                 xset_new.append(nvar)

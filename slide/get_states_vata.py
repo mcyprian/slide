@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Adam Rogalewicz
 # 
@@ -22,10 +22,10 @@ def get_states(filename):
     fn = open(filename, "r")
     contains=fn.readlines()
     fn.close()
-    contains=map(remove_eol,contains)
+    contains= [remove_eol(con) for con in contains]
     while not (re.search("Transitions",contains[0])):
         del contains[0]
-    print "----"
+    print("----")
     del contains[0]
     states=[]
     for line in contains:
@@ -37,7 +37,7 @@ def get_states(filename):
                 continue
             if not (a in states):
                 states.append(a)
-    print "Stavu: ",len(states)
+    print("Stavu: ",len(states))
 
 
 

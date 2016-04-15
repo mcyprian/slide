@@ -95,7 +95,7 @@ def get_states_vata(filename):
     fn = open(filename, "r")
     contains=fn.readlines()
     fn.close()
-    contains=map(remove_eol,contains)
+    contains= [remove_eol(con) for con in contains]
     while not (re.search("Transitions",contains[0])):
         del contains[0]
     del contains[0]
@@ -117,7 +117,7 @@ def get_trans_number(filename):
     fn = open(filename, "r")
     contains=fn.readlines()
     fn.close()
-    contains=map(remove_eol,contains)
+    contains= [remove_eol(con) for con in contains]
     rules=0
     for line in contains:
         if "->" in line:

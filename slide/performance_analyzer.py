@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Michal Cyprian
 # 
@@ -33,9 +33,8 @@ class StringWriter(object):
         self.content = ''
 
 
-class PerformanceObject(object):
+class PerformanceObject(metaclass=ABCMeta):
     """Abstract base class of performance comparing classes"""
-    __metaclass__ = ABCMeta
     
     def __init__(self, output_file=None):
         if not output_file:
@@ -69,7 +68,7 @@ class PerformanceAnalyzer(PerformanceObject):
 
     def analyse(self):
         output_stream = StringWriter()
-        for _ in range(len(self.input_files) / 2):
+        for _ in range(len(self.input_files) // 2):
             file_lhs, file_rhs = [self.input_dir + file_name for file_name in self.input_files[:2]]
             file_name = file_lhs.split('/')[-1][:-4]
             self.input_files = self.input_files[2:]
@@ -77,7 +76,7 @@ class PerformanceAnalyzer(PerformanceObject):
                 entailment.main(file_lhs, file_rhs, verbose=False, enabled=True, output_stream=output_stream)
             except Exception as e:
                 print("Exception occured")
-                self.results[file_name] = (e.__class__.__name__, e.message)
+                self.results[file_name] = (e.__class__.__name__, e.args)
             else:
                 self.results[file_name] = output_stream.content
             output_stream.empty()

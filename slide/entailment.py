@@ -1,11 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Adam Rogalewicz
 # 
 # SL to TA - top level calls
 # distrubuted under GNU GPL licence
 
-# use python entailment.py file_with_pred1 file_with_pred2
+# Usege: python3 entailment.py file_with_pred1 file_with_pred2
 
 import input
 import rotate
@@ -45,11 +45,11 @@ def main(file_lhs, file_rhs, verbose):
         free_rhs=input.get_free_variables(file_rhs)
         if free_lhs=="ALL":
             if verbose:
-                print "WARNING: LHS in the old format -> implicit quantification skiped"
+                print("WARNING: LHS in the old format -> implicit quantification skiped")
             free="ALL"
         elif free_rhs=="ALL":
             if verbose:
-                print "WARNING: RHS in the old format - implicit quantification skiped"
+                print("WARNING: RHS in the old format - implicit quantification skiped")
             free="ALL"
         else:
             free=[]
@@ -68,11 +68,11 @@ def main(file_lhs, file_rhs, verbose):
      
     if isinstance(preds1, bool):
         if verbose:
-            print "Entailment result:"
+            print("Entailment result:")
         if preds1 == True:
-            print "VALID"
+            print("VALID")
         else:
-            print "UNKNOW"
+            print("UNKNOW")
         return 0
 
     
@@ -84,8 +84,8 @@ def main(file_lhs, file_rhs, verbose):
     if not emptyheap.entailment(emptyheap_eq1,emptyheap_eq2):
         # no need to call all the machinery. Just UNSAT
         if verbose:
-            print "Entailment result:"
-        print "INVALID"
+            print("Entailment result:")
+        print("INVALID")
         return 0
     # compute rotation closure and check entailment 
     aut2_closure=rotate.rotate_closure(aut2,tiles)
@@ -95,38 +95,38 @@ def main(file_lhs, file_rhs, verbose):
     vata.call_vata_union(aut2_closure,file2)
     #print automata statistics in verbose mode
     if verbose:
-        print "Number of states/transitions of A1: ",len(rotate.get_states(aut1)),"/", len(aut1["rules"])
-        print "Number of states/transitions of A2 (before rot. closure): ",len(rotate.get_states(aut2)),"/",len(aut2["rules"])
-        print "Number of states/transitions after closure of A2: ",len(vata.get_states_vata(file2)),"/",vata.get_trans_number(file2)
-        print "Entailment result:"
+        print("Number of states/transitions of A1: ",len(rotate.get_states(aut1)),"/", len(aut1["rules"]))
+        print("Number of states/transitions of A2 (before rot. closure): ",len(rotate.get_states(aut2)),"/",len(aut2["rules"]))
+        print("Number of states/transitions after closure of A2: ",len(vata.get_states_vata(file2)),"/",vata.get_trans_number(file2))
+        print("Entailment result:")
     # call vata to check entailment
     result = subprocess.check_output("%s incl %s %s"%(VATA_path,file1,file2), shell=True)
-    if result=="1\n":
-        print "VALID"
+    if result==b'1\n':
+        print("VALID")
     elif result=="0\n":
         if verbose and (eq_edges1 or eq_edges2):
-            print "INVALID (equality edges in use => not COMPLETE answer)"
+            print("INVALID (equality edges in use => not COMPLETE answer)")
         elif (eq_edges1 or eq_edges2):
-            print "UNKNOWN"
+            print("UNKNOWN")
         else:
-            print "INVALID"
+            print("INVALID")
     else:
-        print "ERROR: %s us not a vata executable"
+        print("ERROR: %s us not a vata executable")
     # remove tmp files
     os.unlink(file1)
     os.unlink(file2)
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print "Expected usage:"
-        print "Standard mode (all error messages are provided): entailment.py file_with_pred1 file_with_pred2"
-        print "Silent mode (no error messages): entailment.py -s file_with_pred1 file_with_pred2"
+        print("Expected usage:")
+        print("Standard mode (all error messages are provided): entailment.py file_with_pred1 file_with_pred2")
+        print("Silent mode (no error messages): entailment.py -s file_with_pred1 file_with_pred2")
         sys.exit()
     if sys.argv[1]=="-s":
         try:
             main(sys.argv[2], sys.argv[3], False)
         except:
-            print "UNKNOWN"
+            print("UNKNOWN")
             sys.exit(1)
     else:
         main(sys.argv[1], sys.argv[2], True)

@@ -90,7 +90,7 @@ def apply_maps(v,map1,map2,forbid,only_first):
         return map1[v]
     step1=map1[v]
     # secondly apply mapping map2
-    if not step1 in (map2.keys()):
+    if not step1 in map2.keys():
         return step1
     return map2[step1]
 

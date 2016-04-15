@@ -42,7 +42,8 @@ def get_states(aut):
     return states
 
 
-def check_tile_forward_connectivity((a,b,c,d)):
+def check_tile_forward_connectivity(tuple_arg):
+    (a, b, c, d) = tuple_arg
     if len(a)==1:
         return 1
     for i in range(1,len(a)):
@@ -50,7 +51,8 @@ def check_tile_forward_connectivity((a,b,c,d)):
             return 0
     return 1
 
-def rotate_new_fin((symbol,lhs,rhs),qfin,pref,tiles):
+def rotate_new_fin(tuple_arg,qfin,pref,tiles):
+    (symbol,lhs,rhs) = tuple_arg
     (aa,b,c,d)=tiles[symbol]
     a=list(aa) # !!!! call by value/call by name !!!! @#$%^%^&**(
     a.append(a[0])
@@ -67,8 +69,9 @@ def rotate_new_fin((symbol,lhs,rhs),qfin,pref,tiles):
         # TILE NOT connected
         return(())
 
-def rotate_old_root((symbol,lhs,rhs),lhs_num,pref,tiles):
+def rotate_old_root(tuple_arg,lhs_num,pref,tiles):
 
+    (symbol,lhs,rhs) = tuple_arg
     new_lhs=list(lhs)
     del new_lhs[lhs_num]
     tile_new_pt1=list(tiles[symbol][0])
@@ -83,7 +86,8 @@ def rotate_old_root((symbol,lhs,rhs),lhs_num,pref,tiles):
         # TILE NOT connected
         return(())
 
-def rotate_intermediate((symbol,lhs,rhs),lhs_num,pref,tiles):
+def rotate_intermediate(tuple_arg,lhs_num,pref,tiles):
+    (symbol,lhs,rhs) = tuple_arg
     new_lhs=list(lhs)
     del new_lhs[lhs_num]
     new_lhs.append(pref+rhs)
@@ -119,7 +123,7 @@ def rotate_closure(aut,tiles):
     for (symbol,lhs,rhs) in aut['rules']:
         if rhs==aut['fin']:
             if not(tiles[symbol][0][0]==[]):
-                print rhs," is final state, but tile contains ",tiles[symbol][0][0]," in -1 part"
+                print(rhs," is final state, but tile contains ",tiles[symbol][0][0]," in -1 part")
                 raise RotateError("STOPED")
             res.append(aut) # the result is the original automaton
             continue
@@ -143,7 +147,7 @@ def rotate_closure(aut,tiles):
                         continue
                     if rhs1==aut['fin']:
                         if not(tiles[symbol1][0][0]==[]):
-                            print rhs1," is final state, but tile contains ",tiles[symbol1][0][0]," in -1 part"
+                            print(rhs1," is final state, but tile contains ",tiles[symbol1][0][0]," in -1 part")
                             raise RotateError("STOPED")
                         rule=rotate_old_root((symbol1,list(lhs1),rhs1),x,unique_pref,tiles)
                         # if forward conectivity is broken by rotation, then do nothing

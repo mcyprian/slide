@@ -28,7 +28,7 @@ def load_input(filename):
     # single item in the output list contains1 represents a single predicate
     fn = open(filename, "r")
     contains=fn.readlines()
-    contains=map(remove_eol,contains)
+    contains = [remove_eol(con) for con in contains]
     contains1=[]
     for line in contains:
         if line=="":
@@ -48,7 +48,7 @@ def load_input(filename):
         else:
             if len(contains1)>0:
                 contains1[len(contains1)-1]=contains1[len(contains1)-1]+line
-    contains1=map(remove_whitespaces,contains1)
+    contains1 = [remove_whitespaces(con) for con in contains1]
     return contains1
 
 
@@ -59,7 +59,7 @@ def parse_predicate(pred,parsed_preds):
     if not (re.search("^[^:=]*::=[^:]*$",pred)):
         raise InputError("The predicate %s has not a correct form."%pred)
     pred_name=re.sub("\(.*\)::=.*$","",pred)
-    if parsed_preds.has_key(pred_name):
+    if pred_name in parsed_preds:
         raise InputError("multiple definition of predicate %s"%pred_name)
     pred_par=re.sub('^.*\((.*)\)::=.*$','\\1',pred)
     pred_par=re.split(",",pred_par)

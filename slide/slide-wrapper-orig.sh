@@ -61,4 +61,4 @@ grep -v "Entail" $inf | grep -v "^[[:space:]]*RHS[[:space:]]*(.*::=" | grep -v "
 #echo "------"
 #cat $rhs
 
-python $dir/entailment.py  $lhs $rhs
+python3 $dir/entailment.py  $lhs $rhs

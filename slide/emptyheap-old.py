@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Adam Rogalewicz
 # 
@@ -16,11 +16,11 @@ def entailment(eh1,eh2):
     if eh2==[]:
         # something => False
         return 0
-    print "-----------------------------------"
-    print "WARNING: check empty heap inlcusion"
-    print "LHS: ",eh1
-    print "RHS: ",eh2
-    print "Manual check needed"
-    print "-----------------------------------"
+    print("-----------------------------------")
+    print("WARNING: check empty heap inlcusion")
+    print("LHS: ",eh1)
+    print("RHS: ",eh2)
+    print("Manual check needed")
+    print("-----------------------------------")
 
     return 1

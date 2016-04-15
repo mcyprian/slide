@@ -98,4 +98,4 @@ fi
 #echo "------"
 #cat $rhs
 
-python $dir/entailment.py   $lhs $rhs
+python3 $dir/entailment.py   $lhs $rhs

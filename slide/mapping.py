@@ -1,16 +1,17 @@
-# Michal Cyprian
-#
-# Expansion and mapping
-#
-# distributed under GNU GPL license
+"""Michal Cyprian
+
+Expansion and mapping
+
+distributed under GNU GPL license
+"""
 
 import sys
 import pprint
 import itertools
 import logging
 
-from input import InputError
-from predicate_structures import TopCall, Rule
+from slide.process_input import InputError
+from slide.predicate_structures import TopCall, Rule
 
 logger = logging.getLogger(__name__)
 logger.setLevel("NOTSET")
@@ -25,6 +26,7 @@ class MappingData(object):
     """Simple class to store set of allocated nodes and node identifiers
     aliases.
     """
+
     def __init__(self, identical=None, allocated_nodes=None):
         if not isinstance(identical, list):
             identical = [mapping_data.identical]
@@ -97,10 +99,13 @@ def match_rule(lhs, to_map, rhs_call, mapping_data):
 
     for rule in rhs_call.rules_iter:
         if to_map.alloc in TopCall.top_level_vars and to_map.alloc == rule.alloc or\
-            {to_map.alloc, rule.alloc} in mapping_data.identical:
+                {to_map.alloc, rule.alloc} in mapping_data.identical:
             match = node_match(zip(to_map.pointsto, rule.pointsto), mapping_data, match)
             if match is True:
-                logger.debug("\nMatch rule: {} top_level {}".format(to_map.quadruple, TopCall.top_level_vars))
+                logger.debug(
+                    "\nMatch rule: {} top_level {}".format(
+                        to_map.quadruple,
+                        TopCall.top_level_vars))
                 logger.debug("Succeded, rule {}".format(rule.quadruple))
                 mapping_data.allocated_nodes |= {rule.alloc, to_map.alloc}
                 rhs_call.del_current_rule(remove_disjunctive=True)
@@ -121,7 +126,7 @@ def match_call(lhs, to_map, rhs_call, mapping_data):
     for rule in rhs_call.rules_iter:
         if not rule.calles:
             continue
-        if to_map.calles[0][0] == rule.calles[0][0]: # There is a call of the same predicate
+        if to_map.calles[0][0] == rule.calles[0][0]:  # There is a call of the same predicate
             match = node_match(zip(to_map.calles[0][1], rule.calles[0][1]), mapping_data, match)
             if match == True:
                 logger.debug("Succeded, call {}".format(rule.calles))
@@ -130,18 +135,18 @@ def match_call(lhs, to_map, rhs_call, mapping_data):
                 lhs.empty_first_call()
                 raise MatchException
     logger.debug("failed")
-    return (False, False)            
+    return (False, False)
 
 
 def node_match(zip_object, mapping_data, match):
     """Iterates over zip_object containing doubles of nodes,
     checks if it is possible to map them.
     """
-    for var_lhs, var_rhs  in zip_object:
+    for var_lhs, var_rhs in zip_object:
         if var_lhs in TopCall.top_level_vars and var_lhs == var_rhs or\
                 {var_rhs, var_lhs} in mapping_data.identical or var_rhs == 'nil' and var_lhs == 'nil':
             match = True
-        elif var_rhs not in TopCall.top_level_vars and  var_rhs != 'nil':
+        elif var_rhs not in TopCall.top_level_vars and var_rhs != 'nil':
             mapping_data.identical.append({var_rhs, var_lhs})
             match = True
         else:
@@ -159,9 +164,9 @@ def match_implicit_not_equals(rhs, mapping_data):
             if (len(set(ne) & mapping_data.allocated_nodes) == 2 or
                 (len(set(ne) & mapping_data.allocated_nodes) == 1 and
                  'nil' in set(ne))):
-                    logger.debug("Removing implicit not equal {}".format(ne))
-                    del rule.not_equal[index]
-                    return True
+                logger.debug("Removing implicit not equal {}".format(ne))
+                del rule.not_equal[index]
+                return True
     return False
 
 
@@ -175,7 +180,7 @@ def match_not_equals(to_map, lhs_call, mapping_data):
     for rule in lhs_call.rules_iter:
         if not rule.not_equal:
             continue
-            
+
         for double in itertools.product(to_map.not_equal, rule.not_equal):
             # creates set of mapping_data.identical identifiers for each of variables in double:
             # (('to_map1', 'to_map2'), ('rule1', 'rule2'))
@@ -185,7 +190,7 @@ def match_not_equals(to_map, lhs_call, mapping_data):
             first_set_rhs = set(mapping_data.get_aliases(double[1][0]))
             second_set_rhs = set(mapping_data.get_aliases(double[1][1]))
             # if intersection of first two sets and second two sets exists,
-            # we can match not equals 
+            # we can match not equals
             if first_set_to_map & first_set_rhs and second_set_to_map & second_set_rhs:
                 logger.debug("succeded {}".format(double))
                 for index, ne in enumerate(to_map.not_equal):
@@ -208,13 +213,13 @@ def equals_to_identical(rhs, mapping_data):
                 rhs.del_current_rule()
                 return True
     return False
-            
+
 
 def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
     """Expanding predicate calles on LHS and RHS and tries to map parts of
     formulas to each other.
     """
-    # Raises exception if disjunction appears on lhs. 
+    # Raises exception if disjunction appears on lhs.
     lhs.disjunction_check = True
     mapping_data = MappingData([], set())
     # Creating tuple forms of predicates
@@ -239,7 +244,7 @@ def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
     if verbose:
         logger.debug(pprint.pformat(long_preds))
     print_calles(lhs, rhs, mapping_data, verbose)
-    
+
     num = 0
     while lhs.has_nodes and rhs.has_nodes:
         try:
@@ -250,14 +255,14 @@ def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
         except MatchException:
             logger.debug("Successfull match, iteration restarted")
             print_calles(lhs, rhs, mapping_data, verbose)
-        else:           
+        else:
             result = expand_sophisticated(lhs, rhs, preds1, mapping_data, "Sophisticated expansion rhs") or\
-            expand_sophisticated(rhs, lhs, preds1, mapping_data, "Sophisticated expansion lhs")
+                expand_sophisticated(rhs, lhs, preds1, mapping_data, "Sophisticated expansion lhs")
             if not result and num % 2 == 0:
                 result = expand_leftmost(lhs, preds1, "Leftmost expansion lhs")
             elif not result:
                 result = expand_leftmost(rhs, preds1, "Leftmost expansion rhs")
-                
+
             num += 1
             print_calles(lhs, rhs, mapping_data, verbose)
             if num > 100:
@@ -267,7 +272,7 @@ def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
 
     # One expansion of top call where is still a predicate call present.
     # If result of expansion is disjunction part of it containg nodes will be
-    # removed 
+    # removed
     if lhs.has_nodes:
         expand_leftmost(lhs, preds1, "Leftmost expansion lhs")
         lhs.remove_nodes_from_disjunction

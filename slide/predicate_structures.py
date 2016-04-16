@@ -1,8 +1,9 @@
-# Michal Cyprian
-#
-# SL predicate expansion
-#
-# distributed under GNU GPL license
+"""Michal Cyprian
+
+SL predicate expansion
+
+distributed under GNU GPL license
+"""
 
 
 class CallsContainer(list):
@@ -63,17 +64,17 @@ class CallsContainer(list):
                 raise NotImplementedError("Disjunction on LHS not implemented")
 
             yield self[self.call_index].expanded_rules[self.rule_index]
-    
+
     def expand_current_call(self, preds, extension_rule=None):
         rule = self[self.call_index].expanded_rules[self.rule_index]
-        self[self.call_index].expand(preds[rule.calles[0][0]], 
+        self[self.call_index].expand(preds[rule.calles[0][0]],
                                      rule.calles[0][1],
                                      extension_rule)
         del self[self.call_index].expanded_rules[self.rule_index].calles[0]
         self.del_current_rule(if_empty=True)
 
     def del_current_rule(self, if_empty=False, remove_disjunctive=False):
-        """Delete rule on current indexes, if if_empty is set current 
+        """Delete rule on current indexes, if if_empty is set current
         rule is removed only if it is empty.
         """
         if if_empty and not self.empty_rule(self[self.call_index].expanded_rules[self.rule_index]):
@@ -81,7 +82,11 @@ class CallsContainer(list):
 
         if remove_disjunctive:
             # Remove all other disjunctive parts of call
-            self[self.call_index].expanded_rules = [self[self.call_index].expanded_rules[self.rule_index]]
+            self[
+                self.call_index].expanded_rules = [
+                self[
+                    self.call_index].expanded_rules[
+                    self.rule_index]]
             self.empty_first_rule()
         else:
             del self[self.call_index].expanded_rules[self.rule_index]
@@ -114,7 +119,7 @@ class CallsContainer(list):
         represention of calles.
         """
         return [call.expanded_rules_tuple_form for call in self]
-    
+
     @property
     def is_empty(self):
         """Indicates if object is completely empty (everithing was mapped) or
@@ -148,6 +153,7 @@ class CallsContainer(list):
 
 class Rule(object):
     """Class representing  one rule of the predicate"""
+
     def __init__(self, alloc, pointsto, calles, equal, not_equal):
         self.alloc = alloc
         self.pointsto = pointsto
@@ -171,14 +177,14 @@ class TopCall(object):
     def __init__(self, pred_name='', call=None):
         self.pred_name = pred_name
         self.call = call
-        self.expanded_rules = [Rule('', [], [(pred_name, call)], [], [])] if pred_name or call else []
+        self.expanded_rules = [Rule('', [], [(pred_name, call)], [], [])
+                               ] if pred_name or call else []
         if self.call:
             TopCall.top_level_vars |= {var for var in self.call if var != 'nil'}
 
-
     @property
     def global_equal(self):
-        return  [{rule.alloc: rule.equal} for rule in self.expanded_rules]
+        return [{rule.alloc: rule.equal} for rule in self.expanded_rules]
 
     @property
     def tuple_form(self):
@@ -186,13 +192,13 @@ class TopCall(object):
             return (self.pred_name, self.call)
         else:
             return tuple()
-    
+
     @property
     def expanded_rules_tuple_form(self):
         return [rule.quintuple for rule in self.expanded_rules]
 
     def expand(self, pred, call_args, extension_rule=None):
-        if self.expanded_rules == None:
+        if self.expanded_rules is None:
             self.call = None
             self.expanded_rules = []
         self.expanded_rules += pred(call_args, extension_rule)
@@ -206,7 +212,7 @@ class Predicate(object):
         if not isinstance(rules, list):
             rules = [rules]
         self.name = name
-        self.args = args        
+        self.args = args
         self.rules = rules
 
     @property
@@ -216,7 +222,6 @@ class Predicate(object):
     @property
     def short_tuple_form(self):
         return (self.args, [rule.quadruple for rule in self.rules])
-
 
     def replace_var(self, args_doubles, var):
         """Returns name of argument to replace var in predicate expansion,
@@ -230,7 +235,7 @@ class Predicate(object):
             else:
                 uniq_id = '{0}_{1}'.format(var, Predicate.uniq_id_counter)
                 Predicate.uniq_id_counter += 1
-                args_doubles.update({var : uniq_id})
+                args_doubles.update({var: uniq_id})
                 return uniq_id
 
     def __call__(self, arguments, extension_rule):
@@ -243,9 +248,9 @@ class Predicate(object):
         expanded_rules = []
         for rule in self.rules:
             expanded_alloc = self.replace_var(args_doubles, rule.alloc)
-            
+
             expanded_pointsto = [self.replace_var(args_doubles, var) for var in rule.pointsto]
-                       
+
             expanded_calles = []
             for call in rule.calles:
                 call_args = [self.replace_var(args_doubles, var) for var in call[1]]
@@ -254,11 +259,10 @@ class Predicate(object):
             if len(rule.equal) > 0 and isinstance(rule.equal[0], list):
                 expanded_equal = []
                 for eq in rule.equal:
-                    expanded_equal.append([self.replace_var(args_doubles, eq[0]), 
+                    expanded_equal.append([self.replace_var(args_doubles, eq[0]),
                                            self.replace_var(args_doubles, eq[1])])
             else:
                 expanded_equal = [self.replace_var(args_doubles, var) for var in rule.equal]
-
 
             expanded_not_equal = []
             for s in rule.not_equal:
@@ -269,8 +273,7 @@ class Predicate(object):
                 expanded_not_equal += extension_rule.not_equal
 
             expanded_rules.append(Rule(expanded_alloc, expanded_pointsto,
-                                       expanded_calles, expanded_equal, 
+                                       expanded_calles, expanded_equal,
                                        expanded_not_equal))
 
         return expanded_rules
-

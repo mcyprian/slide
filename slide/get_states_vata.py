@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-#
-# Adam Rogalewicz
-# 
-# SL to TA - top level calls
-# distrubuted under GNU GPL licence
-
+"""Adam Rogalewicz
+ 
+SL to TA - top level calls
+distrubuted under GNU GPL licence
+"""
 
 import sys
 import re

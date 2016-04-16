@@ -1,10 +1,12 @@
-# Adam Rogalewicz
-# 
-# SL to TA - rotation closure of canonically tiled tree automata labeled
-# distrubuted under GNU GPL licence
+"""Adam Rogalewicz
+ 
+SL to TA - rotation closure of canonically tiled tree automata labeled
+distrubuted under GNU GPL licence
+"""
 
 import string
-import functions
+
+from slide  import functions
 
 
 class RotateError(Exception):
@@ -19,12 +21,12 @@ def unique_prefix(states):
     while 1:
         good=1
         for x in states:
-            if string.find(x,pref+string.uppercase[act])==0:
+            if x.find(pref+string.ascii_uppercase[act])==0:
                 good=0
                 break 
         if good:
-            return pref+string.uppercase[act]
-        if act<len(string.uppercase):
+            return pref+string.ascii_uppercase[act]
+        if act<len(string.ascii_uppercase):
             act=act+1
         else:
             act=0

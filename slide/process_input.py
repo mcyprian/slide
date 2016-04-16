@@ -1,12 +1,15 @@
-# Adam Rogalewicz
-# 
-# SL to TA
-# distrubuted under GNU GPL licence
+"""Adam Rogalewicz
+ 
+SL to TA
+distrubuted under GNU GPL licence
+"""
 
-from predicate_structures import Rule, Predicate, TopCall, CallsContainer
 import re
-import functions
-import join
+
+from slide.predicate_structures import Rule, Predicate, TopCall, CallsContainer
+from slide import functions
+from slide import join_core
+from slide.join_utils import alloc
 
 
 class InputError(Exception):
@@ -176,15 +179,6 @@ def parse_predicate(pred,parsed_preds):
     parsed_preds[pred_name]=(Predicate(pred_name, pred_par, rules))
     return emp_rules
     
-def alloc(pr,param_no,preds):
-    # check whether the (param_no)^th parameter of the predicate "pr" is 
-    # allocated in all its rules
-    (params,rules)= preds[pr]
-    res=1
-    for (al,pt,calls,equal) in rules:
-        if not (params[param_no] in [al]+equal):
-            res=0
-    return res
 
 def points_to(pr,param_no,preds):
     # check whether the (param_no)^th parameter of the predicate "pr" is 
@@ -343,14 +337,6 @@ def remove_multiple_occurences(a):
             a.pop(a.index(x))
     return res
 
-def intersect_lists(a,b):
-# check intersection between the lists a and b
-# return the number of elements in the intersection
-    number=0
-    for x in a:
-        if x in b:
-            number=number+1
-    return number
 
 def join_equalities(a):
 # join equlities
@@ -1022,7 +1008,7 @@ def make_aut(preds, top_calls, params, root_rule, empty_rule, tiles):
         emptyheap_eq=[] # No empty heap defined by the system of predicates ---> false represented as []
     if type==2:
         # type==2: join operator on top level calls to translate into a single Rootcall
-        (root_rule,params,emptyheap_eq)=join.join(preds,top_calls,emptyheap_eq,ex_params)
+        (root_rule,params,emptyheap_eq)=join_core.join(preds,top_calls,emptyheap_eq,ex_params)
 
         # rename all variables in conflict between parameters and predicates
         rename_conflicts_with_params(preds,params)

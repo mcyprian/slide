@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-#
-# Adam Rogalewicz
-# 
-# SL to TA - entailment on empty heaps
-# distrubuted under GNU GPL licence
-
+"""Adam Rogalewicz
+ 
+SL to TA - entailment on empty heaps
+distrubuted under GNU GPL licence
+"""
 
 def entailment(eh1,eh2):
     if eh1==[]:

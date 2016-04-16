@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
-# Michal Cyprian
-# 
-# analysis of slide performance
-# distrubuted under GNU GPL licence
+"""Michal Cyprian
+ 
+Analysis of slide performance
+distrubuted under GNU GPL licence
+"""
 
 import sys
 import os
@@ -12,7 +13,7 @@ import pprint
 import datetime
 from abc import ABCMeta
 
-import entailment
+from slide import entailment
 
 
 class StringWriter(object):
@@ -73,7 +74,7 @@ class PerformanceAnalyzer(PerformanceObject):
             file_name = file_lhs.split('/')[-1][:-4]
             self.input_files = self.input_files[2:]
             try:
-                entailment.main(file_lhs, file_rhs, verbose=False, enabled=True, output_stream=output_stream)
+                entailment.entailment(file_lhs, file_rhs, verbose=False, enabled=True, output_stream=output_stream)
             except Exception as e:
                 print("Exception occured")
                 self.results[file_name] = (e.__class__.__name__, e.args)

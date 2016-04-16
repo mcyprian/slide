@@ -1,9 +1,10 @@
-# Adam Rogalewicz
-# 
-# SL to TA prototype implementation
-# distrubuted under GNU GPL licence
-#
-# Global setting
+"""Adam Rogalewicz
+ 
+SL to TA prototype implementation
+distrubuted under GNU GPL licence
+
+Global setting
+"""
 
 # free variables, which appear only on lhs or only on rhs of the entailment are automatelly quantified as existential
 implicit_exists=True

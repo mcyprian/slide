@@ -1,9 +1,11 @@
-# Adam Rogalewicz
-# 
-# SL to TA
-# distrubuted under GNU GPL licence
+"""Adam Rogalewicz
 
-# Global function
+SL to TA
+distrubuted under GNU GPL licence
+
+Global function
+"""
+
 import tempfile
 
 class FunctionError(Exception):

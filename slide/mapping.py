@@ -1,16 +1,17 @@
-# Michal Cyprian
-#
-# Expansion and mapping
-#
-# distributed under GNU GPL license
+"""Michal Cyprian
+
+Expansion and mapping
+
+distributed under GNU GPL license
+"""
 
 import sys
 import pprint
 import itertools
 import logging
 
-from input import InputError
-from predicate_structures import TopCall, Rule
+from slide.process_input import InputError
+from slide.predicate_structures import TopCall, Rule
 
 logger = logging.getLogger(__name__)
 logger.setLevel("NOTSET")

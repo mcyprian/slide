@@ -1,13 +1,14 @@
 #!/usr/bin/python3
-#
-# Adam Rogalewicz
-# 
-# SL to TA - entailment on empty heaps
-# distrubuted under GNU GPL licence
+"""Adam Rogalewicz
+SL to TA - entailment on empty heaps
+distrubuted under GNU GPL licence
 
-# eq1 => eq2
-# eq1 - a list of equal variables
-# eq2 - a list of equal variables
+Example:
+    eq1 => eq2
+    eq1 - a list of equal variables
+    eq2 - a list of equal variables
+"""
+
 def match(eq1,eq2):
     for x in eq2:
         if not x in eq1:

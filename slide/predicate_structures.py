@@ -1,8 +1,9 @@
-# Michal Cyprian
-#
-# SL predicate expansion
-#
-# distributed under GNU GPL license
+"""Michal Cyprian
+
+SL predicate expansion
+
+distributed under GNU GPL license
+"""
 
 
 class CallsContainer(list):

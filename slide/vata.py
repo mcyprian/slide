@@ -1,12 +1,15 @@
-# Adam Rogalewicz
-# 
-# SL to TA prototype implementation
-# distrubuted under GNU GPL licence
+"""Adam Rogalewicz
+ 
+SL to TA prototype implementation
+distrubuted under GNU GPL licence
+"""
 
 import os
 import re
-import functions
-from settings import *
+
+from  slide import functions
+from slide.settings import VATA_path
+
 #tmp_dir="tmp"
 #VATA_path="/home/rogalew/Experiments/libvata/build/cli/vata"
 

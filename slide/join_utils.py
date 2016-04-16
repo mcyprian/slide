@@ -1,9 +1,12 @@
-# Adam Rogalewicz
-# 
-# SL to TA
-# Join operator on system of predicates
-#
-# distrubuted under GNU GPL licence
+"""Adam Rogalewicz
+ 
+SL to TA
+Utils of join operator on system of predicates
+
+distrubuted under GNU GPL licence
+"""
+
+import re
 
 class JoinFailed(Exception):
     def __init__(self, value):
@@ -12,13 +15,20 @@ class JoinFailed(Exception):
         return repr(self.value)
 
 
-
-import input
-import re
-
 def create_intersection(a,b):
         #create list as an intersection between lists 
     return [val for val in a if val in b]
+
+
+def intersect_lists(a,b):
+# check intersection between the lists a and b
+# return the number of elements in the intersection
+    number=0
+    for x in a:
+        if x in b:
+            number=number+1
+    return number
+
 
 def get_list_position(item,l):
     if not item in l:
@@ -51,16 +61,26 @@ def add_on_position(l,pos,item):
         res.append(l[i])
     return res
 
+def alloc(pr,param_no,preds):
+    # check whether the (param_no)^th parameter of the predicate "pr" is 
+    # allocated in all its rules
+    (params,rules)= preds[pr]
+    res=1
+    for (al,pt,calls,equal) in rules:
+        if not (params[param_no] in [al]+equal):
+            res=0
+    return res
+
 def join_empty_heaps(empty1,empty2,candidate,to_remove):
     join=[]
     #first join the emptyheap equalities
     for disj1 in empty1:
         for disj2 in empty2:
             aux=list(disj1)+list(disj2)
-            aux=input.join_equalities(aux)
+            aux=process_input.join_equalities(aux)
             aux2=[]
             for i in aux:
-                aux2.append(input.remove_multiple_occurences(i))
+                aux2.append(process_input.remove_multiple_occurences(i))
             join.append(aux2)
     # remove candidate if "to_remove" is set
     if to_remove:
@@ -134,8 +154,8 @@ def join_empty_LHS(call,params,new_call2,new_params2,old_call2,old_params2,preds
         equal.append(new_conj)
     equal1=[]
     for x in equal:
-        equal1.append(input.remove_multiple_occurences(x))    
-    equal1=input.join_equalities(equal1)
+        equal1.append(process_input.remove_multiple_occurences(x))    
+    equal1=process_input.join_equalities(equal1)
     new_rule_params=preds[new_call2][0]
     # in the forbid variable, we store parameters, which are checked for the following:
     # they must be existentially quantified
@@ -152,7 +172,7 @@ def join_empty_LHS(call,params,new_call2,new_params2,old_call2,old_params2,preds
             if alloc in conj:
                 repres=alloc
             else:
-                tmp=input.intersect_lists(new_rule_params,conj)
+                tmp=intersect_lists(new_rule_params,conj)
                 if tmp>1:
                     # equality between formal parameters implemented only if they are equal to the allocated node
                     if "nil" in conj:
@@ -213,7 +233,7 @@ def do_join(candidate,call,params,empty1,call2,params2,empty2,preds,par_intersec
     #LHS: call2,params2,empty2
     #RHS: call,params,empty1
     
-    pos=input.get_param_numbers(params,candidate)
+    pos=process_input.get_param_numbers(params,candidate)
     if not len(pos)==1:
         raise JoinFailed("JOIN: Not implemented")
     params_prop=list(params)
@@ -231,7 +251,7 @@ def do_join(candidate,call,params,empty1,call2,params2,empty2,preds,par_intersec
         if "nil-X" in name:
             raise JoinFailed("JOIN: Name %s is forbiden in the input file"%name)
 
-    input.rename_conflicts_with_params(preds,params_prop) # this guarantee that params_prop are not used within the system of predicates
+    process_input.rename_conflicts_with_params(preds,params_prop) # this guarantee that params_prop are not used within the system of predicates
     # remove the parameters in the intersection between params and params2 different from candidate from params_prop
     params_prop_orig=list(params_prop) #make a copy
     tracked_params_RHS=[]
@@ -253,7 +273,7 @@ def do_join(candidate,call,params,empty1,call2,params2,empty2,preds,par_intersec
             new_params2[i]="nil"
     # we have to track the parameter z from call2 and attach the call to the place, where z is reffered
     prefix=candidate
-    while input.unique_pred_prefix(preds,prefix)==0:
+    while process_input.unique_pred_prefix(preds,prefix)==0:
         prefix=prefix+"X"
     TODO=[(call2,params2.index(candidate),0)]    
     DONE=[]
@@ -278,7 +298,7 @@ def do_join(candidate,call,params,empty1,call2,params2,empty2,preds,par_intersec
                 #variable allocated - no join possible
                 raise JoinFailed("Join ERROR: variable allocated")
             elif var_name in pointsto:
-                (prop_pred,prop_item,prop_num)=input.propagated(var_name,calls)
+                (prop_pred,prop_item,prop_num)=process_input.propagated(var_name,calls)
                 if prop_num==-1:
                     # create a set of parameters according to params_prop_orig and t_pars_local
                     pars=list(params_prop_orig)
@@ -299,20 +319,20 @@ def do_join(candidate,call,params,empty1,call2,params2,empty2,preds,par_intersec
                                 for x in conj:
                                     new_conj.append(new_pars[params.index(x)])
                                 local_copy.append(new_conj)
-                            tmp=input.create_new_rule(alloc,pointsto,0,equal,new_params,local_copy,calls)
+                            tmp=process_input.create_new_rule(alloc,pointsto,0,equal,new_params,local_copy,calls)
                             new_rules.append(tmp)
                                     
                 else:
                     raise JoinFailed("Join Error: variable %s refered and propagated in predicate %s"%(candidate,p_name))
             else:
                 # tady je treba prepocitat tracked_params
-                (prop_pred,prop_item,prop_var_num)=input.propagated(var_name,calls)
+                (prop_pred,prop_item,prop_var_num)=process_input.propagated(var_name,calls)
                 if prop_var_num>=0:
                     new_calls=deleteandadd_call_item(prop_item,prop_var_num,params_prop,list(calls),to_remove)
                     # compute, how the tracked_variables are progressed
                     t_vars_prop=[]
                     for tv in t_pars_local:
-                        tv_pred,tv_item,tv_var_num=input.propagated(tv,calls)
+                        tv_pred,tv_item,tv_var_num=process_input.propagated(tv,calls)
                         if not (tv_item==prop_item and prop_pred==tv_pred):
                             raise JoinFailed("JOIN: complicated join, not implemented")
                         t_vars_prop.append(tv_var_num)
@@ -340,109 +360,3 @@ def do_join(candidate,call,params,empty1,call2,params2,empty2,preds,par_intersec
             if (not x=="nil"):
                 forbid.append(x)
     return (new_call2,new_params2,new_empty,forbid)
-
-
-
-def join(preds,top_calls,emptyheap_eq,ex_quantified):
-    # it emptyheap_eq==[] then join sould not create some empty heap - assert in the furure
-    work_with_emptyheap=(not emptyheap_eq==[])
-    while len(top_calls)>1:
-        # pick the first call for the join
-        call,params=top_calls.pop(0)
-        if emptyheap_eq==[]:
-            empty=[]
-        else:
-            empty=emptyheap_eq.pop(0)
-        #find a second call for a join
-        # maximal number of attempts is given by the number of top calls
-        candidate=""
-        count=0
-        while (candidate=="") and (count<len(top_calls)):
-            count=count+1
-            find=0
-            for i in range(len(top_calls)):
-                call2,params2=top_calls[i]
-                if emptyheap_eq==[]:
-                    empty2=[]
-                else:
-                    empty2=emptyheap_eq[i]
-                p_intersect=create_intersection(params,params2)
-                if not (p_intersect==[] or (len(p_intersect)==1 and "nil" in p_intersect)):
-                    top_calls.pop(i)
-                    if not emptyheap_eq==[]:
-                        emptyheap_eq.pop(i)
-                    find=1
-                    break
-            if find==0:
-                raise JoinFailed("Join failed")
-            # find the candidate variable
-            # - the candidate must be allocated in head of one of the calls
-            # - the candidate must be an existentially quantified variable
-            # - the candidate must be a link only between these two calls
-            candidate=""
-            for par in p_intersect:
-                if (input.alloc(call,params.index(par),preds)):
-                    candidate=par
-            if candidate=="":
-                # swap positions of call and call2
-                call_aux=call
-                call=call2
-                call2=call_aux
-                params_aux=params
-                params=params2
-                params2=params_aux
-                empty_aux=empty
-                empty=empty2
-                empty2=empty_aux
-                for par in p_intersect:
-                    if (input.alloc(call,params.index(par),preds)):
-                        candidate=par
-            if candidate=="":
-                # still no success,  push call (originally call2) back to topcalls 
-                # swap back call2 to call
-                # then we will try so other item from topcall as call2
-                top_calls.append((call,params))
-                if work_with_emptyheap:
-                    emptyheap_eq.append(empty)
-                (call,params,empty)=(call2,params2,empty2)
-        # check whether the candidate was found
-        if candidate=="":
-            raise JoinFailed("Join failed: impossible to join the input into a single predicate call (or bad strategy)")
-        if candidate=="nil":
-            raise JoinFailed("Something odd happened: nil taken as a candidate. nil existantially quantified in RootCall?")
-        # create a list of other parameters (different from candidate and nil) shared between the two calls 
-        # pop the "candidate"
-        p_intersect.pop(p_intersect.index(candidate))
-        # pop all "nil" variables
-        while "nil" in p_intersect:
-            p_intersect.pop(p_intersect.index("nil"))            
-
-        #the candidate is removed from the parameters after join
-        # if is it existentially quantified and it is not a parameter of other top level call
-        to_remove=candidate in ex_quantified
-        for (callX,paramsX) in top_calls:
-            if candidate in paramsX:
-                to_remove=False
-                #raise JoinFailed("Join failed: parameter %s is in more the two calls on top level"%candidate)
-        (call,params,empty,forbid)=do_join(candidate,call,params,empty,call2,params2,empty2,preds,p_intersect,to_remove)
-        # check that variables in forbid are no more part of top calls and forbid is ex_quantificated
-        for x in forbid:
-            if not x in ex_quantified:
-                raise JoinFailed("JOIN: forbiden variable is not existentially quantified")
-        for (c,p) in top_calls:
-            if input.intersect_lists(p,forbid)>0:
-                raise JoinFailed("JOIN: forbiden variable in other calls")
-        # add the newly created top call
-        top_calls.append((call,params))
-        if work_with_emptyheap:
-            emptyheap_eq.append(empty)
-        elif (not empty==[]):
-            raise JoinFailed("JOIN: ERROR: created emptyheap from some non-empty stuff")
-    
-    root_rule,root_params=top_calls[0]
-    if emptyheap_eq==[]:
-        ret_empty=[]
-    else:
-        ret_empty=emptyheap_eq[0]
-    return (root_rule,root_params,ret_empty)
-

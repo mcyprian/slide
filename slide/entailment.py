@@ -1,22 +1,21 @@
-#!/usr/bin/python3
-#
-# Adam Rogalewicz
-# 
-# SL to TA - top level calls
-# distrubuted under GNU GPL licence
+"""Adam Rogalewicz, Michal Cyprian
+ 
+SL to TA - top level calls
+distrubuted under GNU GPL licence
+Usage: entailment.py file_lhs file_rhs
+"""
 
-# Usege: python3 entailment.py file_with_pred1 file_with_pred2
-
-import input
-import rotate
-import sys
 import os
-import vata
-import functions
-import mapping
-from settings import *
-import emptyheap
+import sys
 import subprocess
+
+import slide.process_input as pi
+from slide import rotate
+from slide import vata
+from slide import functions
+from slide import mapping
+from slide.settings import implicit_exists, VATA_path
+from slide import emptyheap
 
 
 def performance_check(main_fce):
@@ -37,12 +36,12 @@ def performance_check(main_fce):
 
 
 @performance_check
-def main(file_lhs, file_rhs, verbose):
+def entailment(file_lhs, file_rhs, verbose):
     tiles=[]
     # first collect the free variables, which appear on both sides of the entailment
     if implicit_exists:
-        free_lhs=input.get_free_variables(file_lhs)
-        free_rhs=input.get_free_variables(file_rhs)
+        free_lhs=pi.get_free_variables(file_lhs)
+        free_rhs=pi.get_free_variables(file_rhs)
         if free_lhs=="ALL":
             if verbose:
                 print("WARNING: LHS in the old format -> implicit quantification skiped")
@@ -59,8 +58,8 @@ def main(file_lhs, file_rhs, verbose):
     else:        
         free="ALL"
     # parse the input
-    (preds1, top_call1, params1, root_rule1, empty_rule1) = input.parse_input(file_lhs, free) 
-    (preds2, top_call2, params2, root_rule2, empty_rule2) = input.parse_input(file_rhs, free) 
+    (preds1, top_call1, params1, root_rule1, empty_rule1) = pi.parse_input(file_lhs, free) 
+    (preds2, top_call2, params2, root_rule2, empty_rule2) = pi.parse_input(file_rhs, free) 
 
 
     (preds1, top_call1, preds2, top_call2) = mapping.map_nodes(preds1, preds2,
@@ -76,9 +75,9 @@ def main(file_lhs, file_rhs, verbose):
         return 0
 
     
-    (aut1,emptyheap_eq1,eq_edges1)=input.make_aut(preds1, top_call1, params1, 
+    (aut1,emptyheap_eq1,eq_edges1)=pi.make_aut(preds1, top_call1, params1, 
                                                   root_rule1, empty_rule1, tiles)
-    (aut2,emptyheap_eq2,eq_edges2)=input.make_aut(preds2, top_call2, params2,
+    (aut2,emptyheap_eq2,eq_edges2)=pi.make_aut(preds2, top_call2, params2,
                                                   root_rule2, empty_rule2, tiles)
     # check entailment of empty heaps
     if not emptyheap.entailment(emptyheap_eq1,emptyheap_eq2):
@@ -116,17 +115,17 @@ def main(file_lhs, file_rhs, verbose):
     os.unlink(file1)
     os.unlink(file2)
 
-if __name__ == '__main__':
-    if len(sys.argv) < 3:
+def main(sys_argv):
+    if len(sys_argv) < 3:
         print("Expected usage:")
         print("Standard mode (all error messages are provided): entailment.py file_with_pred1 file_with_pred2")
         print("Silent mode (no error messages): entailment.py -s file_with_pred1 file_with_pred2")
         sys.exit()
-    if sys.argv[1]=="-s":
+    if sys_argv[1]=="-s":
         try:
-            main(sys.argv[2], sys.argv[3], False)
+            entailment(sys_argv[2], sys_argv[3], False)
         except:
             print("UNKNOWN")
             sys.exit(1)
     else:
-        main(sys.argv[1], sys.argv[2], True)
+        entailment(sys_argv[1], sys_argv[2], True)

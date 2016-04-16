@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """Michal Cyprian
- 
+
 Analysis of slide performance
 distrubuted under GNU GPL licence
 """
@@ -18,6 +18,7 @@ from slide import entailment
 
 class StringWriter(object):
     """Class to redirect file descriptor (stdout) to string variable."""
+
     def __init__(self):
         self.content = ''
 
@@ -36,7 +37,7 @@ class StringWriter(object):
 
 class PerformanceObject(metaclass=ABCMeta):
     """Abstract base class of performance comparing classes"""
-    
+
     def __init__(self, output_file=None):
         if not output_file:
             date = datetime.date.today()
@@ -49,7 +50,7 @@ class PerformanceObject(metaclass=ABCMeta):
     def save_output(self, attr):
         with open(self.output_file + '_' + attr, 'w') as fo:
             fo.write(self.yaml_attr(attr))
-    
+
     def load_file(self, file_name):
         with open(file_name, 'r') as fi:
             return fi.read()
@@ -60,6 +61,7 @@ class PerformanceAnalyzer(PerformanceObject):
     creates dictionary of input files and results. Can store dictionary
     to yaml file or compare results of two analyses.
     """
+
     def __init__(self, input_dir, output_file=None):
         super(PerformanceAnalyzer, self).__init__(output_file)
 
@@ -74,7 +76,12 @@ class PerformanceAnalyzer(PerformanceObject):
             file_name = file_lhs.split('/')[-1][:-4]
             self.input_files = self.input_files[2:]
             try:
-                entailment.entailment(file_lhs, file_rhs, verbose=False, enabled=True, output_stream=output_stream)
+                entailment.entailment(
+                    file_lhs,
+                    file_rhs,
+                    verbose=False,
+                    enabled=True,
+                    output_stream=output_stream)
             except Exception as e:
                 print("Exception occured")
                 self.results[file_name] = (e.__class__.__name__, e.args)
@@ -98,6 +105,7 @@ class PerformanceAnalyzer(PerformanceObject):
 class PerformanceComparer(PerformanceObject):
     """Compares results from two yaml files containig
     PerformanceAnalyzer output."""
+
     def __init__(self, first, second, output_file=None):
         super(PerformanceComparer, self).__init__(output_file)
         self.first = yaml.load(self.load_file(first))
@@ -111,9 +119,9 @@ class PerformanceComparer(PerformanceObject):
                 first_key = self.first[key]
                 second_key = self.second[key]
                 if ((isinstance(first_key, tuple) and isinstance(second_key, tuple)) or
-                    (first_key == 'UNKNOWN') or
-                    (first_key == 'INVALID' and isinstance(second_key, tuple)) or
-                    (second_key == 'INVALID' and isinstance(first_key, tuple))):
+                        (first_key == 'UNKNOWN') or
+                        (first_key == 'INVALID' and isinstance(second_key, tuple)) or
+                        (second_key == 'INVALID' and isinstance(first_key, tuple))):
                     self.acceptable_change[key] = (first_key, second_key)
                 else:
                     self.unacceptable_change[key] = (first_key, second_key)
@@ -137,12 +145,14 @@ def invert_dict(input_dict):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        sys.stderr.write("Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
+        sys.stderr.write(
+            "Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
         sys.exit(1)
 
     if sys.argv[1] == "-c":
         if len(sys.argv) < 4:
-            sys.stderr.write("Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
+            sys.stderr.write(
+                "Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
             sys.exit(1)
         else:
             perform_comparer = PerformanceComparer(*sys.argv[2:])

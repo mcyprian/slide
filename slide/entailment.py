@@ -18,24 +18,35 @@ from slide.settings import implicit_exists, VATA_path
 from slide import emptyheap
 
 
-def performance_check(main_fce):
+class StdoutRedirected(object):
+    """Class to temporarily redirect stdout to specified object."""
+
+    def __init__(self, temp_stdout):
+        self.temp_stdout = temp_stdout
+        self.old_stdout = None
+
+    def __enter__(self):
+        self.old_stdout = sys.stdout
+        sys.stdout = self.temp_stdout
+
+    def __exit__(self, etype, value, traceback):
+        sys.stdout = self.old_stdout
+
+
+def performance_check_wrapper(main_fce):
     """Decorator redirecting stdout to string output stream if
     performance_check is enabled.
     """
     def inner(file_lhs, file_rhs, verbose, enabled=False, output_stream=None):
         if enabled:
-            old_stdout = sys.stdout
-            sys.stdout = output_stream
-            try:
+            with StdoutRedirected(output_stream):
                 main_fce(file_lhs, file_rhs, verbose=False)
-            finally:
-                sys.stdout = old_stdout
         else:
             main_fce(file_lhs, file_rhs, verbose)
     return inner
 
 
-@performance_check
+@performance_check_wrapper
 def entailment(file_lhs, file_rhs, verbose):
     tiles = []
     # first collect the free variables, which appear on both sides of the entailment

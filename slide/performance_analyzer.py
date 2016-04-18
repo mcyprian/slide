@@ -83,12 +83,10 @@ class PerformanceAnalyzer(PerformanceObject):
                     enabled=True,
                     output_stream=output_stream)
             except Exception as e:
-                print("Exception occured")
                 self.results[file_name] = (e.__class__.__name__, e.args)
             else:
                 self.results[file_name] = output_stream.content
             output_stream.empty()
-            print("file: {0} result: {1}".format(file_name, output_stream.content))
         pprint.pprint(self.results)
         pprint.pprint(self.statistics)
         self.save_output('results')
@@ -143,21 +141,21 @@ def invert_dict(input_dict):
     return inverted_dict
 
 
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
+def check_performance(sys_argv):
+    if len(sys_argv) < 3:
         sys.stderr.write(
             "Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
         sys.exit(1)
 
-    if sys.argv[1] == "-c":
-        if len(sys.argv) < 4:
+    if sys_argv[2] == "-c":
+        if len(sys.argv) < 5:
             sys.stderr.write(
                 "Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
             sys.exit(1)
         else:
-            perform_comparer = PerformanceComparer(*sys.argv[2:])
+            perform_comparer = PerformanceComparer(*sys_argv[3:])
             perform_comparer.compare()
             sys.exit(0)
 
-    perform_analyzer = PerformanceAnalyzer(*sys.argv[1:])
+    perform_analyzer = PerformanceAnalyzer(*sys_argv[2:])
     perform_analyzer.analyse()

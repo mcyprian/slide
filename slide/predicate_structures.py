@@ -5,6 +5,7 @@ SL predicate expansion
 distributed under GNU GPL license
 """
 
+from copy import deepcopy
 
 class CallsContainer(list):
     """Container to store TopCall objects, subclass of built-in list,
@@ -64,6 +65,21 @@ class CallsContainer(list):
                 raise NotImplementedError("Disjunction on LHS not implemented")
 
             yield self[self.call_index].expanded_rules[self.rule_index]
+ 
+    @property
+    def current_call(self):
+        return self[self.call_index]
+
+    @property
+    def branch_calls(self):
+        """Creates copies of self, with current call replaced with one part
+        of disjunction."""
+        calles = []
+        for index, rule in enumerate(self.current_call.expanded_rules):
+            call = deepcopy(self)
+            call[self.call_index].expanded_rules = [self.current_call.expanded_rules[index]]
+            calles.append(call)
+        return calles
 
     def expand_current_call(self, preds, extension_rule=None):
         rule = self[self.call_index].expanded_rules[self.rule_index]

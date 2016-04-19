@@ -14,7 +14,7 @@ from slide.process_input import InputError
 from slide.predicate_structures import TopCall, Rule
 
 logger = logging.getLogger(__name__)
-logger.setLevel("NOTSET")
+logger.setLevel("DEBUG")
 logger.addHandler(logging.StreamHandler(sys.stderr))
 
 
@@ -216,9 +216,6 @@ def equals_to_identical(rhs, mapping_data):
 
 
 def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
-    """Expanding predicate calles on LHS and RHS and tries to map parts of
-    formulas to each other.
-    """
     # Raises exception if disjunction appears on lhs.
     lhs.disjunction_check = True
     mapping_data = MappingData([], set())
@@ -245,28 +242,49 @@ def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
         logger.debug(pprint.pformat(long_preds))
     print_calles(lhs, rhs, mapping_data, verbose)
 
-    num = 0
-    while lhs.has_nodes and rhs.has_nodes:
-        try:
-            for rule in lhs.rules_iter:
-                match_rule(lhs, rule, rhs, mapping_data)
-                if rule.calles:
-                    match_call(lhs, rule, rhs, mapping_data)
-        except MatchException:
-            logger.debug("Successfull match, iteration restarted")
-            print_calles(lhs, rhs, mapping_data, verbose)
-        else:
-            result = expand_sophisticated(lhs, rhs, preds1, mapping_data, "Sophisticated expansion rhs") or\
-                expand_sophisticated(rhs, lhs, preds1, mapping_data, "Sophisticated expansion lhs")
-            if not result and num % 2 == 0:
-                result = expand_leftmost(lhs, preds1, "Leftmost expansion lhs")
-            elif not result:
-                result = expand_leftmost(rhs, preds1, "Leftmost expansion rhs")
+    if map_branch(preds1, lhs, rhs, mapping_data, verbose):
+        return (True, True, True, True)
+    else:
+        return (False, False, False, False)
 
-            num += 1
-            print_calles(lhs, rhs, mapping_data, verbose)
-            if num > 100:
-                return (False, False, False, False)
+
+def map_branch(preds1, lhs, rhs, mapping_data, verbose):
+    """Expanding predicate calles on LHS and RHS and tries to map parts of
+    formulas to each other.
+    """
+    print("Map branch")
+    print_calles(lhs, rhs, mapping_data, verbose)
+    num = 0
+    try:
+        while lhs.has_nodes and rhs.has_nodes:
+            try:
+                for rule in lhs.rules_iter:
+                    match_rule(lhs, rule, rhs, mapping_data)
+                    if rule.calles:
+                        match_call(lhs, rule, rhs, mapping_data)
+            except MatchException:
+                logger.debug("Successfull match, iteration restarted")
+                print_calles(lhs, rhs, mapping_data, verbose)
+            else:
+                result = expand_sophisticated(lhs, rhs, preds1, mapping_data, "Sophisticated expansion rhs") or\
+                    expand_sophisticated(rhs, lhs, preds1, mapping_data, "Sophisticated expansion lhs")
+                if not result and num % 2 == 0:
+                    result = expand_leftmost(lhs, preds1, "Leftmost expansion lhs")
+                elif not result:
+                    result = expand_leftmost(rhs, preds1, "Leftmost expansion rhs")
+
+                num += 1
+                print_calles(lhs, rhs, mapping_data, verbose)
+                if num > 100:
+                    return False
+    except NotImplementedError:
+        print("Disjunction on LHS recursive call for each branch.")
+        results = []
+        for new_lhs in lhs.branch_calls:
+            results.append(map_branch(preds1, new_lhs, rhs, mapping_data,
+                verbose))
+        print(results)
+        sys.exit(1)
 
     logger.debug("Start matching of not_equal")
 
@@ -297,6 +315,6 @@ def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
             else:
                 num += 1
             if num > 100:
-                return (False, False, False, False)
+                return False
 
-    return (True, True, True, True)
+    return True

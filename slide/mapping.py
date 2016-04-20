@@ -9,12 +9,14 @@ import sys
 import pprint
 import itertools
 import logging
+from copy import deepcopy
+from copy import deepcopy
 
 from slide.process_input import InputError
 from slide.predicate_structures import TopCall, Rule
 
 logger = logging.getLogger(__name__)
-logger.setLevel("DEBUG")
+logger.setLevel("NOTSET")
 logger.addHandler(logging.StreamHandler(sys.stderr))
 
 
@@ -29,7 +31,7 @@ class MappingData(object):
 
     def __init__(self, identical=None, allocated_nodes=None):
         if not isinstance(identical, list):
-            identical = [mapping_data.identical]
+            identical = [identical]
 
         if not isinstance(allocated_nodes, set):
             allocated_nodes = set([allocated_nodes])
@@ -37,20 +39,39 @@ class MappingData(object):
         self.identical = identical
         self.allocated_nodes = allocated_nodes
 
+    def add_to_identical(self, double_set):
+        if not self.identical:
+            self.identical.append(double_set)
+        else:
+            # extend existing set if one of nodes in double is already in
+            # indentical
+            for s in self.identical:
+                if s & double_set:
+                    s |= double_set
+                    return
+            self.identical.append(double_set)
+
+    def is_identical(self, double_set):
+        for s in self.identical:
+            if double_set.issubset(s):
+                return True
+        return False
+
     def get_aliases(self, var):
         """Returns list of identifier aliases of node var"""
         identical_list = [var]
         for s in self.identical:
             if var in s:
-                identical_list.append((s - {var}).pop())
-        return identical_list
+                return list(s)
+        return [var]
 
 
-def print_calles(lhs, rhs, mapping_data, verbose=True):
+def print_calles(lhs, rhs, mapping_data, verbose=True, number=(0, 0)):
     """Visualize content of LHS, RHS and identical identifiers"""
     if not verbose:
         return
-    logger.debug("\n--------------------------------------------------------------------")
+    logger.debug("\n----------------------------- BRANCH {}"
+            "------------------------------".format(number))
     logger.debug("LHS:")
     logger.debug(pprint.pformat(lhs.calls_tuple_form))
     logger.debug("\nRHS:")
@@ -99,7 +120,7 @@ def match_rule(lhs, to_map, rhs_call, mapping_data):
 
     for rule in rhs_call.rules_iter:
         if to_map.alloc in TopCall.top_level_vars and to_map.alloc == rule.alloc or\
-                {to_map.alloc, rule.alloc} in mapping_data.identical:
+                mapping_data.is_identical({to_map.alloc, rule.alloc}):
             match = node_match(zip(to_map.pointsto, rule.pointsto), mapping_data, match)
             if match is True:
                 logger.debug(
@@ -130,7 +151,7 @@ def match_call(lhs, to_map, rhs_call, mapping_data):
             match = node_match(zip(to_map.calles[0][1], rule.calles[0][1]), mapping_data, match)
             if match == True:
                 logger.debug("Succeded, call {}".format(rule.calles))
-                rule.calles = None
+                rule.calles = []
                 rhs_call.del_current_rule(remove_disjunctive=True)
                 lhs.empty_first_call()
                 raise MatchException
@@ -144,10 +165,10 @@ def node_match(zip_object, mapping_data, match):
     """
     for var_lhs, var_rhs in zip_object:
         if var_lhs in TopCall.top_level_vars and var_lhs == var_rhs or\
-                {var_rhs, var_lhs} in mapping_data.identical or var_rhs == 'nil' and var_lhs == 'nil':
+                mapping_data.is_identical({var_rhs, var_lhs}) or var_rhs == 'nil' and var_lhs == 'nil':
             match = True
         elif var_rhs not in TopCall.top_level_vars and var_rhs != 'nil':
-            mapping_data.identical.append({var_rhs, var_lhs})
+            mapping_data.add_to_identical({var_rhs, var_lhs})
             match = True
         else:
             match = False
@@ -208,7 +229,7 @@ def equals_to_identical(rhs, mapping_data):
     for rule in rhs.rules_iter:
         for eq in rule.equal:
             if len(set(TopCall.top_level_vars) & set(eq)) < 2:
-                mapping_data.identical.append(set(eq))
+                mapping_data.add_to_identical(set(eq))
                 logger.debug("Moving {} to identical".format(eq))
                 rhs.del_current_rule()
                 return True
@@ -242,18 +263,21 @@ def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
         logger.debug(pprint.pformat(long_preds))
     print_calles(lhs, rhs, mapping_data, verbose)
 
-    if map_branch(preds1, lhs, rhs, mapping_data, verbose):
+    if map_branch(preds1, lhs, rhs, mapping_data, verbose, (0, 0)):
         return (True, True, True, True)
     else:
         return (False, False, False, False)
 
 
-def map_branch(preds1, lhs, rhs, mapping_data, verbose):
+def map_branch(preds1, lhs, rhs, mapping_data, verbose, number):
     """Expanding predicate calles on LHS and RHS and tries to map parts of
     formulas to each other.
     """
-    print("Map branch")
-    print_calles(lhs, rhs, mapping_data, verbose)
+    if number[0] > 4:
+        return False
+
+    logger.debug("Map branch")
+    print_calles(lhs, rhs, mapping_data, verbose, number)
     num = 0
     try:
         while lhs.has_nodes and rhs.has_nodes:
@@ -264,7 +288,7 @@ def map_branch(preds1, lhs, rhs, mapping_data, verbose):
                         match_call(lhs, rule, rhs, mapping_data)
             except MatchException:
                 logger.debug("Successfull match, iteration restarted")
-                print_calles(lhs, rhs, mapping_data, verbose)
+                print_calles(lhs, rhs, mapping_data, verbose, number)
             else:
                 result = expand_sophisticated(lhs, rhs, preds1, mapping_data, "Sophisticated expansion rhs") or\
                     expand_sophisticated(rhs, lhs, preds1, mapping_data, "Sophisticated expansion lhs")
@@ -274,17 +298,20 @@ def map_branch(preds1, lhs, rhs, mapping_data, verbose):
                     result = expand_leftmost(rhs, preds1, "Leftmost expansion rhs")
 
                 num += 1
-                print_calles(lhs, rhs, mapping_data, verbose)
+                print_calles(lhs, rhs, mapping_data, verbose, number)
                 if num > 100:
                     return False
     except NotImplementedError:
-        print("Disjunction on LHS recursive call for each branch.")
+        logger.debug("Disjunction on LHS recursive call for each branch.")
         results = []
-        for new_lhs in lhs.branch_calls:
-            results.append(map_branch(preds1, new_lhs, rhs, mapping_data,
-                verbose))
-        print(results)
-        sys.exit(1)
+        for order, new_lhs in enumerate(lhs.branch_calls):
+            new_rhs = deepcopy(rhs)
+            new_mapping_data = deepcopy(mapping_data)
+            results.append(map_branch(preds1, new_lhs, new_rhs, new_mapping_data,
+                verbose, (number[0] + 1, order)))
+        logger.debug(results)
+        return not False in results
+        
 
     logger.debug("Start matching of not_equal")
 
@@ -306,7 +333,7 @@ def map_branch(preds1, lhs, rhs, mapping_data, verbose):
 
     while rhs.is_empty:
         for rule in rhs.rules_iter:
-            print_calles(lhs, rhs, mapping_data, verbose)
+            print_calles(lhs, rhs, mapping_data, verbose, number)
             try:
                 match_not_equals(rule, lhs, mapping_data)
             except MatchException:

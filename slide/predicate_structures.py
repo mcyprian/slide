@@ -118,7 +118,7 @@ class CallsContainer(list):
             self.deleted = True
 
     def empty_first_call(self):
-        self[self.call_index].expanded_rules[0].calles = None
+        self[self.call_index].expanded_rules[0].calles = []
         if self.empty_rule(self[self.call_index].expanded_rules[0]):
             del self[self.call_index].expanded_rules[0]
             self.del_current_call(if_empty=True)
@@ -215,7 +215,7 @@ class TopCall(object):
 
     def expand(self, pred, call_args, extension_rule=None):
         if self.expanded_rules is None:
-            self.call = None
+            self.call = []
             self.expanded_rules = []
         self.expanded_rules += pred(call_args, extension_rule)
 

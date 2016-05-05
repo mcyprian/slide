@@ -1,0 +1,27 @@
+02.tst.smt2.sld: !!python/tuple [VALID, UNKNOWN]
+04.tst.smt2.sld: !!python/tuple [VALID, UNKNOWN]
+10.tst.smt2.sld: !!python/tuple [VALID, UNKNOWN]
+11.tst.smt2.sld: !!python/tuple [VALID, UNKNOWN]
+12.tst.smt2.sld: !!python/tuple [VALID, UNKNOWN]
+dll-entails-node-node-dll.smt2.sld: !!python/tuple
+- VALID
+- !!python/tuple
+  - IndexError
+  - !!python/tuple [list index out of range]
+dll-vc01.smt2.sld: !!python/tuple
+- !!python/tuple
+  - ValueError
+  - !!python/tuple [need more than 1 value to unpack]
+- VALID
+dll-vc02.smt2.sld: !!python/tuple
+- !!python/tuple
+  - ValueError
+  - !!python/tuple [need more than 1 value to unpack]
+- VALID
+dll-vc03.smt2.sld: !!python/tuple
+- !!python/tuple
+  - ValueError
+  - !!python/tuple [need more than 1 value to unpack]
+- VALID
+dll2-spaghetti-existential.smt2.sld: !!python/tuple [VALID, UNKNOWN]
+dll2-spaghetti.smt2.sld: !!python/tuple [VALID, UNKNOWN]

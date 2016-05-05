@@ -1,0 +1,31 @@
+VALID: 15
+? !!python/tuple
+- NotImplementedError
+- !!python/tuple [Disjunction on LHS not implemented]
+: 1
+? !!python/tuple
+- InputError
+- !!python/tuple ['Parsing \Eu.lseg(in,u)*lseg(u,p): now * allowed in empty rules']
+: 6
+? !!python/tuple
+- IndexError
+- !!python/tuple [list index out of range]
+: 5
+? !!python/tuple
+- InputError
+- !!python/tuple [' only equalities between allocated variable and something are allowed']
+: 46
+? !!python/tuple
+- InputError
+- !!python/tuple [two pointsto in a single predicate rules -- not implemented]
+: 16
+? !!python/tuple
+- ValueError
+- !!python/tuple [need more than 1 value to unpack]
+: 13
+UNKNOWN: 35
+? !!python/tuple
+- InputError
+- !!python/tuple ['Parsing ListO(x,y): only equalities of the form x=y separated by
+    & are allowed']
+: 1

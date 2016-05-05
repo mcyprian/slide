@@ -116,15 +116,16 @@ class PerformanceComparer(PerformanceObject):
             if self.first[key] != self.second[key]:
                 first_key = self.first[key]
                 second_key = self.second[key]
-                if ((isinstance(first_key, tuple) and isinstance(second_key, tuple)) or
-                        (first_key == 'UNKNOWN') or
-                        (first_key == 'INVALID' and isinstance(second_key, tuple)) or
-                        (second_key == 'INVALID' and isinstance(first_key, tuple))):
+                results_set = {key if not isinstance(key, tuple) else
+                        'EXCEPTION' for key in [first_key, second_key]}
+                if results_set in [{'UNKNOWN', 'EXCEPTION'},
+                                   {"EXCEPTION", "EXCEPTION"}]:
                     self.acceptable_change[key] = (first_key, second_key)
                 else:
                     self.unacceptable_change[key] = (first_key, second_key)
-
+        print("Acceptable changes:")
         pprint.pprint(self.acceptable_change)
+        print("Unacceptable changes:")
         pprint.pprint(self.unacceptable_change)
         self.save_output('acceptable_change')
         self.save_output('unacceptable_change')
@@ -142,20 +143,9 @@ def invert_dict(input_dict):
 
 
 def check_performance(sys_argv):
-    if len(sys_argv) < 3:
-        sys.stderr.write(
-            "Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
-        sys.exit(1)
-
-    if sys_argv[2] == "-c":
-        if len(sys.argv) < 5:
-            sys.stderr.write(
-                "Invalid command line arguments, usage: ./performance_analyzer.py TEST_DIR\n")
-            sys.exit(1)
-        else:
-            perform_comparer = PerformanceComparer(*sys_argv[3:])
-            perform_comparer.compare()
-            sys.exit(0)
-
     perform_analyzer = PerformanceAnalyzer(*sys_argv[2:])
     perform_analyzer.analyse()
+
+def compare_results(sys_argv):
+    perform_comparer = PerformanceComparer(*sys_argv[2:])
+    perform_comparer.compare()

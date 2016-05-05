@@ -81,7 +81,7 @@ def entailment(file_lhs, file_rhs, verbose):
         if preds1 == True:
             print("VALID")
         else:
-            print("UNKNOW")
+            print("UNKNOWN")
         return 0
 
     (aut1, emptyheap_eq1, eq_edges1) = pi.make_aut(preds1, top_call1, params1,

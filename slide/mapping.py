@@ -317,13 +317,18 @@ def map_branch(preds1, lhs, rhs, mapping_data, verbose, number):
 
     # One expansion of top call where is still a predicate call present.
     # If result of expansion is disjunction part of it containg nodes will be
-    # removed
-    if lhs.has_nodes:
+    # removed.
+    if lhs.has_nodes and not rhs.is_empty:
         expand_leftmost(lhs, preds1, "Leftmost expansion lhs")
         lhs.remove_nodes_from_disjunction
-    elif rhs.has_nodes:
+    elif rhs.has_nodes and not lhs.is_empty:
         expand_leftmost(rhs, preds1, "Leftmost expansion rhs")
         rhs.remove_nodes_from_disjunction
+
+    # If one of the sides contains something else than equals and not
+    # equals mapping failed.
+    if lhs.has_nodes or rhs.has_nodes:
+        return False
 
     while equals_to_identical(rhs, mapping_data):
         pass
@@ -331,7 +336,7 @@ def map_branch(preds1, lhs, rhs, mapping_data, verbose, number):
     while match_implicit_not_equals(rhs, mapping_data):
         pass
 
-    while rhs.is_empty:
+    while not rhs.is_empty:
         for rule in rhs.rules_iter:
             print_calles(lhs, rhs, mapping_data, verbose, number)
             try:

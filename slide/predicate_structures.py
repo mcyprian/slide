@@ -141,7 +141,7 @@ class CallsContainer(list):
         """Indicates if object is completely empty (everithing was mapped) or
         not.
         """
-        return [rule for rule in self.rules_iter]
+        return not [rule for rule in self.rules_iter]
 
     @property
     def has_nodes(self):
@@ -155,6 +155,10 @@ class CallsContainer(list):
     @property
     def remove_nodes_from_disjunction(self):
         """Removes parts of disjunction containing allocated nodes."""
+
+        if not len(self[self.call_index].expanded_rules) > 1:
+            return
+
         for rule in self.rules_iter:
             if rule.alloc:
                 self.del_current_rule()

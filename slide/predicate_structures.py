@@ -7,6 +7,11 @@ distributed under GNU GPL license
 
 from copy import deepcopy
 
+
+class LHSDisjunction(BaseException):
+    pass
+
+
 class CallsContainer(list):
     """Container to store TopCall objects, subclass of built-in list,
     overiding iter method to iterate over single rules of TopCalls
@@ -62,10 +67,10 @@ class CallsContainer(list):
 
             self.deleted = False
             if self.disjunction_check and len(self[self.call_index].expanded_rules) > 1:
-                raise NotImplementedError("Disjunction on LHS not implemented")
+                raise LHSDisjunction("Disjunction on LHS not implemented")
 
             yield self[self.call_index].expanded_rules[self.rule_index]
- 
+
     @property
     def current_call(self):
         return self[self.call_index]

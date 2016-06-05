@@ -13,10 +13,10 @@ from copy import deepcopy
 from copy import deepcopy
 
 from slide.process_input import InputError
-from slide.predicate_structures import TopCall, Rule
+from slide.predicate_structures import TopCall, Rule, LHSDisjunction
 
 logger = logging.getLogger(__name__)
-logger.setLevel("NOTSET")
+logger.setLevel("DEBUG")
 logger.addHandler(logging.StreamHandler(sys.stderr))
 
 
@@ -71,7 +71,7 @@ def print_calles(lhs, rhs, mapping_data, verbose=True, number=(0, 0)):
     if not verbose:
         return
     logger.debug("\n----------------------------- BRANCH {}"
-            "------------------------------".format(number))
+                 "------------------------------".format(number))
     logger.debug("LHS:")
     logger.debug(pprint.pformat(lhs.calls_tuple_form))
     logger.debug("\nRHS:")
@@ -291,7 +291,8 @@ def map_branch(preds1, lhs, rhs, mapping_data, verbose, number):
                 print_calles(lhs, rhs, mapping_data, verbose, number)
             else:
                 result = expand_sophisticated(lhs, rhs, preds1, mapping_data, "Sophisticated expansion rhs") or\
-                    expand_sophisticated(rhs, lhs, preds1, mapping_data, "Sophisticated expansion lhs")
+                    expand_sophisticated(rhs, lhs, preds1, mapping_data,
+                                         "Sophisticated expansion lhs")
                 if not result and num % 2 == 0:
                     result = expand_leftmost(lhs, preds1, "Leftmost expansion lhs")
                 elif not result:
@@ -301,17 +302,18 @@ def map_branch(preds1, lhs, rhs, mapping_data, verbose, number):
                 print_calles(lhs, rhs, mapping_data, verbose, number)
                 if num > 100:
                     return False
-    except NotImplementedError:
+    except LHSDisjunction:
         logger.debug("Disjunction on LHS recursive call for each branch.")
         results = []
+
         for order, new_lhs in enumerate(lhs.branch_calls):
+            print(new_lhs.calls_tuple_form)
             new_rhs = deepcopy(rhs)
             new_mapping_data = deepcopy(mapping_data)
             results.append(map_branch(preds1, new_lhs, new_rhs, new_mapping_data,
-                verbose, (number[0] + 1, order)))
+                                      verbose, (number[0] + 1, order)))
         logger.debug(results)
         return not False in results
-        
 
     logger.debug("Start matching of not_equal")
 

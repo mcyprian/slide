@@ -98,4 +98,4 @@ fi
 #echo "------"
 #cat $rhs
 
-python3 $dir/mybin.py  --run $lhs $rhs
+python3 $dir/mybin.py  --run "$lhs" "$rhs"

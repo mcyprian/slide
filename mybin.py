@@ -9,7 +9,7 @@ from slide.performance_analyzer import check_performance, compare_results
 parser = argparse.ArgumentParser()
 parser.add_argument("--run",
                     required=False,
-                    metavar='lhs rhs',
+                    metavar='xhs',
                     nargs=2,
                     help="input files containing definitions of lhs rhs.")
 parser.add_argument("--performance-check",

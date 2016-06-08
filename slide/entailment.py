@@ -72,60 +72,77 @@ def entailment(file_lhs, file_rhs, verbose):
     (preds1, top_call1, params1, root_rule1, empty_rule1) = pi.parse_input(file_lhs, free)
     (preds2, top_call2, params2, root_rule2, empty_rule2) = pi.parse_input(file_rhs, free)
 
-    (preds1, top_call1, preds2, top_call2) = mapping.map_nodes(preds1, preds2,
-                                                               top_call1, top_call2, verbose)
+    mapping_result = mapping.map_nodes(preds1, preds2, top_call1, top_call2, verbose)
+#    if isinstance(preds1, bool):
+#        if verbose:
+#            print("Entailment result:")
+#        if preds1 == True:
+#            print("VALID")
+#        else:
+#            print("UNKNOWN")
+#        return 0
+    try:
+        # Make old style representations
+        old_style_preds1 = {}
+        old_style_preds2 = {}
 
-    if isinstance(preds1, bool):
-        if verbose:
-            print("Entailment result:")
-        if preds1 == True:
-            print("VALID")
-        else:
-            print("UNKNOWN")
-        return 0
+        for key in preds1:
+            old_style_preds1[key] = preds1[key].short_tuple_form
 
-    (aut1, emptyheap_eq1, eq_edges1) = pi.make_aut(preds1, top_call1, params1,
-                                                   root_rule1, empty_rule1, tiles)
-    (aut2, emptyheap_eq2, eq_edges2) = pi.make_aut(preds2, top_call2, params2,
-                                                   root_rule2, empty_rule2, tiles)
-    # check entailment of empty heaps
-    if not emptyheap.entailment(emptyheap_eq1, emptyheap_eq2):
-        # no need to call all the machinery. Just UNSAT
+        for key in preds2:
+            old_style_preds2[key] = preds2[key].short_tuple_form
+
+        (aut1, emptyheap_eq1, eq_edges1) = pi.make_aut(old_style_preds1,
+                                                       top_call1.calls_tuple_form,
+                                                       params1,
+                                                       root_rule1, empty_rule1, tiles)
+        (aut2, emptyheap_eq2, eq_edges2) = pi.make_aut(old_style_preds2,
+                                                       top_call2.calls_tuple_form,
+                                                       params2,
+                                                       root_rule2, empty_rule2, tiles)
+        # check entailment of empty heaps
+        if not emptyheap.entailment(emptyheap_eq1, emptyheap_eq2):
+            # no need to call all the machinery. Just UNSAT
+            automata_result = False
+
+        # compute rotation closure and check entailment
+        aut2_closure = rotate.rotate_closure(aut2, tiles)
+        file1 = functions.get_tmp_filename()
+        file2 = functions.get_tmp_filename()
+        vata.aut_to_file(aut1, file1, "aut1")
+        vata.call_vata_union(aut2_closure, file2)
+        # print automata statistics in verbose mode
         if verbose:
+            print("Number of states/transitions of A1: ",
+                  len(rotate.get_states(aut1)), "/", len(aut1["rules"]))
+            print("Number of states/transitions of A2 (before rot. closure): ",
+                  len(rotate.get_states(aut2)), "/", len(aut2["rules"]))
+            print("Number of states/transitions after closure of A2: ",
+                  len(vata.get_states_vata(file2)), "/", vata.get_trans_number(file2))
             print("Entailment result:")
-        print("INVALID")
-        return 0
-    # compute rotation closure and check entailment
-    aut2_closure = rotate.rotate_closure(aut2, tiles)
-    file1 = functions.get_tmp_filename()
-    file2 = functions.get_tmp_filename()
-    vata.aut_to_file(aut1, file1, "aut1")
-    vata.call_vata_union(aut2_closure, file2)
-    # print automata statistics in verbose mode
-    if verbose:
-        print("Number of states/transitions of A1: ",
-              len(rotate.get_states(aut1)), "/", len(aut1["rules"]))
-        print("Number of states/transitions of A2 (before rot. closure): ",
-              len(rotate.get_states(aut2)), "/", len(aut2["rules"]))
-        print("Number of states/transitions after closure of A2: ",
-              len(vata.get_states_vata(file2)), "/", vata.get_trans_number(file2))
-        print("Entailment result:")
-    # call vata to check entailment
-    result = subprocess.check_output("%s incl %s %s" % (VATA_path, file1, file2), shell=True)
-    if result == b'1\n':
-        print("VALID")
-    elif result == "0\n":
-        if verbose and (eq_edges1 or eq_edges2):
-            print("INVALID (equality edges in use => not COMPLETE answer)")
-        elif (eq_edges1 or eq_edges2):
-            print("UNKNOWN")
+        # call vata to check entailment
+        result = subprocess.check_output("%s incl %s %s" % (VATA_path, file1, file2), shell=True)
+
+        if result == b'1\n':
+            automata_result = True
+        elif result == "0\n":
+            if verbose and (eq_edges1 or eq_edges2):
+                automata_result = False
+                print("Equality edges in use => not COMPLETE answer")
+            elif (eq_edges1 or eq_edges2):
+                automata_result = None
+            else:
+                automata_result = False
         else:
-            print("INVALID")
-    else:
-        print("ERROR: %s us not a vata executable")
+            print("ERROR: %s us not a vata executable")
+
+        os.unlink(file1)
+        os.unlink(file2)
+    except:  # Exception during JOIN or automata processing
+        automata_result = None
+
+    print("Results:\nMapping: {}\nJOIN + Automata: {}".format(mapping_result, automata_result))
     # remove tmp files
-    os.unlink(file1)
-    os.unlink(file2)
 
 
 def main(sys_argv):

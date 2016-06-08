@@ -250,8 +250,8 @@ def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
     for key in preds2:
         tuple_preds2[key] = preds2[key].short_tuple_form
 
-    if len(lhs) == 1 and len(rhs) == 1:
-        return (tuple_preds1, lhs.calls_tuple_form, tuple_preds2, rhs.calls_tuple_form)
+#    if len(lhs) == 1 and len(rhs) == 1:
+#        return (tuple_preds1, lhs.calls_tuple_form, tuple_preds2, rhs.calls_tuple_form)
 
     long_preds = {}
 
@@ -263,10 +263,7 @@ def map_nodes(preds1, preds2, lhs, rhs, verbose=True):
         logger.debug(pprint.pformat(long_preds))
     print_calles(lhs, rhs, mapping_data, verbose)
 
-    if map_branch(preds1, lhs, rhs, mapping_data, verbose, (0, 0)):
-        return (True, True, True, True)
-    else:
-        return (False, False, False, False)
+    return map_branch(preds1, lhs, rhs, mapping_data, verbose, (0, 0))
 
 
 def map_branch(preds1, lhs, rhs, mapping_data, verbose, number):
@@ -349,6 +346,6 @@ def map_branch(preds1, lhs, rhs, mapping_data, verbose, number):
             else:
                 num += 1
             if num > 100:
-                return False
+                return None
 
     return True

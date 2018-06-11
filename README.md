@@ -22,3 +22,16 @@ Requirements:
 ![VATA](https://github.com/ondrik/libvata) tree automata library.
 
 Python 3
+
+Usage:
+---------------
+    mybin.py [-h] [--run xhs xhs] [--performance-check PERFORMANCE_CHECK]
+                    [--result-comparision RESULT_COMPARISION RESULT_COMPARISION]
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      --run xhs xhs         input files containing definitions of lhs rhs.
+      --performance-check PERFORMANCE_CHECK
+                            Run check of current slide performance.
+      --result-comparision RESULT_COMPARISION RESULT_COMPARISION
+                            Compare results of two previous checks.
